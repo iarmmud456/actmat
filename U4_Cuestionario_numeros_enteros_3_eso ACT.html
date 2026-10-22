@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario Interactivo: Números Enteros 3º ESO</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .option-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-md shadow-indigo-200">
+                    ℤ
+                </div>
+                <div>
+                    <h1 class="font-bold text-slate-800 text-lg leading-tight">Números Enteros</h1>
+                    <p class="text-xs text-slate-500 font-medium">Matemáticas • 3º ESO</p>
+                </div>
+            </div>
+            <div id="userBadge" class="hidden flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200 text-sm font-semibold text-slate-700">
+                <i class="fa-solid fa-user text-indigo-600"></i>
+                <span id="userNameBadge">Estudiante</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- PANTALLA 1: INICIO Y REGISTRO -->
+        <section id="startScreen" class="bg-white rounded-3xl p-6 md:p-10 shadow-xl border border-slate-200 max-w-2xl mx-auto my-8">
+            <div class="text-center mb-8">
+                <span class="inline-block px-4 py-1.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                    Prueba Diagnóstica e Interactiva
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">
+                    Cuestionario de Números Enteros
+                </h2>
+                <p class="text-slate-600 text-sm md:text-base max-w-lg mx-auto">
+                    Pon a prueba tus conocimientos en conceptos, operaciones combinadas y resolución de problemas cotidianos de 3º ESO.
+                </p>
+            </div>
+
+            <!-- Estructura del examen -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+                    <div class="w-8 h-8 mx-auto mb-2 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold">1</div>
+                    <h3 class="font-bold text-sm text-slate-800">Bloque 1</h3>
+                    <p class="text-xs text-slate-500 mt-1">10 preguntas de Conceptos y Propiedades</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+                    <div class="w-8 h-8 mx-auto mb-2 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center font-bold">2</div>
+                    <h3 class="font-bold text-sm text-slate-800">Bloque 2</h3>
+                    <p class="text-xs text-slate-500 mt-1">10 preguntas de Operaciones Combinadas</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+                    <div class="w-8 h-8 mx-auto mb-2 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">3</div>
+                    <h3 class="font-bold text-sm text-slate-800">Bloque 3</h3>
+                    <p class="text-xs text-slate-500 mt-1">10 preguntas de Problemas Aplicados</p>
+                </div>
+            </div>
+
+            <!-- Formulario de Entrada -->
+            <form id="startForm" onsubmit="event.preventDefault(); startQuiz();" class="space-y-4">
+                <div>
+                    <label for="studentName" class="block text-sm font-semibold text-slate-700 mb-2">
+                        Nombre y Apellidos del alumno/a <span class="text-rose-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <input type="text" id="studentName" required placeholder="Ej. Lucía García Fernández" 
+                            class="w-full pl-10 pr-4 py-3.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-slate-800 font-medium transition duration-200">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold rounded-xl shadow-lg shadow-indigo-200 transition duration-200 flex items-center justify-center gap-2 text-base">
+                    <span>Comenzar Cuestionario</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- PANTALLA 2: PREGUNTAS DEL CUESTIONARIO -->
+        <section id="quizScreen" class="hidden space-y-6 max-w-3xl mx-auto">
+            <!-- Barra de Estado y Progreso -->
+            <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex flex-wrap justify-between items-center gap-3 mb-3">
+                    <div class="flex items-center gap-2">
+                        <span id="blockBadge" class="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-full">
+                            Bloque 1: Conceptos
+                        </span>
+                        <span class="text-slate-400 text-sm">•</span>
+                        <span class="text-slate-600 font-semibold text-sm">
+                            Pregunta <span id="currentQuestionNum" class="text-slate-900 font-bold">1</span> de 30
+                        </span>
+                    </div>
+
+                    <!-- Marcador de Aciertos/Fallos en Vivo -->
+                    <div class="flex items-center gap-3 text-xs font-bold">
+                        <span class="text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                            <i class="fa-solid fa-circle-check mr-1"></i><span id="liveCorrect">0</span>
+                        </span>
+                        <span class="text-rose-600 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
+                            <i class="fa-solid fa-circle-xmark mr-1"></i><span id="liveIncorrect">0</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Progress bar -->
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div id="progressBar" class="bg-indigo-600 h-full transition-all duration-300 ease-out" style="width: 3.33%"></div>
+                </div>
+            </div>
+
+            <!-- Tarjeta de la Pregunta -->
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-slate-200">
+                <h3 id="questionText" class="text-lg md:text-xl font-bold text-slate-800 leading-relaxed mb-6">
+                    <!-- Pregunta cargada por JS -->
+                </h3>
+
+                <!-- Lista de Opciones -->
+                <div id="optionsContainer" class="space-y-3">
+                    <!-- Botones generados dinámicamente -->
+                </div>
+
+                <!-- Real-time Feedback Box -->
+                <div id="feedbackBox" class="hidden mt-6 p-5 rounded-2xl border transition-all duration-300">
+                    <div class="flex items-start gap-3">
+                        <div id="feedbackIcon" class="text-xl mt-0.5"></div>
+                        <div class="flex-grow">
+                            <h4 id="feedbackTitle" class="font-bold text-sm mb-1"></h4>
+                            <p id="feedbackExplanation" class="text-sm leading-relaxed mb-3"></p>
+                            <button id="nextBtn" onclick="nextQuestion()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm rounded-xl transition duration-200 flex items-center gap-2">
+                                <span>Siguiente pregunta</span>
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 3: INFORME DE RESULTADOS -->
+        <section id="resultsScreen" class="hidden bg-white rounded-3xl p-6 md:p-10 shadow-xl border border-slate-200 max-w-3xl mx-auto my-6">
+            <!-- Encabezado del Informe -->
+            <div class="text-center border-b border-slate-100 pb-8 mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl text-2xl mb-4 shadow-inner">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-1">Informe de Calificación</h2>
+                <p id="resultStudentName" class="text-indigo-600 font-bold text-lg mb-1"></p>
+                <p id="resultTimestamp" class="text-xs text-slate-400 font-medium"></p>
+            </div>
+
+            <!-- Calificación Global -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Nota sobre 10 -->
+                <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-6 text-center flex flex-col justify-center items-center shadow-lg">
+                    <span class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Nota Final</span>
+                    <div class="text-4xl md:text-5xl font-black mb-1">
+                        <span id="finalGrade">0.0</span><span class="text-xl text-slate-400 font-normal">/10</span>
+                    </div>
+                    <span id="gradeBadge" class="px-3 py-0.5 rounded-full text-xs font-bold bg-indigo-500/30 text-indigo-300">
+                        --
+                    </span>
+                </div>
+
+                <!-- Aciertos Totales -->
+                <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center flex flex-col justify-center items-center">
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-2xl mb-2"></i>
+                    <span class="text-xs uppercase tracking-wider text-emerald-700 font-bold mb-0.5">Respuestas Correctas</span>
+                    <div class="text-3xl font-extrabold text-emerald-900">
+                        <span id="totalCorrect">0</span><span class="text-base text-emerald-600 font-normal"> / 30</span>
+                    </div>
+                </div>
+
+                <!-- Porcentaje de Éxito -->
+                <div class="bg-blue-50 border border-blue-200 rounded-2xl p-6 text-center flex flex-col justify-center items-center">
+                    <i class="fa-solid fa-chart-pie text-blue-500 text-2xl mb-2"></i>
+                    <span class="text-xs uppercase tracking-wider text-blue-700 font-bold mb-0.5">Porcentaje de Éxito</span>
+                    <div class="text-3xl font-extrabold text-blue-900">
+                        <span id="successPercentage">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desglose por Bloques -->
+            <div class="mb-8">
+                <h3 class="font-bold text-slate-800 text-base mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-simple text-indigo-600"></i>
+                    Rendimiento por Bloques Temáticos
+                </h3>
+
+                <div class="space-y-4">
+                    <!-- Bloque 1 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="flex justify-between items-center mb-2 text-sm">
+                            <span class="font-bold text-slate-700">Bloque 1: Conceptos y Propiedades</span>
+                            <span id="block1Score" class="font-extrabold text-slate-900">0/10</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="block1Bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 2 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="flex justify-between items-center mb-2 text-sm">
+                            <span class="font-bold text-slate-700">Bloque 2: Operaciones Combinadas</span>
+                            <span id="block2Score" class="font-extrabold text-slate-900">0/10</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="block2Bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 3 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="flex justify-between items-center mb-2 text-sm">
+                            <span class="font-bold text-slate-700">Bloque 3: Problemas de Aplicación</span>
+                            <span id="block3Score" class="font-extrabold text-slate-900">0/10</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="block3Bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones Finales -->
+            <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
+                <button onclick="restartQuiz()" class="flex-1 py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl transition duration-200 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Repetir Cuestionario</span>
+                </button>
+                <a id="classroomBtn" href="https://classroom.google.com" target="_blank" class="flex-1 py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition duration-200 flex items-center justify-center gap-2 shadow-md shadow-emerald-200">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Enviar a Google Classroom</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        <div class="max-w-4xl mx-auto px-4">
+            Cuestionario Didáctico de Matemáticas • Adaptado al currículo de 3º ESO
+        </div>
+    </footer>
+
+    <!-- LOGICA JS -->
+    <script>
+        // BANCO CON SÍMBOLOS MATEMÁTICOS UNICODE SÚPER LIMPIOS (SIN LATEX)
+        const rawQuestions = [
+            // --- BLOQUE 1: CONCEPTOS Y PROPIEDADES ---
+            {
+                block: 1,
+                blockName: "Conceptos y Propiedades",
+                question: "Calcula el resultado de la siguiente expresión con valores absolutos: |-12| + |7| - |-5|",
+                options: ["14", "24", "-10", "4"],
+                correct: 0,
+                explanation: "Calculamos los valores absolutos: |-12| = 12, |7| = 7 y |-5| = 5. Sustituyendo en la expresión obtenemos 12 + 7 - 5 = 14."
+            },
+            {
+                block: 1,
+                blockName: "Conceptos y Propiedades",
+                question: "¿Cuál es el opuesto del valor absoluto de -8?",
+                options: ["-8", "8", "0", "1/8"],
+                correct: 0,
+                explanation: "El valor absoluto de -8 es |-8| = 8. El opuesto de 8 es -8."
+            },
+            {
+                block: 1,
+                blockName: "Conceptos y Propiedades",
+                question: "Ordena de MENOR a MAYOR los siguientes números enteros: -9, 4, -15, 0, -3",
+                options: ["-15 < -9 < -3 < 0 < 4", "-3 < -9 < -15 < 0 < 4", "4 < 0 < -3 < -9 < -15", "-15 < -3 < -9 < 0 < 4"],
+                correct: 0,
+                explanation: "En la recta numérica, cuanto más a la izquierda está un número negativo, menor es su valor. Por lo tanto: -15 < -9 < -3 < 0 < 4."
+            },
+            {
+                block: 1,
+                blockName: "Conceptos y Propiedades",
+                question: "Indica el resultado de (-3)⁴ y de -3⁴ respectivamente:",
+                options: ["81 y -81", "-81 y 81", "81 y 81", "-81 y -81"],
+                correct: 0,
+                explanation: "En (-3)⁴, la base es -3 (negativa) y el exponente es par, dando +81. En -3⁴, el exponente 4 afecta solo al 3, por lo que se mantiene el signo negativo: -81."
+            },
+            {
+                block: 1,
+                blockName: "Conceptos y Propiedades",
+                question: "Aplica las propiedades de las potencias para simplificar: [(-2)³]² · (-2)⁴",
+                options: ["(-2)¹⁰", "(-2)⁹", "(-2)²⁴", "2²"],
+                correct: 0,
+                explanation: "Primero la potencia de una potencia: [(-2)³]² = (-2)⁶. Luego el producto de potencias con la misma base: (-2)⁶ · (-2)⁴ = (-2)⁶⁺⁴ = (-2)¹⁰."
+            },
+            {
+                block: 1,
+                blockName: "Conceptos y Propiedades",
+                question: "¿Cuál de las siguientes afirmaciones es FALSA respecto a los números enteros?",
+                options: [
+                    "El producto de dos números enteros negativos es siempre un número negativo.",
+                    "El número 0 es mayor que cualquier número entero negativo.",
+                    "El opuesto de un entero positivo es un entero negativo.",
+                    "El valor absoluto de cualquier entero distinto de cero es siempre positivo."
+                ],
+                correct: 0,
+                explanation: "Según la regla de los signos, el producto de dos números negativos siempre da como resultado un número positivo: (- · - = +)."
+            },
+            {
+                block: 1,
+                blockName: "Conceptos y Propiedades",
+                question: "Aplica las propiedades de las potencias para resolver: (-4)⁸ : (-4)⁵",
+                options: ["-64", "64", "-16", "16"],
+                correct: 0,
+                explanation: "En el cociente de potencias con la misma base restamos los exponentes: (-4)⁸⁻⁵ = (-4)³. Como la base es negativa y el exponente impar, el resultado es -64."
+            },
+            {
+                block: 1,
+                blockName: "Conceptos y Propiedades",
+                question: "¿Cuál de las siguientes potencias tiene como resultado un valor POSITIVO?",
+                options: ["(-6)¹⁰", "(-5)¹³", "-3⁸", "(-1)⁷⁷"],
+                correct: 0,
+                explanation: "Una base negativa elevada a un exponente PAR siempre produce un resultado positivo. (-6)¹⁰ tiene como exponente el número par 10."
+            },
+            {
+                block: 1,
+                blockName: "Conceptos y Propiedades",
+                question: "Calcula el resultado de: √100 - √169",
+                options: ["-3", "3", "-23", "13"],
+                correct: 0,
+                explanation: "Calculamos las raíces exactas: √100 = 10 y √169 = 13. Realizamos la resta: 10 - 13 = -3."
+            },
+            {
+                block: 1,
+                blockName: "Conceptos y Propiedades",
+                question: "Sabiendo que a = -5 y b = -3, halla el valor numérico de la expresión: a² - 2 · b",
+                options: ["31", "19", "-31", "-19"],
+                correct: 0,
+                explanation: "Sustituimos los valores: a² = (-5)² = 25. Además, -2 · b = -2 · (-3) = +6. Sumando ambos términos: 25 + 6 = 31."
+            },
+
+            // --- BLOQUE 2: OPERACIONES COMBINADAS ---
+            {
+                block: 2,
+                blockName: "Operaciones Combinadas",
+                question: "Calcula el resultado de: -6 - 4 · (3 - 8)",
+                options: ["14", "-50", "-26", "26"],
+                correct: 0,
+                explanation: "Primero resolvemos el paréntesis: 3 - 8 = -5. A continuación la multiplicación: -4 · (-5) = +20. Por último: -6 + 20 = 14."
+            },
+            {
+                block: 2,
+                blockName: "Operaciones Combinadas",
+                question: "Resuelve respetando la jerarquía de operaciones: 15 - 3 · [4 - 3 · (-2 + 5)]",
+                options: ["30", "-30", "0", "15"],
+                correct: 0,
+                explanation: "Paréntesis interno: -2 + 5 = 3. Dentro del corchete: 4 - 3 · 3 = 4 - 9 = -5. Operación completa: 15 - 3 · (-5) = 15 + 15 = 30."
+            },
+            {
+                block: 2,
+                blockName: "Operaciones Combinadas",
+                question: "Calcula el valor de la expresión: (-4)² - 3 · √25 + (-3)³",
+                options: ["-26", "28", "-4", "4"],
+                correct: 0,
+                explanation: "Calculamos potencias y raíces: (-4)² = 16, √25 = 5 y (-3)³ = -27. Multiplicación: -3 · 5 = -15. Operación final: 16 - 15 + (-27) = 1 - 27 = -26."
+            },
+            {
+                block: 2,
+                blockName: "Operaciones Combinadas",
+                question: "Obtén el resultado de: -24 : (-4) - 6 · (-3) + (-10)",
+                options: ["14", "-14", "34", "-22"],
+                correct: 0,
+                explanation: "Efectuamos divisiones y multiplicaciones: -24 : (-4) = 6 y -6 · (-3) = +18. Sumamos todo: 6 + 18 - 10 = 14."
+            },
+            {
+                block: 2,
+                blockName: "Operaciones Combinadas",
+                question: "Resuelve: [(-5 + 8)³ : (-3)] - √36",
+                options: ["-15", "-3", "3", "15"],
+                correct: 0,
+                explanation: "Paréntesis: -5 + 8 = 3. Potencia: 3³ = 27. División: 27 : (-3) = -9. Raíz: √36 = 6. Resultado: -9 - 6 = -15."
+            },
+            {
+                block: 2,
+                blockName: "Operaciones Combinadas",
+                question: "Calcula el valor de: -3 · (-2)³ - 36 : (-3)²",
+                options: ["20", "-20", "28", "-28"],
+                correct: 0,
+                explanation: "Potencias: (-2)³ = -8 y (-3)² = 9. Operaciones principales: -3 · (-8) = 24 y -36 : 9 = -4. Resultado: 24 - 4 = 20."
+            },
+            {
+                block: 2,
+                blockName: "Operaciones Combinadas",
+                question: "Resuelve la expresión: 18 - 2 · √49 + (-5)² : (-5)",
+                options: ["-1", "9", "1", "-9"],
+                correct: 0,
+                explanation: "Raíz y potencia: √49 = 7 y (-5)² = 25. Operaciones intermedias: -2 · 7 = -14 y 25 : (-5) = -5. Total: 18 - 14 - 5 = -1."
+            },
+            {
+                block: 2,
+                blockName: "Operaciones Combinadas",
+                question: "Calcula el resultado de: -[-3 - (-6 + 2) · (-4)]",
+                options: ["19", "-19", "11", "-11"],
+                correct: 0,
+                explanation: "Paréntesis interno: -6 + 2 = -4. Corchete: -3 - (-4) · (-4) = -3 - 16 = -19. Signo negativo exterior: -(-19) = 19."
+            },
+            {
+                block: 2,
+                blockName: "Operaciones Combinadas",
+                question: "Resuelve: √(144 : 4) · (-3)² - 10",
+                options: ["44", "26", "116", "-44"],
+                correct: 0,
+                explanation: "Dentro de la raíz: 144 : 4 = 36, luego √36 = 6. Potencia: (-3)² = 9. Multiplicación y resta: 6 · 9 - 10 = 54 - 10 = 44."
+            },
+            {
+                block: 2,
+                blockName: "Operaciones Combinadas",
+                question: "Calcula el valor final de: (-1)²⁰ + (-1)²¹ - (-1)²² · (-4)",
+                options: ["4", "-4", "2", "-2"],
+                correct: 0,
+                explanation: "Calculamos las potencias de base -1: (-1)²⁰ = 1, (-1)²¹ = -1 y (-1)²² = 1. Sustituyendo: 1 + (-1) - [1 · (-4)] = 0 - (-4) = 4."
+            },
+
+            // --- BLOQUE 3: PROBLEMAS DE APLICACIÓN COTIDIANA ---
+            {
+                block: 3,
+                blockName: "Problemas de Aplicación",
+                question: "A las 8:00 a.m. la temperatura en Burgos era de -5 °C. A mediodía subió 11 °C y por la noche bajó 8 °C. ¿Qué temperatura marca el termómetro por la noche?",
+                options: ["-2 °C", "2 °C", "-14 °C", "14 °C"],
+                correct: 0,
+                explanation: "Temperatura final = Temperatura inicial + aumento - descenso = -5 + 11 - 8 = 6 - 8 = -2 °C."
+            },
+            {
+                block: 3,
+                blockName: "Problemas de Aplicación",
+                question: "Un submarino navega a una profundidad de -210 metros respecto al nivel del mar. Asciende 85 metros para tomar muestras y posteriormente desciende 50 metros. ¿A qué profundidad se encuentra ahora?",
+                options: ["-175 metros", "-145 metros", "-345 metros", "-75 metros"],
+                correct: 0,
+                explanation: "Posición final = -210 + 85 - 50 = -125 - 50 = -175 metros (es decir, 175 metros bajo el nivel del mar)."
+            },
+            {
+                block: 3,
+                blockName: "Problemas de Aplicación",
+                question: "El matemático griego Arquímedes nació en el año 287 a.C. y falleció en el año 212 a.C. ¿Cuántos años vivió?",
+                options: ["75 años", "499 años", "-75 años", "85 años"],
+                correct: 0,
+                explanation: "Expresamos los años a.C. como números negativos: Nacimiento = -287, Muerte = -212. Años vividos = Año de muerte - Año de nacimiento = -212 - (-287) = -212 + 287 = 75 años."
+            },
+            {
+                block: 3,
+                blockName: "Problemas de Aplicación",
+                question: "El saldo inicial de la cuenta de un comercio era de 320 €. Se cargan dos recibos de 95 € cada uno y posteriormente se realiza un ingreso de 150 €. ¿Cuál es el saldo final?",
+                options: ["280 €", "380 €", "180 €", "-30 €"],
+                correct: 0,
+                explanation: "Saldo final = 320 - (2 · 95) + 150 = 320 - 190 + 150 = 130 + 150 = 280 €."
+            },
+            {
+                block: 3,
+                blockName: "Problemas de Aplicación",
+                question: "Un ascensor está situado en el sótano -2. Sube 8 plantas, desciende 4 plantas y finalmente sube 3 plantas. ¿En qué planta se detiene el ascensor?",
+                options: ["Planta 5", "Planta 3", "Planta 6", "Sótano -1"],
+                correct: 0,
+                explanation: "Planta de llegada = -2 + 8 - 4 + 3 = 6 - 4 + 3 = 5 (Planta 5)."
+            },
+            {
+                block: 3,
+                blockName: "Problemas de Aplicación",
+                question: "En un test de matemáticas con 20 preguntas, cada acierto suma 3 puntos y cada error resta 2 puntos. Un alumno contestó a todas las preguntas obteniendo 13 aciertos y 7 fallos. ¿Qué puntuación final obtuvo?",
+                options: ["25 puntos", "39 puntos", "29 puntos", "15 puntos"],
+                correct: 0,
+                explanation: "Puntos por aciertos = 13 · 3 = 39. Puntos por errores = 7 · (-2) = -14. Puntuación total = 39 - 14 = 25 puntos."
+            },
+            {
+                block: 3,
+                blockName: "Problemas de Aplicación",
+                question: "Un congelador industrial se encuentra a 15 °C y su sistema de enfriamiento disminuye la temperatura a razón de 2 °C cada 3 minutos. ¿Qué temperatura alcanzará transcurridos 45 minutos?",
+                options: ["-15 °C", "-30 °C", "-45 °C", "0 °C"],
+                correct: 0,
+                explanation: "Número de intervalos de 3 min en 45 min = 45 : 3 = 15 intervalos. Bajada total de temperatura = 15 · 2 = 30 °C. Temperatura final = 15 - 30 = -15 °C."
+            },
+            {
+                block: 3,
+                blockName: "Problemas de Aplicación",
+                question: "Un avión comercial vuela a una altitud de 10200 metros sobre el nivel del mar, mientras que un submarino se localiza justo debajo a -180 metros. ¿Qué distancia vertical exacta los separa?",
+                options: ["10380 metros", "10020 metros", "-10380 metros", "10200 metros"],
+                correct: 0,
+                explanation: "Distancia vertical = Altitud del avión - Profundidad del submarino = 10200 - (-180) = 10200 + 180 = 10380 metros."
+            },
+            {
+                block: 3,
+                blockName: "Problemas de Aplicación",
+                question: "El balance económico mensual de una pequeña empresa en miles de euros durante cuatro meses fue: Enero (+15), Febrero (-18), Marzo (-6) y Abril (+24). ¿Cuál es el resultado global del cuatrimestre?",
+                options: ["+15 mil euros (Ganancia)", "-15 mil euros (Pérdida)", "+25 mil euros", "+3 mil euros"],
+                correct: 0,
+                explanation: "Balance acumulado = 15 - 18 - 6 + 24 = -3 - 6 + 24 = -9 + 24 = +15 mil euros (Beneficio de 15.000 €)."
+            },
+            {
+                block: 3,
+                blockName: "Problemas de Aplicación",
+                question: "La ciudad de Roma fue fundada en el año 753 a.C. y la caída del Imperio Romano de Occidente ocurrió en el año 476 d.C. Asumiendo el cálculo matemático directo entre años enteros, ¿cuántos años transcurrieron entre ambos acontecimientos?",
+                options: ["1229 años", "277 años", "1228 años", "-277 años"],
+                correct: 0,
+                explanation: "Convertimos los años a números enteros: Fundada = -753, Caída = +476. La diferencia matemática entre ambas fechas es: 476 - (-753) = 476 + 753 = 1229 años."
+            }
+        ];
+
+        // Estado del Juego
+        let studentName = "";
+        let questions = [];
+        let currentIndex = 0;
+        let score = {
+            totalCorrect: 0,
+            totalIncorrect: 0,
+            block1: 0,
+            block2: 0,
+            block3: 0
+        };
+
+        // Algoritmo de barajado Fisher-Yates
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            let newArr = JSON.parse(JSON.stringify(array));
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [newArr[currentIndex], newArr[randomIndex]] = [newArr[randomIndex], newArr[currentIndex]];
+            }
+            return newArr;
+        }
+
+        // Iniciar Quiz
+        function startQuiz() {
+            const input = document.getElementById('studentName');
+            if (!input.value.trim()) return;
+
+            studentName = input.value.trim();
+            document.getElementById('userNameBadge').innerText = studentName;
+            document.getElementById('userBadge').classList.remove('hidden');
+
+            // Preparar preguntas con opciones barajadas
+            questions = rawQuestions.map(q => {
+                const optionsWithIndices = q.options.map((opt, idx) => ({ text: opt, isCorrect: idx === q.correct }));
+                const shuffledOpts = shuffle(optionsWithIndices);
+                return {
+                    block: q.block,
+                    blockName: q.blockName,
+                    question: q.question,
+                    explanation: q.explanation,
+                    options: shuffledOpts
+                };
+            });
+
+            // Resetear Estado
+            currentIndex = 0;
+            score = { totalCorrect: 0, totalIncorrect: 0, block1: 0, block2: 0, block3: 0 };
+            updateLiveScore();
+
+            // Cambiar de Pantalla
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+
+            loadQuestion();
+        }
+
+        // Cargar Pregunta Actual
+        function loadQuestion() {
+            const q = questions[currentIndex];
+
+            // Ocultar feedback
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.classList.add('hidden');
+
+            // Actualizar Encabezado
+            document.getElementById('blockBadge').innerText = `Bloque ${q.block}: ${q.blockName}`;
+            document.getElementById('currentQuestionNum').innerText = currentIndex + 1;
+            document.getElementById('progressBar').style.width = `${((currentIndex + 1) / questions.length) * 100}%`;
+
+            // Cargar Texto de la Pregunta
+            document.getElementById('questionText').innerText = q.question;
+
+            // Cargar Opciones
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            const optionLabels = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn w-full p-4 rounded-2xl border-2 border-slate-200 bg-slate-50 hover:bg-white hover:border-indigo-500 text-left flex items-start gap-3 transition-all duration-200 font-medium text-slate-700';
+                btn.onclick = () => selectOption(idx);
+                btn.id = `opt-${idx}`;
+
+                btn.innerHTML = `
+                    <span class="w-7 h-7 rounded-xl bg-white border border-slate-300 flex items-center justify-center text-xs font-bold text-slate-500 shrink-0 mt-0.5">
+                        ${optionLabels[idx]}
+                    </span>
+                    <span class="text-base leading-snug flex-grow pt-0.5">${opt.text}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Seleccionar Respuesta
+        function selectOption(selectedIndex) {
+            const q = questions[currentIndex];
+            const isCorrect = q.options[selectedIndex].isCorrect;
+
+            // Deshabilitar todos los botones
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+
+            // Resaltar respuesta seleccionada y la correcta
+            q.options.forEach((opt, idx) => {
+                const btn = document.getElementById(`opt-${idx}`);
+                if (opt.isCorrect) {
+                    btn.classList.remove('bg-slate-50', 'border-slate-200', 'hover:bg-white');
+                    btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.classList.remove('bg-slate-50', 'border-slate-200', 'hover:bg-white');
+                    btn.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-900', 'font-bold');
+                }
+            });
+
+            // Actualizar Marcadores
+            if (isCorrect) {
+                score.totalCorrect++;
+                if (q.block === 1) score.block1++;
+                if (q.block === 2) score.block2++;
+                if (q.block === 3) score.block3++;
+            } else {
+                score.totalIncorrect++;
+            }
+            updateLiveScore();
+
+            // Mostrar Feedback
+            showFeedback(isCorrect, q.explanation);
+        }
+
+        // Mostrar Feedback Explicativo
+        function showFeedback(isCorrect, explanation) {
+            const feedbackBox = document.getElementById('feedbackBox');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackTitle = document.getElementById('feedbackTitle');
+            const feedbackExplanation = document.getElementById('feedbackExplanation');
+
+            feedbackBox.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-200', 'text-emerald-900', 'bg-rose-50', 'border-rose-200', 'text-rose-900');
+
+            if (isCorrect) {
+                feedbackBox.classList.add('bg-emerald-50', 'border-emerald-200');
+                feedbackIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600"></i>';
+                feedbackTitle.innerText = "¡Correcto!";
+                feedbackTitle.className = "font-bold text-base text-emerald-800 mb-1";
+                feedbackExplanation.className = "text-sm text-emerald-800 leading-relaxed mb-3";
+            } else {
+                feedbackBox.classList.add('bg-rose-50', 'border-rose-200');
+                feedbackIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-600"></i>';
+                feedbackTitle.innerText = "Respuesta incorrecta";
+                feedbackTitle.className = "font-bold text-base text-rose-800 mb-1";
+                feedbackExplanation.className = "text-sm text-rose-800 leading-relaxed mb-3";
+            }
+
+            feedbackExplanation.innerHTML = `<strong>Explicación paso a paso:</strong> ${explanation}`;
+        }
+
+        // Pasar a la siguiente pregunta
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Actualizar marcador en vivo
+        function updateLiveScore() {
+            document.getElementById('liveCorrect').innerText = score.totalCorrect;
+            document.getElementById('liveIncorrect').innerText = score.totalIncorrect;
+        }
+
+        // Mostrar Informe Final
+        function showResults() {
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+
+            // Nombre y Fecha
+            document.getElementById('resultStudentName').innerText = studentName;
+            const now = new Date();
+            document.getElementById('resultTimestamp').innerText = `Realizado el ${now.toLocaleDateString('es-ES')} a las ${now.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'})}`;
+
+            // Nota sobre 10
+            const grade = ((score.totalCorrect / 30) * 10).toFixed(1);
+            document.getElementById('finalGrade').innerText = grade;
+
+            // Insignia según la nota
+            const badge = document.getElementById('gradeBadge');
+            if (grade >= 9) {
+                badge.innerText = "Sobresaliente";
+                badge.className = "px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-500/30 text-emerald-300";
+            } else if (grade >= 7) {
+                badge.innerText = "Notable";
+                badge.className = "px-3 py-0.5 rounded-full text-xs font-bold bg-blue-500/30 text-blue-300";
+            } else if (grade >= 5) {
+                badge.innerText = "Aprobado";
+                badge.className = "px-3 py-0.5 rounded-full text-xs font-bold bg-amber-500/30 text-amber-300";
+            } else {
+                badge.innerText = "Insuficiente (Necesita Repasar)";
+                badge.className = "px-3 py-0.5 rounded-full text-xs font-bold bg-rose-500/30 text-rose-300";
+            }
+
+            // Totales
+            document.getElementById('totalCorrect').innerText = score.totalCorrect;
+            const percentage = Math.round((score.totalCorrect / 30) * 100);
+            document.getElementById('successPercentage').innerText = `${percentage}%`;
+
+            // Desglose por bloques
+            document.getElementById('block1Score').innerText = `${score.block1}/10`;
+            document.getElementById('block1Bar').style.width = `${(score.block1 / 10) * 100}%`;
+
+            document.getElementById('block2Score').innerText = `${score.block2}/10`;
+            document.getElementById('block2Bar').style.width = `${(score.block2 / 10) * 100}%`;
+
+            document.getElementById('block3Score').innerText = `${score.block3}/10`;
+            document.getElementById('block3Bar').style.width = `${(score.block3 / 10) * 100}%`;
+
+            // Enlace personalizado a Google Classroom
+            const shareText = encodeURIComponent(`Cuestionario de Números Enteros (3º ESO)\nAlumno: ${studentName}\nCalificación: ${grade}/10 (${score.totalCorrect}/30 aciertos)`);
+            document.getElementById('classroomBtn').href = `https://classroom.google.com/share?url=${encodeURIComponent(window.location.href)}&title=${shareText}`;
+        }
+
+        // Reiniciar Cuestionario
+        function restartQuiz() {
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
