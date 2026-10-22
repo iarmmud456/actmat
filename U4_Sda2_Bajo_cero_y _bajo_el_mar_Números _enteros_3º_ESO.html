@@ -1,0 +1,769 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Bajo cero y bajo el mar</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* Concepto: cuaderno cuadriculado de clase. Papel con cuadrícula azul, tinta azul, corrección en rojo como el bolígrafo del profesor. */
+:root {
+  --paper: #F3F7FC;
+  --grid: #DCE6F4;
+  --card: #FFFFFF;
+  --ink: #15215C;
+  --muted: #4F5A86;
+  --line: #C5D3EA;
+  --primary: #2336A8;
+  --on-primary: #FFFFFF;
+  --red: #C93A26;
+  --red-soft: #FCE9E5;
+  --green: #17764E;
+  --green-soft: #E3F5EC;
+  --amber: #8A5A00;
+  --amber-soft: #FBF0D5;
+  --tile: #BFD0F5;
+  --f-display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0F1634; --grid: #19224D; --card: #16204A; --ink: #E7ECFF; --muted: #A5B0DC;
+    --line: #2C3A74; --primary: #94A6FF; --on-primary: #0F1634; --red: #FF8470; --red-soft: #3A1F2A;
+    --green: #5BD9A2; --green-soft: #173A33; --amber: #F2C063; --amber-soft: #38300F; --tile: #34498F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0F1634; --grid: #19224D; --card: #16204A; --ink: #E7ECFF; --muted: #A5B0DC;
+  --line: #2C3A74; --primary: #94A6FF; --on-primary: #0F1634; --red: #FF8470; --red-soft: #3A1F2A;
+  --green: #5BD9A2; --green-soft: #173A33; --amber: #F2C063; --amber-soft: #38300F; --tile: #34498F;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.5;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: var(--card); z-index: 30; }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+sup { font-size: .7em; line-height: 0; }
+.wrap { max-width: 760px; margin-inline: auto; }
+
+/* Cabecera fija */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--card); border-bottom: 2px solid var(--ink); margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))) calc(-1 * max(16px, env(safe-area-inset-right, 0px))); padding: 10px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); }
+.top-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.brand { font-family: var(--f-display); font-weight: 800; font-size: 20px; letter-spacing: -.01em; }
+.who { font-size: 14px; color: var(--muted); min-width: 0; overflow-wrap: anywhere; }
+.who b { color: var(--ink); }
+.spacer { flex: 1 1 auto; }
+.bar { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.track { flex: 1; height: 12px; border: 2px solid var(--ink); border-radius: 99px; background: var(--paper); overflow: hidden; }
+.fill { height: 100%; background: var(--primary); width: 0; transition: width .35s ease; }
+.pct { font-family: var(--f-mono); font-weight: 600; font-size: 14px; min-width: 7.5ch; text-align: right; font-variant-numeric: tabular-nums; }
+
+.btn { border: 2px solid var(--ink); background: var(--card); border-radius: 8px; padding: 8px 14px; font-weight: 700; cursor: pointer; min-height: 42px; }
+.btn:hover { background: var(--paper); }
+.btn.primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.btn.primary:hover { filter: brightness(1.08); background: var(--primary); }
+.btn.small { min-height: 34px; padding: 4px 10px; font-size: 15px; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.btn.ghost { border-color: var(--line); font-weight: 400; }
+
+/* Etapas */
+.steps { display: flex; gap: 6px; overflow-x: auto; padding: 14px 2px 6px; scrollbar-width: thin; }
+.step { flex: 0 0 auto; border: 2px solid var(--line); background: var(--card); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-weight: 700; font-size: 15px; display: flex; gap: 8px; align-items: center; white-space: nowrap; }
+.step[aria-current="step"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.step .n { font-family: var(--f-mono); font-size: 13px; opacity: .8; font-variant-numeric: tabular-nums; }
+.step .ok { color: var(--green); font-weight: 800; }
+.step[aria-current="step"] .ok { color: var(--paper); }
+
+main { display: flex; flex-direction: column; gap: 18px; padding-top: 14px; }
+.sheet { background: var(--card); border: 2px solid var(--ink); border-radius: 10px; padding: 18px; min-width: 0; }
+.sheet.story { background: var(--amber-soft); border-color: var(--amber); }
+.eyebrow { font-family: var(--f-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+h1 { font-size: clamp(30px, 7vw, 46px); font-weight: 800; letter-spacing: -.02em; }
+h2 { font-size: clamp(24px, 5vw, 32px); font-weight: 800; letter-spacing: -.01em; }
+h3 { font-size: 19px; font-weight: 800; }
+.lead { color: var(--muted); font-size: 18px; max-width: 60ch; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+
+/* Entrada */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-weight: 700; }
+.field input, .field select { border: 2px solid var(--ink); border-radius: 8px; padding: 10px 12px; background: var(--paper); min-height: 46px; width: 100%; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-family: var(--f-mono); font-size: 13px; border: 1.5px solid var(--line); border-radius: 6px; padding: 2px 7px; background: var(--paper); font-weight: 500; }
+.err { color: var(--red); font-weight: 700; min-height: 1.5em; }
+
+/* Actividades */
+.card { background: var(--card); border: 2px solid var(--ink); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.card.done-ok { border-color: var(--green); }
+.card.done-fail { border-color: var(--red); }
+.card-head { display: flex; gap: 10px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+.tag { font-family: var(--f-mono); font-size: 13px; font-weight: 600; background: var(--ink); color: var(--paper); border-radius: 5px; padding: 2px 8px; }
+.tag.self { background: var(--amber-soft); color: var(--amber); border: 1.5px solid var(--amber); }
+.crit-text { font-size: 14px; color: var(--muted); }
+.crit-text summary { cursor: pointer; font-weight: 700; color: var(--ink); }
+.prompt { max-width: 62ch; }
+.opts { display: flex; flex-direction: column; gap: 8px; }
+.opt { display: flex; gap: 10px; align-items: flex-start; border: 2px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; background: var(--paper); }
+.opt:has(input:checked) { border-color: var(--primary); background: var(--card); box-shadow: inset 0 0 0 1px var(--primary); }
+.opt input { margin-top: 5px; accent-color: var(--primary); width: 18px; height: 18px; flex: 0 0 auto; }
+.opt.right { border-color: var(--green); background: var(--green-soft); }
+.opt.wrong { border-color: var(--red); background: var(--red-soft); }
+.numrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.num { font-family: var(--f-mono); font-weight: 600; font-size: 20px; border: 2px solid var(--ink); border-radius: 8px; padding: 8px 12px; width: 9.5em; max-width: 100%; background: var(--paper); font-variant-numeric: tabular-nums; }
+.num.right { border-color: var(--green); background: var(--green-soft); }
+.num.wrong { border-color: var(--red); background: var(--red-soft); }
+.unit { color: var(--muted); }
+.tbl { display: grid; grid-template-columns: 11em minmax(0, 9.5em); gap: 8px 12px; align-items: center; }
+.tbl .lab { font-weight: 700; }
+.given { font-family: var(--f-mono); font-weight: 600; font-size: 20px; padding: 8px 14px; border: 2px dashed var(--line); border-radius: 8px; width: 9.5em; max-width: 100%; }
+.tbl .num { width: 100%; }
+textarea.say { width: 100%; min-height: 130px; border: 2px solid var(--ink); border-radius: 8px; padding: 10px 12px; background: var(--paper); resize: vertical; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.fb { border-radius: 8px; padding: 10px 12px; font-size: 16px; border: 2px solid transparent; }
+.fb.ok { background: var(--green-soft); border-color: var(--green); }
+.fb.no { background: var(--red-soft); border-color: var(--red); }
+.fb.hint { background: var(--amber-soft); border-color: var(--amber); }
+.fb b.mark { font-family: var(--f-display); }
+.fb ul { margin: 6px 0 0; padding-left: 20px; }
+.score { font-family: var(--f-mono); font-weight: 600; font-size: 14px; color: var(--muted); }
+
+.gridbox { display: grid; grid-template-columns: minmax(0, 260px) 1fr; gap: 16px; align-items: center; }
+@media (max-width: 560px) { .gridbox { grid-template-columns: 1fr; } }
+.gridbox svg { width: 100%; max-width: 260px; height: auto; aspect-ratio: 1; border: 2px solid var(--ink); border-radius: 6px; background: var(--paper); }
+.gridbox .tile { fill: var(--tile); }
+.gridbox .ln { stroke: var(--ink); stroke-width: 1.2; fill: none; opacity: .8; }
+.gridbox input[type=range] { width: 100%; accent-color: var(--primary); }
+.readout { font-family: var(--f-mono); font-weight: 600; font-size: 18px; font-variant-numeric: tabular-nums; }
+
+.nav { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-top: 4px; }
+
+/* Informe */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.kpi { border: 2px solid var(--line); border-radius: 8px; padding: 12px; background: var(--paper); }
+.kpi .v { font-family: var(--f-display); font-weight: 800; font-size: 34px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi .l { font-size: 14px; color: var(--muted); }
+.crit-list { display: flex; flex-direction: column; gap: 14px; }
+.crit { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: baseline; }
+.crit .desc { grid-column: 1 / -1; font-size: 14px; color: var(--muted); }
+.meter { grid-column: 1 / -1; height: 10px; border-radius: 99px; background: var(--paper); border: 1.5px solid var(--line); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--primary); }
+.meter i.low { background: var(--red); }
+.meter i.mid { background: var(--amber); }
+.meter i.high { background: var(--green); }
+.lvl { font-family: var(--f-mono); font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; }
+.tscroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; min-width: 520px; }
+th, td { border-bottom: 1.5px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+th { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+td.m { font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 8px; font-weight: 700; z-index: 40; max-width: calc(100% - 32px); }
+.note { font-size: 14px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+</style>
+
+<div class="top" id="top" hidden>
+  <div class="wrap">
+    <div class="top-row">
+      <span class="brand">Bajo cero y bajo el mar</span>
+      <button class="btn small ghost who" id="who" data-act="switch" type="button" title="Cambiar de alumno"></button>
+      <span class="spacer"></span>
+      <button class="btn small" id="btn-nav" data-act="nav" type="button">Mis resultados</button>
+      <button class="btn small primary" id="btn-report-top" data-act="pdf" type="button">Informe PDF</button>
+    </div>
+    <div class="bar">
+      <div class="track" role="progressbar" id="pbar" aria-label="Progreso de la situación de aprendizaje" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="pfill"></div></div>
+      <span class="pct" id="ppct">0 / 0</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="app"></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function () {
+"use strict";
+
+/* ---------- Criterios de evaluación (Programación didáctica Dpto. Matemáticas 2026-27, Ámbito científico-tecnológico, Diversificación 3.º ESO) ---------- */
+var CRIT = {
+  "ACT.3.1.1": "Reconocer situaciones susceptibles de ser formuladas y resueltas mediante herramientas y estrategias matemáticas, planteando variantes, modificando alguno de sus datos o alguna condición del problema.",
+  "ACT.3.1.2": "Comprobar la validez de las soluciones a un problema desde un punto de vista lógico-matemático y elaborar las respuestas evaluando su alcance, repercusión y coherencia en su contexto.",
+  "ACT.3.2.1": "Reconocer y usar las relaciones entre los conocimientos y experiencias matemáticas formando un todo coherente.",
+  "ACT.3.2.2": "Realizar conexiones entre diferentes procesos matemáticos aplicando conocimientos y experiencias.",
+  "ACT.3.3.1": "Establecer conexiones entre el mundo real y las matemáticas usando procesos inherentes a la investigación científica y matemática: inferir, medir, comunicar, clasificar y predecir, aplicando distintos procedimientos sencillos en la resolución de problemas.",
+  "ACT.3.4.1": "Gestionar las emociones propias y desarrollar el autoconcepto matemático como herramienta, generando expectativas positivas ante el tratamiento y la gestión de retos y cambios, desarrollando, de manera progresiva, el pensamiento crítico y creativo, adaptándose ante la incertidumbre y reconociendo fuentes de estrés.",
+  "ACT.3.4.2": "Mostrar una actitud positiva y perseverante, aceptando la crítica razonada, tomando conciencia de los errores cometidos y reflexionando sobre su propio esfuerzo y dedicación personal al hacer frente a las diferentes situaciones de aprendizaje de las matemáticas.",
+  "ACT.3.6.1": "Interpretar y comprender problemas matemáticos de la vida cotidiana y fenómenos fisicoquímicos, organizando los datos dados, estableciendo relaciones entre ellos, comprendiendo las preguntas formuladas y explicarlos en términos básicos de los principios, teorías y leyes científicas.",
+  "ACT.3.6.2": "Expresar problemas matemáticos o fenómenos fisicoquímicos, con coherencia y corrección utilizando al menos dos soportes y dos medios de comunicación, elaborando representaciones matemáticas utilizando herramientas de interpretación y modelización como expresiones simbólicas o gráficas.",
+  "ACT.3.6.4": "Resolver problemas matemáticos y fisicoquímicos movilizando los conocimientos necesarios, aplicando las teorías y leyes científicas, razonando los procedimientos, expresando adecuadamente los resultados y aceptando el error como parte del proceso.",
+  "ACT.3.7.4": "Analizar los resultados obtenidos en el proyecto de investigación utilizando, cuando sea necesario, herramientas matemáticas (tablas de datos, representaciones gráficas), tecnológicas (conversores, calculadoras, creadores gráficos) y el razonamiento inductivo para formular argumentos matemáticos, analizando patrones, propiedades y relaciones.",
+  "ACT.3.8.1": "Analizar problemas cotidianos o dar explicación a procesos naturales, utilizando conocimientos, organizando datos e información aportados, a través del razonamiento lógico, el pensamiento computacional o recursos digitales.",
+  "ACT.3.8.2": "Modelizar situaciones de la vida cotidiana y resolver problemas sencillos sobre fenómenos biológicos y geológicos, utilizando algoritmos.",
+  "ACT.3.9.1": "Analizar conceptos y procesos relacionados con los saberes de Biología y Geología, Física y Química y Matemáticas interpretando información en diferentes formatos (modelos, gráficos, tablas, diagramas, fórmulas, esquemas, símbolos, páginas web, etc.), manteniendo una actitud crítica, obteniendo conclusiones fundamentadas y usando adecuadamente los datos para la resolución de un problema.",
+  "ACT.3.9.2": "Facilitar la comprensión y análisis de información relacionada con los saberes de Biología y Geología, Física y Química y Matemáticas, transmitiéndola de forma clara utilizando la terminología, lenguaje y formato adecuados (modelos, gráficos, tablas, vídeos, informes, diagramas, fórmulas, esquemas, símbolos, contenidos digitales, etc.).",
+  "ACT.3.10.2": "Trabajar la consulta y elaboración de contenidos de información con base científica, con distintos medios tanto tradicionales como digitales, siguiendo las orientaciones del profesorado, comparando la información de las fuentes fiables con las pseudociencias y bulos."
+};
+var CRIT_ORDER = Object.keys(CRIT);
+
+/* ---------- Etapas ---------- */
+var STAGES = [
+  { name: "Bajo cero", title: "La base polar Polaris", sub: "Representar, comparar y valor absoluto",
+    story: "La base científica <b>Polaris</b> mide la temperatura cuatro veces al día. En un día de enero anotó: <b>06:00 → −12 °C</b>, <b>12:00 → −3 °C</b>, <b>18:00 → 2 °C</b> y <b>00:00 → −9 °C</b>.",
+    intro: "Los números enteros permiten expresar temperaturas por encima y por debajo de cero. Aquí aprenderás a leerlos, compararlos y a detectar bulos." },
+  { name: "Sube y baja", title: "Variaciones de temperatura", sub: "Suma y resta de enteros",
+    story: "Los científicos de Polaris quieren saber <b>cuánto cambia</b> la temperatura entre una medición y la siguiente, con los datos de la tabla anterior.",
+    intro: "Sumar un número positivo es avanzar a la derecha en la recta; sumar un negativo, retroceder. Restar es sumar el opuesto." },
+  { name: "La sonda", title: "El buque oceanográfico Mar Azul", sub: "Multiplicación, división y operaciones combinadas",
+    story: "El buque <b>Mar Azul</b> lanza una sonda desde la superficie (<b>0 m</b>). La sonda desciende <b>35 m cada minuto</b>. Las posiciones bajo el nivel del mar se escriben con números negativos.",
+    intro: "Repetir un cambio muchas veces es multiplicar; repartirlo en partes iguales es dividir. Cuidado con los signos y con el orden de las operaciones." },
+  { name: "Tu voz", title: "Explica y valora tu trabajo", sub: "Comunicación y autoevaluación", story: null,
+    intro: "Para terminar, explica con tus palabras lo que has aprendido y valora cómo has trabajado." }
+];
+
+/* ---------- Actividades ---------- */
+var ITEMS = [
+  { id: "B1", stage: 0, crit: ["ACT.3.6.1"], title: "Interpreta el parte", type: "mcq",
+    prompt: "El parte de la base a las 6:00 dice: «12 grados bajo cero». ¿Qué número entero expresa esa temperatura?",
+    options: ["+12 °C", "−12 °C", "0,12 °C", "−21 °C"], answer: 1,
+    hint: "«Bajo cero» significa por debajo del 0 de la escala.",
+    explain: "Una temperatura por debajo de cero se escribe con signo negativo: −12 °C." },
+  { id: "B2", stage: 0, crit: ["ACT.3.9.1"], title: "Lee la tabla: valor absoluto", type: "table",
+    prompt: "Interpreta la tabla de Polaris: escribe el <b>valor absoluto</b> de cada temperatura (a cuántos grados está del 0).",
+    rows: [{ lab: "06:00 · −12 °C" }, { lab: "12:00 · −3 °C" }, { lab: "18:00 · 2 °C" }, { lab: "00:00 · −9 °C" }],
+    answer: [12, 3, 2, 9], hint: "El valor absoluto es la distancia al 0 en la recta numérica y nunca es negativo.",
+    explain: "|−12| = 12, |−3| = 3, |2| = 2 y |−9| = 9. El valor absoluto ignora el signo: solo mide la distancia al 0." },
+  { id: "B3", stage: 0, crit: ["ACT.3.2.1"], title: "Ordena con la recta numérica", type: "mcq",
+    prompt: "Ordena las cuatro temperaturas de la base <b>de menor a mayor</b>.",
+    options: ["−12, −9, −3, 2", "2, −3, −9, −12", "−3, −9, −12, 2", "−12, −3, −9, 2"], answer: 0,
+    hint: "En la recta numérica, cuanto más a la izquierda, menor es el número.",
+    explain: "De izquierda a derecha en la recta: −12 < −9 < −3 < 2. Con negativos, el de mayor valor absoluto es el menor." },
+  { id: "B4", stage: 0, crit: ["ACT.3.3.1"], title: "Clasifica mediciones", type: "num",
+    prompt: "Otras mediciones de la base: −12, 5, −1, 0, 3, −9, 8, −4. Clasifícalas: ¿cuántas están <b>bajo cero</b>?",
+    answer: 4, unit: "mediciones", hint: "El 0 no está bajo cero. Cuenta solo los números con signo menos.",
+    explain: "Están bajo cero −12, −1, −9 y −4: son 4. El 0 es neutro y 5, 3 y 8 son positivos." },
+  { id: "B5", stage: 0, crit: ["ACT.3.10.2"], title: "¿Bulo o dato fiable?", type: "mcq",
+    prompt: "Un vídeo viral afirma: «−20 °C es más cálido que −5 °C, porque 20 es mayor que 5». ¿Cómo compruebas si es un bulo?",
+    options: ["Lo comparto: tiene muchas visualizaciones", "Sitúo ambos números en la recta numérica y lo contrasto con una fuente fiable: −20 queda a la izquierda de −5, así que es más frío", "Me fío porque el presentador parece experto", "Comparo solo 20 y 5 sin tener en cuenta el signo menos"],
+    answer: 1, hint: "Un dato se comprueba con razonamiento y con fuentes fiables, no con el número de visualizaciones.",
+    explain: "−20 < −5, así que −20 °C es más frío. Ignorar el signo es el error del bulo. Las fuentes fiables (servicios meteorológicos, libros de texto) permiten contrastar la información." },
+
+  { id: "V1", stage: 1, crit: ["ACT.3.6.4"], title: "¿Cuánto ha subido?", type: "num",
+    prompt: "A las 6:00 hay −12 °C y a las 12:00 hay −3 °C. ¿Cuántos grados ha subido la temperatura?",
+    answer: 9, unit: "°C", hint: "Variación = final − inicial = −3 − (−12).",
+    explain: "−3 − (−12) = −3 + 12 = 9. La temperatura ha subido 9 °C." },
+  { id: "V2", stage: 1, crit: ["ACT.3.6.2"], title: "Dibuja la variación", type: "slider",
+    prompt: "La base está a −2 °C y la temperatura <b>baja 5 grados</b>. Mueve el marcador del termómetro a la temperatura final y comprueba.",
+    answer: -7, min: -15, max: 10, value0: 0,
+    ro: function (n) { return "marcador en " + String(n).replace("-", "−") + " °C · distancia a 0: " + Math.abs(n); },
+    hint: "Bajar es ir hacia abajo en el termómetro (hacia la izquierda en la recta numérica).",
+    explain: "−2 − 5 = −7 °C. Desde −2 se bajan 5 grados." },
+  { id: "V3", stage: 1, crit: ["ACT.3.1.1"], title: "Cambia un dato del problema", type: "num",
+    prompt: "Nueva variante: otro día, a las 6:00 hace −8 °C y hasta las 12:00 la temperatura <b>sube 14 grados</b>. ¿Qué temperatura hay a las 12:00?",
+    answer: 6, unit: "°C", hint: "Calcula −8 + 14: parte de −8 y avanza 14 pasos hacia arriba.",
+    explain: "−8 + 14 = 6 °C. Cambiando los datos del problema original se obtiene otro resultado con el mismo método." },
+  { id: "V4", stage: 1, crit: ["ACT.3.2.2"], title: "Restar es sumar el opuesto", type: "mcq",
+    prompt: "Quieres calcular −3 − (−9). ¿Qué suma da el mismo resultado?",
+    options: ["−3 − 9", "−3 + 9", "3 + 9", "−3 + (−9)"], answer: 1,
+    hint: "Restar un número es lo mismo que sumar su opuesto. ¿Cuál es el opuesto de −9?",
+    explain: "El opuesto de −9 es 9, luego −3 − (−9) = −3 + 9 = 6. Así se conecta la resta con la suma." },
+  { id: "V5", stage: 1, crit: ["ACT.3.1.2"], title: "¿Tiene sentido la solución?", type: "mcq",
+    prompt: "Un compañero dice que la amplitud térmica del día (temperatura máxima menos mínima) es 2 + (−12) = −10 °C. ¿Es válida su solución?",
+    options: ["Sí: 2 + (−12) = −10 es correcto", "No: la amplitud es máxima − mínima = 2 − (−12) = 14 °C, y la diferencia entre el máximo y el mínimo no puede salir negativa", "No: la amplitud es 12 − 2 = 10 °C", "Sí: la amplitud siempre es negativa"],
+    answer: 1, hint: "La máxima es 2 °C y la mínima −12 °C. ¿Puede el máximo estar «por debajo» del mínimo?",
+    explain: "Amplitud = 2 − (−12) = 14 °C. Un resultado negativo es incoherente en este contexto, porque el máximo es mayor que el mínimo." },
+
+  { id: "S1", stage: 2, crit: ["ACT.3.6.1"], title: "Traduce la situación", type: "mcq",
+    prompt: "La sonda parte de 0 m y baja 35 m cada minuto. ¿Qué expresión da su posición tras 4 minutos?",
+    options: ["4 + (−35)", "4 · (−35)", "35 − 4", "−4 − 35"], answer: 1,
+    hint: "Bajar 35 m es un cambio de −35 m que se repite 4 veces.",
+    explain: "Un cambio de −35 m repetido 4 veces es 4 · (−35) = −140 m." },
+  { id: "S2", stage: 2, crit: ["ACT.3.6.4"], title: "Posición a los 6 minutos", type: "num",
+    prompt: "¿En qué posición está la sonda a los <b>6 minutos</b>? Escribe el número con su signo.",
+    answer: -210, unit: "m", hint: "6 · (−35). Un positivo por un negativo da negativo.",
+    explain: "6 · (−35) = −210 m: la sonda está 210 m por debajo del nivel del mar." },
+  { id: "S3", stage: 2, crit: ["ACT.3.8.2"], title: "Modeliza con un algoritmo", type: "num",
+    prompt: "Un programa simula otra bajada de la sonda:<br>1) p = −20<br>2) Repetir 3 veces: p = p − 35<br>3) Mostrar p<br>¿Qué valor muestra el programa?",
+    answer: -125, unit: "m", hint: "Sigue el programa paso a paso: −20, luego −55, luego…",
+    explain: "p vale −20 → −55 → −90 → −125. El programa muestra −125 (equivale a −20 + 3 · (−35))." },
+  { id: "S4", stage: 2, crit: ["ACT.3.8.1"], title: "Velocidad con signo", type: "num",
+    prompt: "Una segunda sonda baja de 0 a −480 m en 12 minutos con velocidad constante. ¿Cuántos metros por minuto cambia su posición? Escribe el número con su signo.",
+    answer: -40, unit: "m/min", hint: "Divide −480 entre 12: signos distintos dan resultado negativo.",
+    explain: "−480 ÷ 12 = −40 m/min. El signo negativo indica que la posición baja." },
+  { id: "S5", stage: 2, crit: ["ACT.3.7.4"], title: "Formula una conjetura", type: "mcq",
+    prompt: "Observa: (−3)·(−4) = 12, (−2)·(−5) = 10, (−6)·(−1) = 6, y también (−3)·4 = −12 y 2·(−5) = −10. ¿Qué conjetura apoyan estos ejemplos?",
+    options: ["El producto de dos enteros siempre es positivo", "El producto de dos enteros con el mismo signo es positivo y con distinto signo es negativo", "El producto de dos números negativos es negativo", "El signo del producto es siempre el del primer factor"],
+    answer: 1, hint: "Fíjate en los signos de los factores y en el signo del resultado en cada ejemplo.",
+    explain: "Mismo signo → positivo (los tres primeros), distinto signo → negativo (los dos últimos). Es la regla de los signos." },
+  { id: "S6", stage: 2, crit: ["ACT.3.6.4"], title: "Operaciones combinadas", type: "num",
+    prompt: "Un robot submarino está a −50 m. Sube 3 tramos de 12 m y después baja 2 tramos de 8 m. Calcula su posición: −50 + 3 · 12 − 2 · 8.",
+    answer: -30, unit: "m", hint: "Primero las multiplicaciones (36 y 16), después sumas y restas de izquierda a derecha.",
+    explain: "−50 + 36 − 16 = −30 m. Se resuelven primero los productos y después las sumas y restas." },
+  { id: "S7", stage: 2, crit: ["ACT.3.7.4"], title: "Comprueba con la calculadora", type: "num",
+    prompt: "Comprueba tu conjetura con la calculadora: calcula (−13) · (−17). Si la conjetura es cierta, el resultado debe ser positivo.",
+    answer: 221, hint: "Escribe los paréntesis: (−13) × (−17). Sin ellos la calculadora puede dar otro resultado.",
+    explain: "(−13) · (−17) = 221, positivo, como predice la regla: mismo signo, producto positivo." },
+
+  { id: "X1", stage: 3, crit: ["ACT.3.9.2"], title: "Explícalo con tus palabras", type: "text",
+    prompt: "Explica por qué −3 − (−9) = 6 y <b>no</b> −12. Usa las palabras <i>restar</i>, <i>opuesto</i> y <i>recta numérica</i> y escribe el resultado correcto.",
+    rubric: [
+      { label: "Habla de restar un número (la resta)", re: /rest/i },
+      { label: "Nombra el opuesto (el opuesto de −9 es 9)", re: /opuest/i },
+      { label: "Se apoya en la recta numérica", re: /recta/i },
+      { label: "Indica el resultado correcto, 6", re: /(^|\D)6(\D|$)/ }
+    ],
+    hint: "Restar −9 es sumar su opuesto. En la recta, ¿hacia dónde te mueves desde −3?",
+    explain: "Restar −9 equivale a sumar su opuesto, 9: −3 − (−9) = −3 + 9 = 6. En la recta numérica se parte de −3 y se avanzan 9 pasos a la derecha. −12 saldría de sumar −3 + (−9), que es otra operación." },
+  { id: "L1", stage: 3, crit: ["ACT.3.4.1"], title: "Mi confianza", type: "likert", self: true,
+    prompt: "Me he sentido capaz de resolver estos retos con números enteros." },
+  { id: "L2", stage: 3, crit: ["ACT.3.4.2"], title: "Aprender del error", type: "likert", self: true,
+    prompt: "Cuando me he equivocado, he leído la pista o la explicación y lo he vuelto a intentar." },
+  { id: "L3", stage: 3, crit: ["ACT.3.4.2"], title: "Esfuerzo y ayuda", type: "likert", self: true,
+    prompt: "Cuando algo no me salía, he seguido intentándolo y he buscado ayuda (cuaderno, compañeros o profesor)." }
+];
+var LIK = ["Casi nunca", "A veces", "Casi siempre", "Siempre"];
+var BY_ID = {}; ITEMS.forEach(function (it) { BY_ID[it.id] = it; });
+
+/* ---------- Estado ---------- */
+var KEY = "enteros-3eso-div-v1";
+var S = { student: null, view: "login", a: {}, prev: undefined, last: undefined };
+try { var raw = localStorage.getItem(KEY); if (raw) { var d = JSON.parse(raw); if (d && d.a) { S.a = d.a; S.student = d.student || null; S.view = d.view || "login"; S.prev = d.prev; S.last = d.last; } } } catch (e) {}
+if (!S.student) S.view = "login";
+function save() { try { localStorage.setItem(KEY, JSON.stringify({ student: S.student, view: S.view, a: S.a, prev: S.prev, last: S.last })); } catch (e) {} }
+function A(id) { return S.a[id] || (S.a[id] = { value: null, attempts: 0, done: false, score: null, hints: 0, status: "" }); }
+
+var $ = function (id) { return document.getElementById(id); };
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+function fmt(n) { return (Math.round(n * 10) / 10).toFixed(1).replace(".", ","); }
+function level(n) { return n < 5 ? ["Insuficiente", "IN", "low"] : n < 6 ? ["Suficiente", "SU", "mid"] : n < 7 ? ["Bien", "BI", "mid"] : n < 9 ? ["Notable", "NT", "high"] : ["Sobresaliente", "SB", "high"]; }
+
+/* ---------- Cálculo de resultados ---------- */
+function progress() { var d = 0; ITEMS.forEach(function (it) { if (A(it.id).done) d++; }); return { done: d, total: ITEMS.length }; }
+function critScores() {
+  return CRIT_ORDER.map(function (code) {
+    var its = ITEMS.filter(function (it) { return it.crit.indexOf(code) >= 0; });
+    var done = its.filter(function (it) { return A(it.id).done; });
+    var avg = done.reduce(function (s, it) { return s + A(it.id).score; }, 0) / its.length;
+    return { code: code, items: its, nDone: done.length, score: avg };
+  });
+}
+function overall() {
+  var cs = critScores();
+  return cs.reduce(function (s, c) { return s + c.score; }, 0) / cs.length;
+}
+function resultText(it) {
+  var a = A(it.id);
+  if (!a.done) return "Sin hacer";
+  if (it.type === "likert") return "Autoevaluación: " + LIK[a.value];
+  if (it.type === "text") return "Rúbrica " + a.found + "/" + it.rubric.length;
+  if (a.status === "ok") return a.attempts === 1 ? "Acierto a la 1.ª" : "Acierto a la 2.ª";
+  return "No resuelta";
+}
+
+/* ---------- Comprobación ---------- */
+function toNum(v) { var n = parseFloat(String(v == null ? "" : v).trim().replace(/\u2212/g, "-").replace(",", ".")); return isNaN(n) ? null : n; }
+function isEmpty(it, v) {
+  if (it.type === "mcq" || it.type === "likert") return v === null || v === undefined;
+  if (it.type === "table") return !v || v.length < it.answer.length || v.some(function (x) { return toNum(x) === null; });
+  if (it.type === "slider") return false;
+  if (it.type === "text") return !v || v.trim().length < 20;
+  return toNum(v) === null;
+}
+function isRight(it, v) {
+  if (it.type === "mcq") return v === it.answer;
+  if (it.type === "num") return Math.abs(toNum(v) - it.answer) <= (it.tol || 0) + 1e-9;
+  if (it.type === "table") return it.answer.every(function (x, i) { return toNum(v[i]) === x; });
+  if (it.type === "slider") return v === it.answer;
+  return false;
+}
+function submit(it) {
+  var a = A(it.id);
+  if (a.done) return;
+  var v = a.value;
+  if (it.type === "slider" && v == null) v = a.value = it.value0;
+  if (isEmpty(it, v)) {
+    a.msg = it.type === "text" ? "Escribe al menos 20 caracteres para poder evaluar tu explicación." : it.type === "table" ? "Rellena todas las casillas con números." : "Escribe o elige una respuesta antes de comprobar.";
+    return;
+  }
+  a.msg = "";
+  a.attempts++;
+  if (it.type === "text") {
+    var found = it.rubric.filter(function (r) { return r.re.test(v); });
+    a.found = found.length; a.rub = it.rubric.map(function (r) { return r.re.test(v); });
+    a.score = a.found / it.rubric.length * 10; a.done = true; a.status = a.found === it.rubric.length ? "ok" : "partial";
+    return;
+  }
+  if (isRight(it, v)) { a.done = true; a.status = "ok"; a.score = a.attempts === 1 ? 10 : 6; }
+  else if (a.attempts >= 2) { a.done = true; a.status = "fail"; a.score = 0; }
+  else a.status = "retry";
+}
+
+/* ---------- Vistas ---------- */
+function fillGrid(id, n) {
+  var el = $("grid-" + id); if (!el) return;
+  var it = BY_ID[id], mn = it.min, mx = it.max, k = 220 / (mx - mn);
+  var Y = function (v) { return 20 + (mx - v) * k; };
+  var m = function (v) { return String(v).replace("-", "\u2212"); };
+  var s = '<rect x="112" y="20" width="24" height="220" rx="12" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>';
+  s += '<rect x="116" y="' + Math.min(Y(0), Y(n)) + '" width="16" height="' + Math.abs(Y(n) - Y(0)) + '" fill="' + (n < 0 ? "var(--red)" : "var(--primary)") + '"/>';
+  for (var v = mn; v <= mx; v++) {
+    var big = v % 5 === 0;
+    s += '<line class="ln" x1="' + (big ? 100 : 106) + '" y1="' + Y(v) + '" x2="112" y2="' + Y(v) + '"/>';
+    if (big) s += '<text x="94" y="' + (Y(v) + 4) + '" text-anchor="end" font-size="12" fill="var(--ink)" font-family="monospace">' + m(v) + '</text>';
+  }
+  s += '<line x1="104" y1="' + Y(0) + '" x2="150" y2="' + Y(0) + '" stroke="var(--ink)" stroke-width="2"/>';
+  s += '<circle cx="124" cy="' + Y(n) + '" r="9" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>';
+  s += '<text x="160" y="' + (Y(n) + 5) + '" font-size="14" font-weight="700" fill="var(--ink)" font-family="monospace">' + m(n) + ' \u00b0C</text>';
+  el.innerHTML = s;
+}
+
+function inputHTML(it) {
+  var a = A(it.id), dis = a.done ? " disabled" : "", s = "", v = a.value;
+  if (it.type === "mcq") {
+    s += '<div class="opts" role="radiogroup" aria-label="Opciones">';
+    it.options.forEach(function (o, i) {
+      var cls = "opt";
+      if (a.done && i === it.answer) cls += " right"; else if (a.done && v === i) cls += " wrong";
+      s += '<label class="' + cls + '"><input type="radio" name="q-' + it.id + '" data-in="' + it.id + '" value="' + i + '"' + (v === i ? " checked" : "") + dis + '><span>' + o + '</span></label>';
+    });
+    s += "</div>";
+  } else if (it.type === "num") {
+    var cls = "num" + (a.done ? (a.status === "ok" ? " right" : " wrong") : "");
+    s += '<div class="numrow"><input class="' + cls + '" id="in-' + it.id + '" data-in="' + it.id + '" inputmode="text" autocomplete="off" aria-label="Tu respuesta" value="' + esc(v == null ? "" : v) + '"' + dis + '>' + (it.unit ? '<span class="unit">' + it.unit + "</span>" : "") + "</div>";
+  } else if (it.type === "table") {
+    s += '<div class="tbl">';
+    var k = 0;
+    it.rows.forEach(function (r) {
+      s += '<span class="lab">' + r.lab + "</span>";
+      if (r.given) s += '<span class="given">' + r.given + "</span>";
+      else {
+        var cls2 = "num" + (a.done ? (isRight(it, v) ? " right" : " wrong") : "");
+        s += '<input class="' + cls2 + '" id="in-' + it.id + "-" + k + '" data-in="' + it.id + '" data-k="' + k + '" inputmode="text" autocomplete="off" aria-label="' + r.lab + '" value="' + esc(v && v[k] != null ? v[k] : "") + '"' + dis + ">";
+        k++;
+      }
+    });
+    s += "</div>";
+  } else if (it.type === "slider") {
+    var n = v == null ? it.value0 : v;
+    s += '<div class="gridbox"><svg viewBox="0 0 260 260" role="img" aria-label="Termómetro" id="grid-' + it.id + '"></svg><div class="stack">' +
+      '<label for="in-' + it.id + '"><b>Temperatura</b></label><input type="range" id="in-' + it.id + '" data-in="' + it.id + '" min="' + it.min + '" max="' + it.max + '" step="1" value="' + n + '"' + dis + '>' +
+      '<div class="readout" id="ro-' + it.id + '">' + it.ro(n) + '</div></div></div>';
+  } else if (it.type === "text") {
+    s += '<textarea class="say" id="in-' + it.id + '" data-in="' + it.id + '" placeholder="Escribe aquí tu explicación…"' + dis + ">" + esc(v || "") + "</textarea>";
+  } else if (it.type === "likert") {
+    s += '<div class="opts" role="radiogroup">';
+    LIK.forEach(function (o, i) {
+      s += '<label class="opt"><input type="radio" name="q-' + it.id + '" data-in="' + it.id + '" value="' + i + '"' + (v === i ? " checked" : "") + '><span>' + o + "</span></label>";
+    });
+    s += "</div>";
+  }
+  return s;
+}
+
+function feedbackHTML(it) {
+  var a = A(it.id), s = "";
+  if (a.msg) s += '<div class="fb no" role="alert">' + esc(a.msg) + "</div>";
+  if (it.type === "likert") return s;
+  if (it.type === "text" && a.done) {
+    s += '<div class="fb ' + (a.status === "ok" ? "ok" : "hint") + '" aria-live="polite"><b class="mark">Rúbrica: ' + a.found + " de " + it.rubric.length + ".</b><ul>";
+    it.rubric.forEach(function (r, i) { s += "<li>" + (a.rub[i] ? "✓ " : "✗ ") + r.label + "</li>"; });
+    s += "</ul></div><div class=\"fb hint\"><b class=\"mark\">Modelo:</b> " + it.explain + "<br><span class=\"note\">Tu profesor o profesora leerá tu texto en el informe.</span></div>";
+    return s;
+  }
+  if (a.status === "retry") s += '<div class="fb no" aria-live="polite"><b class="mark">Todavía no.</b> Revisa la pista e inténtalo otra vez. Si aciertas ahora, la actividad valdrá 6 puntos.</div>';
+  if (a.status === "ok") s += '<div class="fb ok" aria-live="polite"><b class="mark">Correcto' + (a.attempts === 1 ? "" : " a la segunda") + ".</b> " + it.explain + "</div>";
+  if (a.status === "fail") s += '<div class="fb no" aria-live="polite"><b class="mark">Esta vez no ha salido.</b> Equivocarse forma parte del proceso. ' + it.explain + "</div>";
+  return s;
+}
+
+function cardHTML(it) {
+  var a = A(it.id);
+  var cls = "card" + (a.done && it.type !== "likert" ? (a.status === "fail" ? " done-fail" : " done-ok") : "");
+  var tags = it.crit.map(function (c) { return '<span class="tag' + (it.self ? " self" : "") + '">' + c + "</span>"; }).join(" ");
+  var crits = it.crit.map(function (c) { return '<p><b>' + c + ".</b> " + CRIT[c] + "</p>"; }).join("");
+  var s = '<section class="' + cls + '" id="card-' + it.id + '"><div class="card-head"><h3>' + it.id + " · " + it.title + '</h3><span class="chips">' + tags + (it.self ? '<span class="chip">autoevaluación</span>' : "") + "</span></div>";
+  s += '<p class="prompt">' + it.prompt + "</p>" + inputHTML(it);
+  if (a.showHint && it.hint && !a.done) s += '<div class="fb hint"><b class="mark">Pista:</b> ' + it.hint + "</div>";
+  s += feedbackHTML(it);
+  s += '<div class="actions">';
+  if (it.type === "likert") s += '<button class="btn primary" type="button" data-act="likert" data-id="' + it.id + '"' + (a.value == null ? " disabled" : "") + ">" + (a.done ? "Actualizar" : "Guardar") + "</button>";
+  else if (!a.done) s += '<button class="btn primary" type="button" data-act="check" data-id="' + it.id + '">Comprobar</button>' + (it.hint ? '<button class="btn" type="button" data-act="hint" data-id="' + it.id + '">Pista</button>' : "");
+  else if (it.type === "text") s += '<button class="btn" type="button" data-act="retext" data-id="' + it.id + '">Mejorar mi texto</button>';
+  if (a.done && it.type !== "likert" && it.type !== "text") s += '<span class="score">' + resultText(it) + " · " + fmt(a.score) + " / 10</span>";
+  if (a.done && it.type === "text") s += '<span class="score">' + fmt(a.score) + " / 10</span>";
+  s += "</div>";
+  s += '<details class="crit-text"><summary>Criterio que se evalúa</summary>' + crits + "</details></section>";
+  return s;
+}
+
+function stepsHTML() {
+  var s = '<nav class="steps" aria-label="Etapas">';
+  STAGES.forEach(function (st, i) {
+    var its = ITEMS.filter(function (it) { return it.stage === i; });
+    var ok = its.every(function (it) { return A(it.id).done; });
+    s += '<button type="button" class="step" data-act="go" data-v="' + i + '"' + (S.view === String(i) ? ' aria-current="step"' : "") + '><span class="n">' + (i + 1) + "</span>" + st.name + (ok ? ' <span class="ok" aria-label="completada">✓</span>' : "") + "</button>";
+  });
+  s += '<button type="button" class="step" data-act="go" data-v="report"' + (S.view === "report" ? ' aria-current="step"' : "") + '><span class="n">5</span>Resultados</button></nav>';
+  return s;
+}
+
+function loginHTML() {
+  var chips = CRIT_ORDER.map(function (c) { return '<span class="chip">' + c + "</span>"; }).join("");
+  var courses = [];
+  var nm = S.student ? S.student.name : "", cs = S.student ? S.student.course : "";
+  var s = '<main><div class="sheet stack"><span class="eyebrow">Ámbito científico-tecnológico · Diversificación 3º ESO · Situación de aprendizaje</span><h1>Bajo cero y bajo el mar</h1>' +
+    '<p class="lead">Una base polar a −12 °C y un buque oceanográfico que sondea el fondo del mar. Con ellos trabajarás los números enteros: orden, suma, resta, multiplicación, división y operaciones combinadas. Son 21 actividades en 4 etapas y tu progreso se guarda en este navegador.</p></div>' +
+    '<form class="sheet stack" id="login" novalidate><h2>Identifícate para empezar</h2><div class="cols">' +
+    '<div class="field"><label for="f-name">Nombre y apellidos</label><input id="f-name" autocomplete="name" value="' + esc(nm) + '"></div>' +
+    '<div class="field"><label for="f-course">Curso (por ejemplo, 3º ESO Diversificación)</label><input id="f-course" autocomplete="off" maxlength="30" value="' + esc(cs) + '"></div></div>' +
+    '<div class="err" id="f-err" role="alert"></div><div class="actions"><button class="btn primary" type="submit">' + (S.student ? "Continuar donde iba" : "Empezar") + "</button></div></form>" +
+    '<div class="sheet stack"><h3>Criterios de evaluación que se trabajan</h3><div class="chips">' + chips + '</div><p class="note">Procedentes de la programación didáctica del Departamento de Matemáticas 2026/2027 para el ámbito científico-tecnológico de Diversificación 3º ESO. Cada actividad indica el criterio que evalúa y al final puedes descargar un informe en PDF.</p></div></main>';
+  return s;
+}
+
+function stageHTML(i) {
+  var st = STAGES[i];
+  var s = stepsHTML() + "<main>";
+  s += '<div class="sheet stack"><span class="eyebrow">Etapa ' + (i + 1) + " de 4 · " + st.sub + "</span><h2>" + st.title + '</h2><p class="lead">' + st.intro + "</p></div>";
+  if (st.story) s += '<div class="sheet story stack"><h3>El enunciado</h3><p>' + st.story + "</p></div>";
+  ITEMS.filter(function (it) { return it.stage === i; }).forEach(function (it) { s += cardHTML(it); });
+  s += '<div class="nav">' + (i > 0 ? '<button class="btn" type="button" data-act="go" data-v="' + (i - 1) + '">Etapa anterior</button>' : "<span></span>") +
+    '<button class="btn primary" type="button" data-act="go" data-v="' + (i === 3 ? "report" : i + 1) + '">' + (i === 3 ? "Ver mis resultados" : "Siguiente etapa") + "</button></div></main>";
+  return s;
+}
+
+function reportHTML() {
+  var p = progress(), o = overall(), cs = critScores();
+  var s = stepsHTML() + "<main>";
+  s += '<div class="sheet stack"><span class="eyebrow">Resultados</span><h2>Informe de ' + esc(S.student.name) + "</h2><p class=\"lead\">" + esc(S.student.course) + " · " + new Date().toLocaleDateString("es-ES") + '</p>' +
+    '<div class="kpis"><div class="kpi"><div class="v">' + (o === null ? "–" : fmt(o)) + '</div><div class="l">Nota media por criterios sobre 10' + (p.done < p.total ? " (lo no hecho cuenta 0)" : "") + "</div></div>" +
+    '<div class="kpi"><div class="v">' + (o === null ? "–" : level(o)[0]) + '</div><div class="l">Nivel de logro</div></div>' +
+    '<div class="kpi"><div class="v">' + p.done + " / " + p.total + '</div><div class="l">Actividades terminadas</div></div></div>' +
+    '<div class="actions"><button class="btn primary" type="button" data-act="pdf">Descargar informe PDF</button><button class="btn" type="button" data-act="copy">Copiar resumen</button><button class="btn" type="button" data-act="nav">Volver a mi actividad</button></div><textarea class="say" id="sumtxt" readonly hidden aria-label="Resumen para copiar"></textarea>' +
+    '<p class="note">La nota de cada criterio es la suma de las notas de sus actividades dividida entre todas las actividades de ese criterio (acierto a la primera 10, a la segunda 6, no resuelta 0). Las actividades sin hacer cuentan 0. La nota global es la media de los 16 criterios y los criterios sin hacer cuentan 0. La programación indica media ponderada: el profesorado aplicará los pesos del departamento.</p></div>';
+  s += '<div class="sheet stack"><h3>Evaluación por criterio</h3><div class="crit-list">';
+  cs.forEach(function (c) {
+    var lv = c.score === null ? null : level(c.score);
+    s += '<div class="crit"><b>' + c.code + '</b><span class="lvl">' + fmt(c.score) + " · " + lv[1] + (c.nDone === 0 ? " · sin hacer" : "") + '</span><span class="desc">' + CRIT[c.code] + " (" + c.nDone + " de " + c.items.length + " actividades)</span>" +
+      '<span class="meter"><i class="' + (lv ? lv[2] : "") + '" style="width:' + (c.score === null ? 0 : c.score * 10) + '%"></i></span></div>';
+  });
+  s += "</div></div>";
+  s += '<div class="sheet stack"><h3>Detalle de actividades</h3><div class="tscroll"><table><thead><tr><th>Actividad</th><th>Criterio</th><th>Resultado</th><th>Pistas</th><th>Nota</th></tr></thead><tbody>';
+  ITEMS.forEach(function (it) {
+    var a = A(it.id);
+    s += "<tr><td>" + it.id + " · " + it.title + '</td><td class="m">' + it.crit.join(", ") + "</td><td>" + resultText(it) + '</td><td class="m">' + (a.hints || 0) + '</td><td class="m">' + (a.done ? fmt(a.score) : "–") + "</td></tr>";
+  });
+  s += "</tbody></table></div></div>";
+  var e = A("X1");
+  if (e.done) s += '<div class="sheet stack"><h3>Tu explicación escrita</h3><p>' + esc(e.value).replace(/\n/g, "<br>") + "</p></div>";
+  s += '<div class="sheet stack"><h3>Empezar de nuevo</h3><p class="note">Borra tus respuestas de este navegador y vuelve a la pantalla de entrada.</p><div class="actions" id="reset-zone"><button class="btn ghost" type="button" data-act="reset1">Borrar mis respuestas</button></div></div></main>';
+  return s;
+}
+
+function stageView() {
+  if (/^[0-3]$/.test(S.prev || "")) return S.prev;
+  for (var i = 0; i < STAGES.length; i++) { if (!ITEMS.every(function (it) { return it.stage !== i || A(it.id).done; })) return String(i); }
+  return "0";
+}
+function goto(v) {
+  if (/^[0-3]$/.test(S.view)) S.prev = S.view;
+  S.view = v; save(); render();
+  var c = S.last && BY_ID[S.last] && String(BY_ID[S.last].stage) === v ? $("card-" + S.last) : null;
+  if (c) c.scrollIntoView({ block: "center" }); else window.scrollTo(0, 0);
+}
+function render() {
+  var top = $("top");
+  if (!S.student) S.view = "login";
+  top.hidden = !S.student;
+  if (S.student) {
+    $("who").innerHTML = "<b>" + esc(S.student.name) + "</b> · " + esc(S.student.course);
+    $("btn-nav").textContent = /^[0-3]$/.test(S.view) ? "Mis resultados" : "Volver a mi actividad";
+    updateProgress();
+  }
+  if (S.view === "login") { $("app").innerHTML = loginHTML(); bind(); return; }
+  $("app").innerHTML = S.view === "report" ? reportHTML() : stageHTML(Number(S.view));
+  ITEMS.forEach(function (it) { if (it.type === "slider" && S.view === String(it.stage)) fillGrid(it.id, A(it.id).value == null ? it.value0 : A(it.id).value); });
+  bind();
+}
+function updateProgress() {
+  var p = progress(), pc = Math.round(p.done / p.total * 100);
+  $("pfill").style.width = pc + "%"; $("ppct").textContent = p.done + " / " + p.total;
+  $("pbar").setAttribute("aria-valuenow", String(pc)); $("pbar").setAttribute("aria-valuetext", p.done + " de " + p.total + " actividades");
+}
+function refreshCard(id) {
+  S.last = id;
+  var el = $("card-" + id), it = BY_ID[id];
+  el.outerHTML = cardHTML(it);
+  if (it.type === "slider") fillGrid(id, A(id).value == null ? it.value0 : A(id).value);
+  updateProgress(); refreshSteps(); save();
+}
+function refreshSteps() {
+  var cur = document.querySelector(".steps"); if (!cur) return;
+  var tmp = document.createElement("div"); tmp.innerHTML = stepsHTML(); cur.replaceWith(tmp.firstChild);
+}
+function toast(msg) { var t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { t.hidden = true; }, 3500); }
+
+/* ---------- Eventos ---------- */
+function bind() {
+  var f = $("login");
+  if (f) f.onsubmit = function (ev) {
+    ev.preventDefault();
+    var n = $("f-name").value.trim().replace(/\s+/g, " "), c = $("f-course").value.trim().replace(/\s+/g, " ");
+    if (n.length < 3) { $("f-err").textContent = "Escribe tu nombre y apellidos."; $("f-name").focus(); return; }
+    if (!c) { $("f-err").textContent = "Escribe tu curso."; $("f-course").focus(); return; }
+    var changed = S.student && (S.student.name !== n || S.student.course !== c);
+    if (changed && progress().done > 0 && !bind.ok) { bind.ok = true; $("f-err").textContent = "Cambiar de alumno borra las respuestas guardadas. Pulsa otra vez para confirmar."; return; }
+    bind.ok = false;
+    if (changed) { S.a = {}; S.prev = undefined; S.last = undefined; }
+    S.student = { name: n, course: c }; goto(stageView());
+  };
+}
+document.addEventListener("input", function (ev) {
+  var el = ev.target, id = el.dataset && el.dataset.in; if (!id) return;
+  var it = BY_ID[id], a = A(id);
+  S.last = id;
+  if (it.type === "mcq" || it.type === "likert") { a.value = Number(el.value); if (it.type === "likert") { var b = document.querySelector('[data-act="likert"][data-id="' + id + '"]'); if (b) b.disabled = false; } }
+  else if (it.type === "slider") { a.value = Number(el.value); fillGrid(id, a.value); $("ro-" + id).textContent = it.ro(a.value); }
+  else if (it.type === "table") { if (!a.value) a.value = []; a.value[Number(el.dataset.k)] = el.value; }
+  else a.value = el.value;
+  save();
+});
+document.addEventListener("click", function (ev) {
+  var b = ev.target.closest("[data-act]"); if (!b) return;
+  var act = b.dataset.act, id = b.dataset.id;
+  if (act === "go") goto(b.dataset.v);
+  else if (act === "nav") goto(/^[0-3]$/.test(S.view) ? "report" : stageView());
+  else if (act === "switch") goto("login");
+  else if (act === "copy") copySummary();
+  else if (act === "check") { submit(BY_ID[id]); refreshCard(id); }
+  else if (act === "hint") { var a = A(id); if (!a.showHint) { a.showHint = true; a.hints = (a.hints || 0) + 1; } refreshCard(id); }
+  else if (act === "likert") { var a2 = A(id); a2.done = true; a2.status = "ok"; a2.attempts = 1; a2.score = a2.value / 3 * 10; refreshCard(id); }
+  else if (act === "retext") { var a3 = A(id); a3.done = false; refreshCard(id); }
+  else if (act === "pdf") makePdf();
+  else if (act === "reset1") { $("reset-zone").innerHTML = '<span class="err">¿Seguro? Se borrarán todas tus respuestas.</span><button class="btn primary" type="button" data-act="reset2">Sí, borrar</button><button class="btn" type="button" data-act="reset0">Cancelar</button>'; }
+  else if (act === "reset0") render();
+  else if (act === "reset2") { S = { student: null, view: "login", a: {} }; try { localStorage.removeItem(KEY); } catch (e) {} render(); window.scrollTo(0, 0); }
+});
+
+/* ---------- Informe PDF ---------- */
+function safe(t) {
+  return String(t).replace(/<sup>/g, "^").replace(/<\/sup>/g, "").replace(/<br\s*\/?>/g, " ").replace(/<[^>]+>/g, "")
+    .replace(/√/g, "raiz de ").replace(/≈/g, "~").replace(/→/g, "->").replace(/−/g, "-").replace(/✓/g, "[x]").replace(/✗/g, "[ ]").replace(/…/g, "...").replace(/«|»/g, '"').replace(/·/g, "x");
+}
+function slug(t) { return t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "") || "alumno"; }
+function loadJsPdf() {
+  return new Promise(function (res) {
+    if (window.jspdf) return res(true);
+    var s = document.createElement("script"); s.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    s.onload = function () { res(!!window.jspdf); }; s.onerror = function () { res(false); };
+    document.head.appendChild(s);
+  });
+}
+function summaryText() {
+  var p = progress(), o = overall(), t = ["Bajo cero y bajo el mar - Ámbito científico-tecnológico, Diversificación 3º ESO", S.student.name + " - " + S.student.course + " - " + new Date().toLocaleDateString("es-ES"), "Progreso: " + p.done + " de " + p.total + " actividades", "Nota media por criterios: " + (o === null ? "sin calificar" : fmt(o) + " / 10 (" + level(o)[0] + ")"), ""];
+  critScores().forEach(function (c) { t.push(c.code + ": " + (c.score === null ? "sin hacer" : fmt(c.score) + " / 10")); });
+  var e = A("X1"); if (e.done) t.push("", "Explicación escrita: " + e.value);
+  return t.join("\n");
+}
+function copySummary() {
+  var t = summaryText();
+  var fail = function () { var ta = $("sumtxt"); if (ta) { ta.hidden = false; ta.value = t; ta.focus(); ta.select(); } toast("Copia el texto seleccionado."); };
+  try { navigator.clipboard.writeText(t).then(function () { toast("Resumen copiado."); }, fail); } catch (e) { fail(); }
+}
+async function makePdf() {
+  if (!S.student) { toast("Identifícate primero para generar tu informe."); return; }
+  toast("Preparando el informe…");
+  if (!(await loadJsPdf())) { toast("No se pudo cargar el generador de PDF. Comprueba tu conexión e inténtalo de nuevo."); return; }
+  var dl = null;
+  try { dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null; } catch (e) { dl = null; }
+  var jsPDF = window.jspdf.jsPDF, doc = new jsPDF({ unit: "mm", format: "a4" });
+  var M = 16, W = 210, y = 0, p = progress(), o = overall(), cs = critScores();
+  function need(h) { if (y + h > 282) { doc.addPage(); y = 18; } }
+  function txt(t, x, size, bold, color) { doc.setFont("helvetica", bold ? "bold" : "normal"); doc.setFontSize(size); doc.setTextColor.apply(doc, color || [21, 33, 92]); doc.text(safe(t), x, y); }
+  function para(t, size, bold, color, width, lh) {
+    doc.setFont("helvetica", bold ? "bold" : "normal"); doc.setFontSize(size); doc.setTextColor.apply(doc, color || [21, 33, 92]);
+    var lines = doc.splitTextToSize(safe(t), width || (W - 2 * M)); var step = lh || size * 0.42;
+    lines.forEach(function (l) { need(step); doc.text(l, M, y); y += step; });
+  }
+  doc.setFillColor(21, 33, 92); doc.rect(0, 0, W, 34, "F");
+  doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(20); doc.text("Informe de aprendizaje", M, 15);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(10.5); doc.text("Situación de aprendizaje: Bajo cero y bajo el mar (números enteros)", M, 22);
+  doc.setFontSize(9); doc.text("Ámbito científico-tecnológico - Diversificación 3º ESO - Dpto. Matemáticas 2026/2027 - I.E.S. Ntra. Sra. de la Cabeza, Andújar", M, 28.5);
+  y = 46;
+  txt("Alumno/a:", M, 11, true); txt(S.student.name, M + 26, 11, false); y += 7;
+  txt("Curso:", M, 11, true); txt(S.student.course, M + 26, 11, false); y += 7;
+  txt("Fecha:", M, 11, true); txt(new Date().toLocaleDateString("es-ES"), M + 26, 11, false); y += 7;
+  txt("Progreso:", M, 11, true); txt(p.done + " de " + p.total + " actividades terminadas (" + Math.round(p.done / p.total * 100) + " %)", M + 26, 11, false); y += 10;
+  doc.setDrawColor(21, 33, 92); doc.setLineWidth(0.6); doc.rect(M, y, W - 2 * M, 20);
+  y += 8; txt(o === null ? "Sin calificación todavía" : "Nota media por criterios: " + fmt(o) + " / 10  (" + level(o)[0] + ")", M + 4, 14, true); y += 7;
+  txt(p.done < p.total ? "Faltan actividades por terminar: las actividades y criterios sin hacer cuentan 0." : "Todas las actividades terminadas.", M + 4, 9.5, false, [79, 90, 134]); y += 13;
+
+  txt("Evaluación por criterio", M, 13, true); y += 7;
+  cs.forEach(function (c) {
+    var lines = doc.splitTextToSize(safe(CRIT[c.code]), W - 2 * M); need(12 + lines.length * 3.6);
+    txt(c.code, M, 10, true); txt(c.score === null ? "Sin hacer" : fmt(c.score) + " / 10 - " + level(c.score)[0], M + 32, 10, true, c.score === null ? [79, 90, 134] : c.score < 5 ? [201, 58, 38] : [23, 118, 78]);
+    txt(c.nDone + " de " + c.items.length + " act.", W - M - 24, 9, false, [79, 90, 134]); y += 2;
+    doc.setFillColor(220, 230, 244); doc.rect(M, y, 60, 2.4, "F");
+    if (c.score !== null) { doc.setFillColor.apply(doc, c.score < 5 ? [201, 58, 38] : c.score < 7 ? [200, 140, 20] : [23, 118, 78]); doc.rect(M, y, 60 * c.score / 10, 2.4, "F"); }
+    y += 6; doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(79, 90, 134);
+    lines.forEach(function (l) { doc.text(l, M, y); y += 3.6; }); y += 3;
+  });
+
+  need(20); y += 2; txt("Detalle de actividades", M, 13, true); y += 7;
+  function row(c, bold) {
+    doc.setFont("helvetica", bold ? "bold" : "normal"); doc.setFontSize(8.5); doc.setTextColor(21, 33, 92);
+    doc.text(safe(c[0]), M, y); doc.text(safe(c[1]), M + 68, y); doc.text(safe(c[2]), M + 92, y); doc.text(safe(c[3]), M + 142, y); doc.text(safe(c[4]), M + 157, y);
+  }
+  need(8); row(["Actividad", "Criterio", "Resultado", "Pistas", "Nota"], true); y += 2; doc.setDrawColor(150, 165, 200); doc.setLineWidth(0.2); doc.line(M, y, W - M, y); y += 4.5;
+  ITEMS.forEach(function (it) {
+    var a = A(it.id); need(6);
+    row([it.id + " - " + it.title, it.crit.map(function (c) { return c.replace("MAT.", ""); }).join(", "), resultText(it).replace("Autoevaluación: ", "Autoeval.: "), String(a.hints || 0), a.done ? fmt(a.score) : "-"]); y += 5.2;
+  });
+  var e = A("X1");
+  y += 4; need(24); txt("Explicación escrita por el alumno/a", M, 13, true); y += 6;
+  if (e.done) {
+    para(e.value, 10, false, null, null, 4.6); y += 2;
+    para("Rúbrica automática: " + e.found + " de " + BY_ID.X1.rubric.length + " elementos (" + BY_ID.X1.rubric.map(function (r, i) { return (e.rub[i] ? "[x] " : "[ ] ") + r.label; }).join("; ") + ").", 8.5, false, [79, 90, 134]);
+  } else para("No se ha entregado explicación.", 10, false, [79, 90, 134]);
+  y += 5; need(30); txt("Autoevaluación del alumno/a", M, 13, true); y += 6;
+  ["L1", "L2", "L3"].forEach(function (id) {
+    var a = A(id); para(BY_ID[id].crit[0] + " - " + BY_ID[id].prompt + " Respuesta: " + (a.done ? LIK[a.value] : "sin responder"), 9.5, false, null, null, 4.3); y += 1.5;
+  });
+  y += 4; need(36);
+  para("Notas para el profesorado: la nota de cada criterio es la suma de las notas de sus actividades dividida entre todas las actividades del criterio (acierto a la primera 10, a la segunda 6, no resuelta 0; las autoevaluaciones puntúan de 0 a 10 según la frecuencia indicada), de modo que las actividades sin hacer cuentan 0. La nota global es la media simple de los 16 criterios, y los criterios sin hacer cuentan 0; la programación didáctica establece media ponderada, por lo que deben aplicarse los pesos del departamento. Los criterios de trabajo en equipo, trabajo experimental y laboratorio, paisaje y biodiversidad del ámbito (p. ej. ACT.3.7.3, ACT.3.9.4, ACT.3.10.1 o ACT.3.11.x) no se evalúan en esta actividad individual.", 8.5, false, [79, 90, 134]);
+  var n = doc.getNumberOfPages();
+  for (var i = 1; i <= n; i++) { doc.setPage(i); doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(120, 130, 160); doc.text("Bajo cero y bajo el mar - " + safe(S.student.name) + " - " + S.student.course, M, 291); doc.text("Página " + i + " de " + n, W - M - 22, 291); }
+  var buf = doc.output("arraybuffer"), name = "informe_enteros_" + slug(S.student.name) + ".pdf";
+  if (dl) {
+    try { await dl.save({ filename: name, data: buf.slice(0) }); toast("Informe guardado."); return; }
+    catch (err) { if (err && err.code === "declined") { toast("Descarga cancelada."); return; } }
+  }
+  try {
+    var u = URL.createObjectURL(new Blob([buf], { type: "application/pdf" })), l = document.createElement("a");
+    l.href = u; l.download = name; document.body.appendChild(l); l.click(); l.remove();
+    setTimeout(function () { URL.revokeObjectURL(u); }, 8000);
+    toast("Informe generado. Si no se descarga, abre la aplicación en el navegador o usa «Copiar resumen» en Resultados.");
+  } catch (e2) { toast("No se pudo descargar aquí. Usa «Copiar resumen» en Resultados."); }
+}
+
+render();
+if (/^[0-3]$/.test(S.view) && S.last && BY_ID[S.last] && BY_ID[S.last].stage === Number(S.view)) setTimeout(function () { var c = $("card-" + S.last); if (c) c.scrollIntoView({ block: "center" }); }, 80);
+})();
+</script>
+
+</body></html>
