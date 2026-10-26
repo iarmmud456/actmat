@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sda. Fracciones - ALTA COCINA - 3º ESO</title>
+<style>
+:root{--bg:#14100e;--p:#1e1815;--p2:#2b221d;--tx:#f1e9da;--mu:#b3a58f;--ac:#d4af6a;--wa:#c9677a;--ok:#8fbf8a;--ko:#e0707f;--bd:#4a3a2c}
+[data-theme=light]{--bg:#f6f1e7;--p:#fffdf8;--p2:#efe6d3;--tx:#2a1d14;--mu:#6e5c48;--ac:#8a5a12;--wa:#8e2a3f;--ok:#3f7d4a;--ko:#b3263f;--bd:#d8c8a8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,"Segoe UI",sans-serif}
+h1,h2,.tab{font-family:Georgia,"Palatino Linotype","Times New Roman",serif;letter-spacing:.02em}
+header{position:sticky;top:0;z-index:5;background:var(--p);border-bottom:1px solid var(--bd);padding:10px 16px}
+.top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+h1{font-size:1.05rem;margin:0;color:var(--ac)}h2{font-size:1.15rem;margin:0 0 4px}
+.pb{height:8px;background:var(--p2);border-radius:9px;margin:8px 0 4px;overflow:hidden}.pb i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--wa));transition:width .4s}
+.st{font-size:.8rem;color:var(--mu)}
+button{background:var(--p2);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.85rem}
+button:hover{border-color:var(--ac)}button.pr{background:var(--ac);color:#1a120a;border-color:var(--ac);font-weight:700}
+:focus-visible{outline:3px solid var(--wa);outline-offset:2px}
+.tabs{display:flex;gap:6px;margin-top:8px;overflow-x:auto}.tab{flex:1;min-width:120px;text-align:left;padding:8px 10px}.tab.on{border-color:var(--ac);background:var(--p2);box-shadow:inset 0 -3px var(--ac)}.tab small{display:block;color:var(--mu)}
+main{max-width:860px;margin:0 auto;padding:16px}
+.intro{border-left:4px solid var(--wa);padding:4px 14px;margin-bottom:14px;color:var(--mu)}
+.card{background:var(--p);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}.card.ok{border-color:var(--ok)}.card.ko{border-color:var(--ko)}
+.meta{display:flex;justify-content:space-between;gap:8px;font-size:.78rem;color:var(--mu);margin-bottom:6px;flex-wrap:wrap}
+.op{display:block;padding:8px 10px;margin:5px 0;border:1px solid var(--bd);border-radius:8px;cursor:pointer}.op:has(input:checked){border-color:var(--ac);background:var(--p2)}.op input{margin-right:8px}
+input[type=text],select,textarea{background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px;font:inherit}
+input[type=text]{width:84px;text-align:center}textarea{width:100%;min-height:120px}
+.fr{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;line-height:1.15;margin:0 2px;font-size:.95em}.fr i{font-style:normal;border-bottom:2px solid currentColor;padding:0 4px}.fr b{font-weight:600}
+.nf{display:inline-flex;flex-direction:column;gap:4px;vertical-align:middle;margin:0 8px}
+.bar{width:100%;max-width:420px;display:block;margin:8px 0}
+.fb{margin-top:10px;padding:10px;border-radius:8px;background:var(--p2);font-size:.92rem}.hint{color:var(--wa);font-size:.9rem;margin-top:8px}
+.row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.reg{max-width:440px;margin:8vh auto}.reg label{display:block;margin:12px 0 4px}.reg input{width:100%;text-align:left}
+.lk{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;margin:6px 0}
+.lk select{width:70px}table{width:100%;border-collapse:collapse;font-size:.88rem}td,th{border-bottom:1px solid var(--bd);padding:6px;text-align:left}
+.fig,.hero,.ch{width:100%;display:block}.hero{margin-bottom:12px;border-radius:12px}.fig{max-width:420px;margin:6px 0 10px}
+.card,.op,button,input[type=text],select,textarea,.fb,.hero,.tab,.pb,.pb i{border-radius:3px}.card{box-shadow:inset 0 0 0 4px var(--p),inset 0 0 0 5px var(--bd)}header{border-bottom:2px solid var(--ac)}.intro{border-left-color:var(--ac);font-style:italic}
+.ico{color:var(--ac);vertical-align:middle;margin-right:6px}.orn{display:block;width:240px;max-width:80%;margin:6px auto 12px;color:var(--ac);opacity:.85}.reg h1{text-align:center;line-height:1.3}
+body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cg fill='none' stroke='%23d4af6a' stroke-opacity='.12' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M18 14v10a4 4 0 0 0 8 0V14M22 14v26'/%3E%3Cpath d='M62 62V42c6 4 6 14 0 18'/%3E%3Ccircle cx='64' cy='20' r='4'/%3E%3C/g%3E%3C/svg%3E")}
+@media(max-width:560px){main{padding:10px}h1{font-size:.9rem}.tab{min-width:100px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<div id="app"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const K='cocina2-fracciones-3eso-v2',$=s=>document.querySelector(s);
+let S;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+S=S||{u:null,a:{},tx:'',rb:[0,0,0,0],txd:0,lk:[0,0,0,0,0],th:null,st:1};
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+const fr=s=>String(s).replace(/(\d+)\/(\d+)/g,'<span class=fr><i>$1</i><b>$2</b></span>');
+const ST=['Mise en place','Fogones','Servicio de sala','Diario del chef'];
+const CR={'MAT.3.1.1':'Interpretar problemas matemáticos complejos, organizando los datos y sus relaciones','MAT.3.1.2':'Aplicar herramientas y estrategias apropiadas en problemas cotidianos y matemáticos','MAT.3.2.1':'Comprobar la corrección de las soluciones mediante el razonamiento matemático','MAT.3.2.2':'Comprobar la validez de las soluciones y su coherencia en el contexto','MAT.3.5.1':'Reconocer y usar relaciones entre conocimientos y experiencias matemáticas','MAT.3.7.2':'Elaborar representaciones (diagramas, expresiones simbolicas o graficas) para resolver','MAT.3.8.1':'Comunicar ideas y procesos con lenguaje matematico apropiado, por escrito','MAT.3.9.2':'Actitud positiva y perseverante; aceptar el error y las autoevaluaciones'};
+const M={'CE1.1':'MAT.3.1.1','CE1.2':'MAT.3.1.2','CE2.1':'MAT.3.2.1','CE2.2':'MAT.3.2.2','CE5.1':'MAT.3.5.1','CE7.1':'MAT.3.7.2','CE8.1':'MAT.3.8.1','CE9.1':'MAT.3.9.2'};
+const VF=['Verdadero','Falso'];
+let A=[],T4;
+const prng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+function gen(seed){
+const rd=prng(seed),ri=(a,b)=>a+Math.floor(rd()*(b-a+1)),pk=a=>a[ri(0,a.length-1)];
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=ri(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+const sp=(n,d)=>{const g=gcd(n,d);return[n/g,d/g]},fs=f=>f[0]+'/'+f[1],lcm=(a,b)=>a*b/gcd(a,b);
+const cp=(lo,hi)=>{let a,b;do{b=ri(lo,hi);a=ri(1,b-1)}while(gcd(a,b)>1);return[a,b]};
+const mc=(o,ok)=>{o=sh([...new Set(o)]);return{o,k:o.indexOf(ok)}};
+const VF=['Verdadero','Falso'],ND=['numerador','denominador'],L=[];
+{const[nm,ad,lu]=pk([['mesas','ocupadas','sala'],['cajas de trufa','reservadas','cámara'],['botellas de vino','descorchadas','bodega']]);const t=ri(10,18);let k=ri(3,t-3);while(2*k==t)k=ri(3,t-3);
+L.push({id:1,s:1,c:'CE1.1',w:1,t:'mcq',g:[k,t],q:`En la ${lu} hay ${t} ${nm} y ${k} están ${ad}. ¿Qué fracción del total representan las ${ad}?`,...mc([`${k}/${t}`,`${t-k}/${t}`,`${t}/${k}`,`${k}/${t-k}`],`${k}/${t}`),h:'Parte-todo: las partes que cumplen la condición (numerador) entre el total (denominador).',e:`Hay ${k} ${ad} de ${t} en total: ${k}/${t}. El denominador es el total, no las restantes.`})}
+{let a,b;do{b=ri(3,9);a=ri(2,8)}while(gcd(a,b)>1||a==b);const[pl,sg]=pk([['lubinas','lubina'],['tartas','tarta'],['tartas de queso','tarta de queso']]);
+L.push({id:2,s:1,c:'CE1.2',w:1,t:'num',g:[a,b],q:`Se reparten ${a} ${pl} a partes iguales entre ${b} mesas. ¿Qué fracción de ${sg} corresponde a cada mesa?`,f:ND,a:[a,b],irr:1,h:`Una fracción es también una división: ${a} ÷ ${b}.`,e:`Cociente: ${a} ÷ ${b} = ${a}/${b} de ${sg} por mesa.`})}
+{let x,y;do{x=ri(2,5);y=ri(2,7)}while(gcd(x,y)>1||x==y);const r=pk([['maîtres','camareros'],['cocineros','pinches'],['sumilleres','ayudantes']]);
+L.push({id:3,s:1,c:'CE1.1',w:1,t:'mcq',g:[x,y,r],q:`En sala trabajan ${x} ${r[0]} por cada ${y} ${r[1]}. ¿Qué fracción del equipo son ${r[0]}?`,...mc([`${x}/${y}`,`${x}/${x+y}`,`${y}/${x+y}`,`${y}/${x}`],`${x}/${x+y}`),h:'Una razón compara partes entre sí; la fracción compara una parte con el total.',e:`Por cada ${x+y} personas (${x}+${y}), ${x} son ${r[0]}: ${x}/${x+y}. La razón ${x}/${y} compara ${r[0]} con ${r[1]}, no con el total.`})}
+{const d=pk([8,10,12,15,20]),q=pk([2,3,4,5,6,10].filter(z=>d%z==0&&z<d)),it=pk(['canapés','porciones de queso','pastelitos']);let p;do{p=ri(1,q-1)}while(gcd(p,q)>1);
+L.push({id:4,s:1,c:'CE7.1',w:1,t:'sl',q:`Una bandeja tiene ${d} ${it} iguales. Mueve el control para servir ${p}/${q} del total.`,d,k:p*d/q,h:`Busca una fracción equivalente a ${p}/${q} con denominador ${d}.`,e:`${p}/${q} = ${p*d/q}/${d}, así que hay que servir ${p*d/q} de ${d}.`})}
+{const D=pk([12,20,24]),bs={12:[2,3,4,6],20:[2,4,5,10],24:[3,4,6,8]}[D];let f;
+do{f=[];for(let i=0;i<3;i++){const b=pk(bs);let p;do{p=ri(1,b-1)}while(gcd(p,b)>1);f.push([p,b,p*D/b])}}while(new Set(f.map(x=>x[2])).size<3);
+const so=f.slice().sort((x,y)=>x[2]-y[2]),tx=a=>a.map(x=>x[0]+'/'+x[1]).join(' < '),P=[[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]].map(p=>p.map(i=>so[i])),ok=tx(P[0]);
+L.push({id:5,s:1,c:'CE5.1',w:1,t:'mcq',q:`Tres cuencos contienen ${fs(f[0])}, ${fs(f[1])} y ${fs(f[2])} de litro de crema. Ordénalos de menor a mayor cantidad.`,...mc([ok,...sh(P.slice(1)).slice(0,3).map(tx)],ok),h:`Reduce a común denominador (${D}) o pasa a decimales.`,e:`Con denominador ${D}: ${f.map(x=>`${x[0]}/${x[1]} = ${x[2]}/${D}`).join(', ')}. Orden: ${ok}.`})}
+{const n=ri(1,5),b=ri(n+2,9),c=ri(n+1,b-1),t=rd()<.5;
+L.push({id:6,s:1,c:'CE2.2',w:1,t:'mcq',b:1,q:`<b>¿Bulo o verdad?</b> Un ayudante afirma: «${t?`${n}/${c} es mayor que ${n}/${b} porque, con el mismo numerador, ${c} es menor que ${b}`:`${n}/${b} es mayor que ${n}/${c} porque ${b} es mayor que ${c}`}».`,o:VF,k:t?0:1,h:'Piensa en partir una tarta en más o en menos porciones.',e:`${t?'Verdadero':'Falso'}. Con el mismo numerador, a mayor denominador las porciones son más pequeñas: ${n}/${c} es mayor que ${n}/${b}.`})}
+{const[p,q]=cp(3,8),m=ri(2,5),w=pk(['El caldo','El fondo','La salsa']);
+L.push({id:7,s:2,c:'CE5.1',w:1,t:'num',q:`${w} ocupa ${p*m}/${q*m} de la marmita. Escribe la fracción irreducible equivalente.`,f:ND,a:[p,q],irr:1,h:'Divide numerador y denominador entre su máximo común divisor.',e:`mcd(${p*m}, ${q*m}) = ${m}, y ${p*m}/${q*m} = ${p}/${q}.`})}
+{const[p,q]=cp(2,8),m=ri(3,9),it=pk(['aceite','mantequilla','nata']);
+L.push({id:8,s:2,c:'CE1.2',w:1,t:'num',q:`Una receta usa ${p}/${q} de la reserva de ${it}. Completa la equivalencia: ${p}/${q} = x/${q*m}. ¿Cuánto vale x?`,f:['x'],a:[p*m],h:`Multiplicando ${q} por ${m} obtienes ${q*m}; haz lo mismo con el ${p}.`,e:`${q*m} ÷ ${q} = ${m}, así que x = ${p} · ${m} = ${p*m}.`})}
+{let p,b,r,d,M2,n;do{[p,b]=cp(2,6);[r,d]=cp(2,6);M2=lcm(b,d);n=p*M2/b+r*M2/d}while(b==d||n>=M2);const it=pk(['del azúcar','de la harina','de la nata']),res=sp(n,M2);
+L.push({id:9,s:2,c:'CE1.1',w:1,t:'num',q:`Un cocinero usa ${p}/${b} ${it} para el postre y ${r}/${d} para las mignardises. ¿Qué fracción ha usado en total? (simplifica)`,f:ND,a:res,irr:1,h:`Denominador común: m.c.m.(${b}, ${d}) = ${M2}.`,e:`${p}/${b} + ${r}/${d} = ${p*M2/b}/${M2} + ${r*M2/d}/${M2} = ${n}/${M2}${res[1]!=M2?' = '+fs(res):''}.`})}
+{let x,b,y,d,M2,n;do{[x,b]=cp(2,6);[y,d]=cp(2,6);M2=lcm(b,d);n=x*M2/b-y*M2/d}while(b==d||n<=0);const w=pk(['El depósito de aceite','La cámara frigorífica','La bodega']),res=sp(n,M2);
+L.push({id:10,s:2,c:'CE1.1',w:1,t:'num',g:[x,b],q:`${w} está a ${x}/${b} de su capacidad y se consume ${y}/${d} de la capacidad total. ¿Qué fracción de la capacidad queda? (simplifica)`,f:ND,a:res,irr:1,h:`Denominador común: m.c.m.(${b}, ${d}) = ${M2}.`,e:`${x}/${b} − ${y}/${d} = ${x*M2/b}/${M2} − ${y*M2/d}/${M2} = ${n}/${M2}${res[1]!=M2?' = '+fs(res):''}.`})}
+{let p,b,r,d,k;do{b=pk([2,3,4,6]);d=pk([2,3,4,6]);p=ri(1,b-1);r=ri(1,d-1);k=p*12/b+r*12/d}while(b==d||k>11);
+L.push({id:11,s:2,c:'CE7.1',w:1,t:'sl',q:`Representa ${p}/${b} + ${r}/${d} sobre una bandeja de 12 mignardises: mueve el control hasta el resultado.`,d:12,k,h:`Pasa cada fracción a doceavos: ${p}/${b} = ${p*12/b}/12.`,e:`${p*12/b}/12 + ${r*12/d}/12 = ${k}/12. Hay que servir ${k} de 12.`})}
+{const a=ri(2,5),b=ri(a+1,7),t=rd()<.5;
+L.push({id:12,s:2,c:'CE2.2',w:1,t:'mcq',b:1,q:`<b>¿Bulo o verdad?</b> ${t?`Un aprendiz calcula 1/${a} + 1/${b} = ${a+b}/${a*b} con denominador común.`:`Un aprendiz calcula 1/${a} + 1/${b} = 2/${a+b} «sumando numeradores y denominadores».`}`,o:VF,k:t?0:1,h:'Comprueba el resultado pasando las fracciones a decimales.',e:t?`Verdadero: ${b}/${a*b} + ${a}/${a*b} = ${a+b}/${a*b}.`:`Falso. No se suman denominadores: 1/${a} + 1/${b} = ${b}/${a*b} + ${a}/${a*b} = ${a+b}/${a*b}.`})}
+{let p,q,r,s,pr;do{q=ri(3,9);p=ri(2,q-1);s=ri(3,10);r=ri(1,s-1);pr=sp(p*r,q*s)}while(gcd(p*r,q*s)==1);const[m,u]=pk([['solomillo','tartar'],['lubina','ceviche'],['pato','confit']]);
+L.push({id:13,s:3,c:'CE1.2',w:1.5,t:'num',q:`Se reserva ${p}/${q} de una pieza de ${m} y de esa parte ${r}/${s} se destina a ${u}. ¿Qué fracción de la pieza es ${u}? (simplifica)`,f:ND,a:pr,irr:1,h:'«De» significa multiplicar las fracciones.',e:`${p}/${q} · ${r}/${s} = ${p*r}/${q*s} = ${pr[0]}/${pr[1]}.`})}
+{const m=pk([2,3,4,5]),j=ri(1,3),k=m*j,it=pk(['foie','pan de brioche','queso curado']);let n;do{n=ri(m+1,2*m+3)}while(gcd(n,m)>1);
+L.push({id:14,s:3,c:'CE1.1',w:1.5,t:'num',q:`Cada porción de ${it} pesa 1/${k} de kg. ¿Cuántas porciones salen de ${n}/${m} de kg?`,f:['porciones'],a:[n*j],h:'Dividir entre una fracción es multiplicar por su inversa.',e:`${n}/${m} ÷ 1/${k} = ${n}/${m} · ${k}/1 = ${n*k}/${m} = ${n*j} porciones.`})}
+{let A1,B,C,op,pr,res;do{A1=cp(2,6);B=cp(2,6);C=cp(2,6);op=pk(['+','−']);pr=sp(B[0]*C[0],B[1]*C[1]);const sg=op=='+'?1:-1;res=sp(A1[0]*pr[1]+sg*pr[0]*A1[1],A1[1]*pr[1])}while(res[0]<=0||res[1]==1);
+L.push({id:15,s:3,c:'CE2.1',w:1.5,t:'num',q:`Calcula con la jerarquía de operaciones: ${fs(A1)} ${op} ${fs(B)} · ${fs(C)}`,f:ND,a:res,irr:1,h:`Primero el producto, después la ${op=='+'?'suma':'resta'}.`,e:`${fs(B)} · ${fs(C)} = ${fs(pr)}; ${fs(A1)} ${op} ${fs(pr)} = ${fs(res)}.`})}
+{const a=ri(2,5),b=ri(2,5),T=a*b*ri(2,8),[it,lu,cu]=pk([['huevos','despensa','Cuántos'],['botellas','bodega','Cuántas'],['latas de caviar','cámara','Cuántas']]),R1=T-T/a,res=R1-R1/b;
+L.push({id:16,s:3,c:'CE1.1',w:1.5,t:'num',q:`La ${lu} tiene ${T} ${it}. El lunes se gasta 1/${a} y el martes 1/${b} de lo que quedaba. ¿${cu} ${it} quedan?`,f:[it],a:[res],h:`Lunes: 1/${a} de ${T}. Después calcula 1/${b} del resto.`,e:`Lunes: ${T/a}, quedan ${R1}. Martes: ${R1} ÷ ${b} = ${R1/b}, quedan ${res} ${it}.`})}
+{const p=ri(1,4),q=ri(p+1,6),t=rd()<.5,N=t?p*ri(2,5):q*ri(2,5);
+L.push({id:17,s:3,c:'CE2.2',w:1.5,t:'mcq',b:1,q:`<b>¿Bulo o verdad?</b> ${t?'«Dividir una cantidad entre una fracción menor que 1 da un resultado mayor que la cantidad».':'«Multiplicar una cantidad por una fracción menor que 1 siempre da un resultado mayor».'}`,o:VF,k:t?0:1,h:'Prueba con un ejemplo numérico.',e:t?`Verdadero: ${N} ÷ ${p}/${q} = ${N} · ${q}/${p} = ${N*q/p}, que es mayor que ${N}.`:`Falso. Tomar «una parte de» una cantidad la hace menor: ${p}/${q} · ${N} = ${p*N/q}, menor que ${N}.`})}
+L.push({id:18,s:4,c:'CE8.1',w:2,t:'tx'},{id:19,s:4,c:'CE9.1',w:0,t:'lk'});
+{const[p,q]=pk([[2,3],[3,4],[3,5],[4,5]]),n=pk([2,3,4,6]);T4={p,q,n,r:sp(p,q*n)}}
+return L}
+function mk(){if(!S.sd){S.sd=1+Math.floor(Math.random()*2147483646);save()}A=gen(S.sd);A.forEach(q=>q.c=M[q.c])}
+const LK=['Me he esforzado en resolver las actividades.','He leído las explicaciones para aprender de mis errores.','He usado las pistas solo cuando las necesitaba.','Me siento más seguro/a con las fracciones.','Sabría explicar a otra persona lo que he aprendido.'];
+const RB=[['Procedimiento','No plantea la operación','Plantea con errores','Plantea la división correctamente','Plantea y justifica cada paso'],['Resultado y comprobación','Sin resultado','Resultado incorrecto','Resultado correcto y simplificado','Correcto y comprobado con la operación inversa'],['Vocabulario','Ninguno','Poco','Usa numerador, denominador...','Usa vocabulario preciso y variado'],['Claridad','Confuso','Poco ordenado','Ordenado','Claro y ordenado para un compañero']];
+const R=id=>S.a[id]||(S.a[id]={n:0,p:0,d:0,h:0,v:null,m:''});
+const wc=t=>t.trim().split(/\s+/).filter(Boolean).length;
+const done=q=>q.t=='tx'?S.txd:q.t=='lk'?S.lk.every(x=>x>0):R(q.id).d;
+const pts=q=>q.t=='tx'?(S.txd?S.rb.reduce((a,b)=>a+b,0)/16*10:0):R(q.id).p||0;
+const crit=()=>{const o={};A.filter(q=>q.w).forEach(q=>(o[q.c]=o[q.c]||[]).push(pts(q)));for(const k in o)o[k]=o[k].reduce((a,b)=>a+b,0)/o[k].length;return o};
+const nota=()=>{const v=Object.values(crit());return v.reduce((a,b)=>a+b,0)/v.length};
+const sv=(w,h,b,c)=>`<svg viewBox="0 0 ${w} ${h}" class="${c||''}" aria-hidden="true">${b}</svg>`;
+const pie=(cx,cy,r,n,m)=>Array.from({length:n},(_,i)=>{const a=i*2*Math.PI/n-Math.PI/2,b=(i+1)*2*Math.PI/n-Math.PI/2;return `<path d="M${cx} ${cy}L${cx+r*Math.cos(a)} ${cy+r*Math.sin(a)}A${r} ${r} 0 0 1 ${cx+r*Math.cos(b)} ${cy+r*Math.sin(b)}Z" fill="${i<m?'#d4af6a':'#8e2a3f'}" stroke="#0a0f1e" stroke-width="1.5"/>`}).join('');
+const HERO=k=>sv(600,120,`<defs><linearGradient id=sk x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color=#3a1420 /><stop offset=1 stop-color=#14100e /></linearGradient></defs><rect width=600 height=120 rx=4 fill=url(#sk) />`+[80,200,400,520].map(x=>`<line x1=${x} y1=0 x2=${x} y2=24 stroke=#d4af6a /><path d="M${x-16} 44Q${x} 14 ${x+16} 44Z" fill=#d4af6a />`).join('')+`<rect y=96 width=600 height=24 fill=#1e1815 /><rect y=96 width=600 height=2 fill=#d4af6a />`+[pie(300,62,32,8,3),'<rect x=276 y=52 width=48 height=40 rx=6 fill=#9aa3b5 /><rect x=270 y=48 width=60 height=6 rx=3 fill=#cfd6e4 /><path d="M288 42Q284 32 290 22M300 42Q296 32 302 22M312 42Q308 32 314 22" stroke=#f1e9da fill=none />','<path d="M268 92A32 32 0 0 1 332 92Z" fill=#cfd6e4 /><circle cx=300 cy=56 r=4 fill=#d4af6a /><rect x=262 y=92 width=76 height=4 rx=2 fill=#d4af6a />','<path d="M276 90V66A14 14 0 0 1 286 42A16 16 0 0 1 314 38A14 14 0 0 1 324 66V90Z" fill=#f6f1e7 />'][k-1],'hero');
+const FIG={1:q=>{const[k,t]=q.g,w=300/t,r=Math.min(8,w/2-1.5);return sv(300,44,Array.from({length:t},(_,i)=>`<circle cx=${w/2+i*w} cy=22 r=${r} fill=${i<k?'#d4af6a':'none'} stroke=#d4af6a stroke-width=2 />`).join(''),'fig')},
+2:q=>{const[a,b]=q.g,sa=170/a,sb=120/b;return sv(300,50,Array.from({length:a},(_,i)=>`<ellipse cx=${sa/2+i*sa} cy=26 rx=${Math.min(15,sa/2-2)} ry=7 fill=#d4af6a />`).join('')+Array.from({length:b},(_,i)=>`<circle cx=${180+sb/2+i*sb} cy=26 r=${Math.min(8,sb/2-1)} fill=#f6f1e7 stroke=#d4af6a />`).join(''),'fig')},
+3:q=>{const[x,y,l]=q.g,n=x+y,w=300/n,r=Math.min(14,w/2-2);return sv(300,58,Array.from({length:n},(_,i)=>`<circle cx=${w/2+i*w} cy=18 r=${r} fill=${i<x?'#d4af6a':'#b5485d'} />`).join('')+`<text x=0 y=54 font-size=11 fill=currentColor>dorado: ${l[0]} \u00b7 granate: ${l[1]}</text>`,'fig')},
+10:q=>sv(300,56,`<rect x=2 y=4 width=260 height=44 rx=10 fill=none stroke=#d4af6a stroke-width=3 /><rect x=6 y=8 width=${252*q.g[0]/q.g[1]} height=36 rx=7 fill=#d4af6a />`,'fig')};
+const ICO='<svg class=ico viewBox="0 0 64 24" width=60 height=24 aria-hidden="true"><path d="M6 2v7a3 3 0 0 0 6 0V2M9 2v20" stroke=currentColor stroke-width=1.7 fill=none stroke-linecap=round /><circle cx=26 cy=9 r=5 fill=currentColor /><circle cx=32 cy=6 r=6 fill=currentColor /><circle cx=38 cy=9 r=5 fill=currentColor /><rect x=26 y=11 width=12 height=10 rx=1 fill=currentColor /><path d="M54 22V2c5 3 5 11 0 15" stroke=currentColor stroke-width=1.7 fill=none stroke-linecap=round /></svg>';
+const ORN='<svg class=orn viewBox="0 0 300 16" aria-hidden="true"><path d="M0 8H122M178 8H300" stroke=currentColor /><path d="M150 1l7 7-7 7-7-7Z" fill=currentColor /><circle cx=132 cy=8 r=2 fill=currentColor /><circle cx=168 cy=8 r=2 fill=currentColor /></svg>';
+const CH=()=>{const c=crit(),ks=Object.keys(c);return sv(600,24*ks.length+6,ks.map((k,i)=>`<text x=0 y=${i*24+16} fill=currentColor font-size=12>${k}</text><rect x=90 y=${i*24+4} width=400 height=14 rx=7 fill=var(--p2) /><rect x=90 y=${i*24+4} width=${c[k]*40} height=14 rx=7 fill=var(--ac) /><text x=500 y=${i*24+16} fill=currentColor font-size=12>${f1(c[k])}</text>`).join(''),'ch')};
+const f1=x=>x.toFixed(1).replace('.',',');
+const bar=(n,d)=>{let r='';for(let i=0;i<d;i++)r+=`<rect x="${i*300/d+1}" y="2" width="${300/d-2}" height="30" rx="3" fill="${i<n?'var(--ac)':'var(--p2)'}"/>`;return `<svg viewBox="0 0 300 34" class=bar role=img aria-label="${n} de ${d} partes">${r}</svg>`};
+function theme(t){S.th=t;document.documentElement.dataset.theme=t;save()}
+theme(S.th||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));
+
+function head(){const n=A.filter(done).length;return `<header><div class=top><h1>${ICO} Sda. Fracciones - ALTA COCINA - 3º ESO</h1><div class=row style="margin:0"><button onclick="theme(S.th=='dark'?'light':'dark');draw()" aria-label="Cambiar tema">◐ Tema</button><button class=pr onclick="pdf()">⇩ Informe PDF</button></div></div>
+<div class=pb><i style="width:${n/A.length*100}%"></i></div><div class=st>Completadas ${n}/${A.length} · Nota provisional ${f1(nota())}/10 · ${S.u.n} ${S.u.a} (${S.u.c}) · Ficha ${S.sd%10000}</div>
+<div class=tabs>${ST.map((x,i)=>{const L=A.filter(q=>q.s==i+1);return `<button class="tab ${S.st==i+1?'on':''}" onclick="S.st=${i+1};save();draw()">Etapa ${i+1}<small>${x} · ${L.filter(done).length}/${L.length}</small></button>`}).join('')}</div></header>`}
+
+function card(q,i){
+ if(q.t=='tx')return cTx(q);if(q.t=='lk')return cLk(q);
+ const r=R(q.id);let inp='',dis=r.d?'disabled':'';
+ if(q.t=='mcq')inp=q.o.map((o,j)=>`<label class=op><input type=radio name=q${q.id} ${r.v===j?'checked':''} ${dis} onchange="R(${q.id}).v=${j};save()">${fr(o)}</label>`).join('');
+ if(q.t=='num')inp=q.f.map((f,j)=>`<span class=nf><input type=text inputmode=decimal aria-label="${f}" value="${(r.v||[])[j]??''}" ${dis} oninput="(R(${q.id}).v=R(${q.id}).v||[])[${j}]=this.value;save()"><small class=st>${f}</small></span>`).join('');
+ if(q.t=='sl'){const v=r.v??0;inp=`<div id=b${q.id}>${bar(v,q.d)}</div><input type=range min=0 max=${q.d} value=${v} ${dis} style="width:100%;max-width:420px" aria-label="Partes iluminadas" oninput="R(${q.id}).v=+this.value;$('#b${q.id}').innerHTML=bar(+this.value,${q.d});$('#l${q.id}').innerHTML=fr(this.value+'/${q.d}');save()"> <b id=l${q.id}>${fr(v+'/'+q.d)}</b>`}
+ return `<section class="card ${r.d?(r.p?'ok':'ko'):''}"><div class=meta><span>Actividad ${i} · ${q.c}</span><span>${r.d?r.p+' pts · ':''}${r.n} intento${r.n==1?'':'s'}</span></div>${(FIG[q.id]||(()=>''))(q)}<p>${fr(q.q)}</p>${inp}
+ <div class=row>${r.d?'':`<button class=pr onclick="chk(${q.id})">Comprobar</button><button onclick="R(${q.id}).h=1;save();draw()">Pista</button>`}</div>
+ ${r.h&&!r.d?`<div class=hint>Pista: ${fr(q.h)}</div>`:''}${r.m?`<div class=fb role=status>${r.m}</div>`:''}</section>`}
+
+function chk(id){const q=A.find(x=>x.id==id),r=R(id);if(r.d)return;let ok,m='',v=r.v;
+ if(q.t=='mcq'){if(v==null){r.m='Elige una opción antes de comprobar.';return draw()}ok=v==q.k}
+ else if(q.t=='sl'){v=v??0;ok=v==q.k}
+ else{const x=(v||[]).map(s=>parseFloat(String(s).replace(',','.')));if(x.length<q.f.length||x.some(isNaN)){r.m='Rellena todas las casillas con números.';return draw()}
+  if(q.a.length==2){const[n,d]=x;ok=d!=0&&n*q.a[1]==d*q.a[0];if(ok&&q.irr&&gcd(n,d)!=1){ok=0;m='Es una fracción equivalente, pero hay que simplificarla al máximo. '}}else ok=Math.abs(x[0]-q.a[0])<1e-9}
+ r.n++;const sol=q.t=='mcq'?q.o[q.k]:q.t=='sl'?q.k+'/'+q.d:q.a.join('/');
+ if(ok){r.d=1;r.p=r.n==1?10:6;r.m=`✔ Correcto: +${r.p} puntos. ${q.e}`}
+ else if(r.n>=2){r.d=1;r.p=0;r.m=`✘ Sin más intentos (0 puntos). Solución: ${sol}. ${q.e}`}
+ else r.m=`✘ ${m}No es correcto. Te queda un intento (valdrá 6 puntos). Puedes pedir una pista.`;
+ save();draw()}
+
+function cTx(q){const sel=(j)=>`<select ${S.txd?'disabled':''} aria-label="${RB[j][0]}" onchange="S.rb[${j}]=+this.value;save()"><option value=0>—</option>${[1,2,3,4].map(k=>`<option value=${k} ${S.rb[j]==k?'selected':''}>${k}</option>`).join('')}</select>`;
+ return `<section class="card ${S.txd?'ok':''}"><div class=meta><span>Actividad 18 · ${q.c}</span><span>${S.txd?f1(pts(q))+' / 10':'Autoevaluada con rúbrica'}</span></div>
+ <p>Diario del chef: explica a un compañero cómo repartir ${fr(T4.p+'/'+T4.q)} de un fondo de pescado entre ${T4.n} platos y cómo compruebas que tu resultado es correcto (mínimo 25 palabras).</p>
+ <textarea id=tx ${S.txd?'disabled':''} oninput="S.tx=this.value;save()" placeholder="Escribe aquí tu explicación...">${S.tx}</textarea>
+ <p class=st>Autoevalúate (1 = mejorable, 4 = excelente):</p><table>${RB.map((r,j)=>`<tr><td>${r[0]}<br><small class=st>1: ${r[1]} · 4: ${r[4]}</small></td><td>${sel(j)}</td></tr>`).join('')}</table>
+ <div class=row>${S.txd?'<button onclick="S.txd=0;save();draw()">Editar</button>':'<button class=pr onclick="saveTx()">Guardar explicación</button>'}</div>${S.txm?`<div class=fb>${S.txm}</div>`:''}</section>`}
+function saveTx(){S.tx=$('#tx').value;if(wc(S.tx)<25){S.txm=`Tu explicación tiene ${wc(S.tx)} palabras; escribe al menos 25.`;return draw()}
+ if(S.rb.some(x=>!x)){S.txm='Completa los cuatro criterios de la rúbrica.';return draw()}S.txd=1;S.txm=`Explicación guardada. Resultado esperado: ${T4.p}/${T4.q} ÷ ${T4.n} = ${T4.p}/${T4.q*T4.n} = ${T4.r[0]}/${T4.r[1]} de fondo por plato; se comprueba con ${T4.n} · ${T4.r[0]}/${T4.r[1]} = ${T4.p}/${T4.q}.`;save();draw()}
+function cLk(q){return `<section class="card"><div class=meta><span>Actividad 19 · ${q.c}</span><span>No puntúa en la nota</span></div><p>Autoevaluación de actitud y esfuerzo (1 = nada, 5 = totalmente):</p>
+ ${LK.map((t,j)=>`<div class=lk><span>${t}</span><select aria-label="${t}" onchange="S.lk[${j}]=+this.value;save();draw()"><option value=0>—</option>${[1,2,3,4,5].map(k=>`<option ${S.lk[j]==k?'selected':''}>${k}</option>`).join('')}</select></div>`).join('')}</section>`}
+
+let RQ=0;
+function rst(){if(!RQ){RQ=1;draw();setTimeout(()=>{if(RQ){RQ=0;draw()}},5000);return}RQ=0;try{localStorage.removeItem(K)}catch(e){}S={u:null,a:{},tx:'',rb:[0,0,0,0],txd:0,lk:[0,0,0,0,0],th:S.th,st:1};mk();draw();scrollTo(0,0)}
+function draw(){const y=scrollY;
+ if(!S.u){$('#app').innerHTML=`<main class=reg><div class=card><h1>Sda. Fracciones - ALTA COCINA - 3º ESO</h1>${ORN}<p class=st>Recetas y logística en un restaurante de alta cocina · Fracciones y números racionales · 3.º ESO</p>
+ <form onsubmit="event.preventDefault();S.u={n:rn.value.trim(),a:ra.value.trim(),c:rc.value.trim()};save();draw()"><label for=rn>Nombre</label><input id=rn type=text required><label for=ra>Apellidos</label><input id=ra type=text required><label for=rc>Curso</label><input id=rc type=text required placeholder="3.º ESO B"><div class=row><button class=pr>Abrir cocina</button></div></form></div></main>`;return}
+ const L=A.filter(q=>q.s==S.st);
+ $('#app').innerHTML=head()+`<main>${HERO(S.st)}${ORN}<div class=intro><h2>Etapa ${S.st}: ${ST[S.st-1]}</h2>${['Eres jefe/a de partida del restaurante Aurora. Interpreta, representa y compara las fracciones de ingredientes y raciones.','Domina los fogones: fracciones equivalentes, sumas y restas con fondos, salsas y masas.','Dirige el servicio: productos, divisiones, operaciones combinadas y problemas de sala y bodega.','Escribe tu diario del chef y valora tu esfuerzo.'][S.st-1]}<br><small>1.er intento correcto: 10 puntos · 2.º intento: 6 puntos. Las pistas no restan.</small></div>
+ ${L.map(q=>card(q,A.indexOf(q)+1)).join('')}${S.st==4?'<section class=card><h2>Panel de cocina: resultado por criterio</h2>'+CH()+'</section>':''}<div class=row><button ${S.st==1?'disabled':''} onclick="S.st--;save();draw();scrollTo(0,0)">← Etapa anterior</button><button ${S.st==4?'disabled':''} onclick="S.st++;save();draw();scrollTo(0,0)">Etapa siguiente →</button><button onclick="rst()">${RQ?'¿Seguro? Pulsa otra vez para borrar todo':'Reiniciar'}</button></div></main>`;scrollTo(0,y)}
+
+async function pdf(){if(!window.jspdf){alert('No se pudo cargar jsPDF (se necesita conexión la primera vez). Revisa tu conexión y vuelve a pulsar el botón.');return}
+const d=new jspdf.jsPDF(),W=210,NV=[26,18,14],CY=[138,90,18],BC=[212,175,106],OR=[181,72,93],MR=[142,42,63],GR=[240,232,216];
+const F=c=>d.setFillColor(...c),C=c=>d.setTextColor(...c),Tx=(t,x,y,s,b,col,o)=>{d.setFont('helvetica',b?'bold':'normal');d.setFontSize(s);C(col||[20,28,50]);d.text(String(t),x,y,o)};
+let y=104;
+F(NV);d.rect(0,0,W,60,'F');F(BC);d.rect(0,58,W,2,'F');[100,130,160].forEach(x=>{d.setDrawColor(...BC);d.setLineWidth(.3);d.line(x,0,x,9);F(BC);d.triangle(x-6,18,x+6,18,x,9,'F')});F([207,214,228]);d.ellipse(170,46,17,15,'F');F(NV);d.rect(150,46,40,12,'F');F(BC);d.roundedRect(148,46,44,2.4,1,1,'F');d.circle(170,29,2,'F');
+Tx('Sda. Fracciones - ALTA COCINA - 3º ESO',14,22,14.5,1,[255,255,255]);Tx('Diario del chef - Fracciones y números racionales',14,31,11,0,BC);Tx('Matemáticas 3.º ESO - Criterios: Programación didáctica Dpto. Matemáticas 2026-27',14,38,8,0,[200,210,240]);
+d.setDrawColor(...BC);d.setLineWidth(.6);F([245,248,255]);d.roundedRect(14,66,182,28,3,3,'FD');
+Tx('COCINERO/A',20,73,7,1,[100,110,140]);Tx(`${S.u.n} ${S.u.a}`,20,81,14,1);Tx(`Curso: ${S.u.c}      Fecha: ${new Date().toLocaleDateString('es-ES')}      Ficha: ${S.sd%10000}`,20,89,9);
+F(nota()>=5?[0,150,120]:MR);d.circle(177,80,12,'F');Tx(f1(nota()),177,82,16,1,[255,255,255],{align:'center'});Tx('sobre 10',177,88,6.5,0,[255,255,255],{align:'center'});
+const ensure=h=>{if(y+h>280){d.addPage();F(NV);d.rect(0,0,W,10,'F');Tx('ALTA COCINA - Diario del chef',14,6.5,8,1,BC);F(MR);d.circle(200,5,2.5,'F');y=22}};
+const H=t=>{ensure(14);F(MR);d.circle(17,y-1.5,1.8,'F');F(OR);d.circle(21,y-1.5,.9,'F');Tx(t,26,y,12,1,NV);d.setDrawColor(200,208,228);d.setLineWidth(.3);d.line(14,y+2,196,y+2);y+=9};
+H('Resultados por criterio de evaluación (LOMLOE)');const cr=crit();
+Object.keys(CR).forEach(k=>{const ls=d.splitTextToSize(CR[k],92),h=Math.max(8,ls.length*3.6+3),at=k=='MAT.3.9.2',v=at?S.lk.reduce((a,b)=>a+b,0)/5*2:cr[k]||0;ensure(h);Tx(k,14,y,9,1,CY);d.setFont('helvetica','normal');d.setFontSize(8);C([60,70,100]);d.text(ls,40,y);F(GR);d.roundedRect(138,y-3,42,3.6,1.8,1.8,'F');if(v>0){F(at?OR:BC);d.roundedRect(138,y-3,Math.max(3.6,42*v/10),3.6,1.8,1.8,'F')}Tx(at?f1(v/2)+'/5':f1(v),184,y,9,1);y+=h});y+=4;
+H('Detalle de actividades');F(NV);d.rect(14,y-4,182,6,'F');[['N.º',17],['Criterio',27],['Etapa',52],['Intentos',135],['Puntos',172]].forEach(c=>Tx(c[0],c[1],y,8,1,[255,255,255]));y+=6;
+A.forEach((q,i)=>{if(q.t=='lk')return;ensure(7);if(i%2==0){F([240,244,252]);d.rect(14,y-4.2,182,6,'F')}const r=R(q.id),p=pts(q),ok=done(q);F(!ok?[170,175,190]:p>=10?[0,170,120]:p>=6?BC:MR);d.circle(17,y-1.3,1.5,'F');Tx(i+1,21,y,8.5);Tx(q.c,27,y,8.5);Tx(ST[q.s-1]+(q.t=='tx'?' (redacción)':''),52,y,8.5);Tx(q.t=='tx'||!ok?'-':r.n,140,y,8.5);Tx(ok?f1(p):'sin hacer',172,y,8.5);y+=6});
+y+=1;Tx('Verde: 10 puntos (1.er intento) - Azul: 6 (2.º intento) - Rojo: 0 - Gris: sin hacer',14,y,7.5,0,[100,110,140]);y+=10;
+H('Diario del chef: respuesta redactada (Etapa 4)');d.splitTextToSize(S.tx||'(sin respuesta)',172).forEach(l=>{ensure(5);F(OR);d.rect(14,y-3.5,1,5,'F');Tx(l,18,y,9.5,0,[30,36,60]);y+=5});
+if(S.txd){ensure(8);y+=2;Tx('Rúbrica (1-4): '+RB.map((r,j)=>r[0]+' '+S.rb[j]).join('   '),14,y,8.5,1,CY);y+=8}y+=4;
+H('Autoevaluación de actitud y esfuerzo (1-5)');LK.forEach((t,j)=>{ensure(7);Tx(t,14,y,8.5);for(let k=0;k<5;k++){F(k<S.lk[j]?OR:GR);d.circle(158+k*7,y-1.3,2.4,'F')}y+=7});
+ensure(32);y+=8;F(NV);d.roundedRect(14,y,182,22,3,3,'F');Tx(nota()>=5?'¡Servicio impecable, chef!':'Servicio en marcha: ¡sigue practicando!',24,y+10,13,1,[255,255,255]);Tx('Revisa las explicaciones de las actividades para mejorar tu próximo servicio.',24,y+16,8,0,BC);
+F([207,214,228]);d.ellipse(180,y+12,10,8,'F');F(NV);d.rect(168,y+12,24,6,'F');F(BC);d.rect(168,y+13,24,1.6,'F');d.circle(180,y+4,1.4,'F');
+const N=d.getNumberOfPages();for(let i=1;i<=N;i++){d.setPage(i);d.setDrawColor(200,208,228);d.setLineWidth(.3);d.line(14,288,196,288);Tx(`${S.u.n} ${S.u.a} - Alta cocina`,14,293,8,0,[100,110,140]);Tx(`Página ${i} de ${N}`,196,293,8,0,[100,110,140],{align:'right'});F(MR);d.circle(105,291.5,1.3,'F')}
+const fn=`informe-cocina-fracciones-${S.u.a}-${S.u.n}.pdf`.replace(/\s+/g,'_');
+try{const dl=window.claude&&await claude.use('downloads');if(dl){await dl.save({filename:fn,data:d.output('blob')})}else d.save(fn)}catch(e){if(!e||e.code!='declined')alert('No se pudo guardar el PDF. Inténtalo de nuevo.')}}
+
+mk();draw();
+</script></body></html>
