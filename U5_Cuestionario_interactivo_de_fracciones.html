@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-[#f0f7ff]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuestionario Interactivo de Fracciones - Matemáticas</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- html2pdf.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              dark: '#0a2540',
+              royal: '#1a56db',
+              sky: '#2563eb',
+              light: '#f0f7ff',
+              accent: '#00d4b2'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilos de Impresión Nativa (window.print) */
+    @media print {
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      body { background: white !important; color: black !important; font-size: 10pt; }
+      .pdf-page-break { page-break-inside: avoid; }
+      .pdf-card-shadow { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+    }
+
+    /* Formateador Tipográfico de Fracciones Matematicas */
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      font-size: 0.95em;
+      line-height: 1.05;
+      margin: 0 3px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+    }
+    .frac .num {
+      border-bottom: 2px solid currentColor;
+      padding: 0 4px 1px 4px;
+    }
+    .frac .den {
+      padding: 1px 4px 0 4px;
+    }
+
+    /* Borde Decorativo Azul para el Informe PDF */
+    .pdf-frame-blue {
+      border: 3px solid #1a56db;
+      border-radius: 20px;
+      position: relative;
+      background: #ffffff;
+    }
+    .pdf-frame-blue::before {
+      content: '';
+      position: absolute;
+      top: 5px; left: 5px; right: 5px; bottom: 5px;
+      border: 1.5px dashed #93c5fd;
+      border-radius: 15px;
+      pointer-events: none;
+    }
+
+    /* Fondo Decorativo de Cuadrícula Matemática */
+    .bg-math-grid {
+      background-color: #f0f7ff;
+      background-image: radial-gradient(#1a56db 0.8px, transparent 0.8px), radial-gradient(#1a56db 0.8px, #f0f7ff 0.8px);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+    }
+
+    /* Animación Suave de Transición */
+    .fade-in {
+      animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #e0f2fe; }
+    ::-webkit-scrollbar-thumb { background: #1a56db; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0a2540; }
+  </style>
+</head>
+<body class="font-sans antialiased text-slate-800 bg-math-grid min-h-full flex flex-col justify-between selection:bg-blue-200">
+
+  <!-- CABECERA PRINCIPAL -->
+  <header class="bg-gradient-to-r from-[#0a2540] via-[#1a56db] to-[#0a2540] text-white shadow-xl no-print relative overflow-hidden border-b-4 border-blue-400">
+    <!-- Icono Decorativo SVG Transparente de Fondo -->
+    <div class="absolute right-0 top-0 bottom-0 opacity-10 pointer-events-none flex items-center pr-8">
+      <svg class="w-64 h-64 text-white" viewBox="0 0 200 200" fill="currentColor">
+        <text x="10" y="60" font-size="45" font-family="Outfit" font-weight="bold">¾</text>
+        <text x="80" y="140" font-size="55" font-family="Outfit" font-weight="bold">½</text>
+        <text x="130" y="70" font-size="40" font-family="Outfit" font-weight="bold">⅝</text>
+      </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between relative z-10">
+      <div class="flex items-center space-x-3.5">
+        <div class="p-3 bg-white/10 rounded-2xl border border-white/20 shadow-inner backdrop-blur-sm">
+          <svg class="w-8 h-8 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl md:text-2xl font-display font-black tracking-tight text-white flex items-center gap-2">
+            <span>FRACCIONES MATEMÁTICAS</span>
+            <span class="text-[10px] bg-cyan-400 text-slate-950 font-sans font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">Interactive Test</span>
+          </h1>
+          <p class="text-xs md:text-sm text-blue-100 font-medium">Concepto, Gráficos SVG, Equivalencias, Operaciones y Problemas Reales</p>
+        </div>
+      </div>
+      
+      <div class="hidden sm:flex items-center space-x-3">
+        <span class="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-semibold text-cyan-200 flex items-center gap-2 shadow-sm">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          40 Ejercicios Interactivos
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="max-w-7xl mx-auto px-4 py-6 md:py-8 flex-grow w-full">
+
+    <!-- ========================================== -->
+    <!-- 1. PANTALLA DE REGISTRO DEL ESTUDIANTE     -->
+    <!-- ========================================== -->
+    <section id="screen-login" class="fade-in max-w-2xl mx-auto my-4">
+      <div class="bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden">
+        <div class="bg-gradient-to-r from-[#0a2540] via-[#1a56db] to-[#0a2540] p-6 md:p-8 text-white text-center relative">
+          <div class="inline-flex p-3.5 bg-white/10 rounded-2xl mb-3 backdrop-blur-md border border-white/20">
+            <svg class="w-10 h-10 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C20.832 18.477 19.247 18 17.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-display font-black">Registro de Identificación</h2>
+          <p class="text-blue-100 text-sm mt-1">Completa tus datos para personalizar el cuestionario y tu informe final en PDF</p>
+        </div>
+
+        <form id="form-login" onsubmit="event.preventDefault(); startQuiz();" class="p-6 md:p-8 space-y-5">
+          
+          <div id="login-error-box" class="hidden p-4 bg-rose-50 border-l-4 border-rose-500 rounded-r-xl text-rose-800 text-sm flex items-center space-x-2">
+            <svg class="w-5 h-5 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Por favor, rellena todos los campos del formulario antes de continuar.</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="student-name" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Nombre <span class="text-rose-500">*</span></label>
+              <input type="text" id="student-name" placeholder="Ej. Alejandro" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#1a56db] focus:border-[#1a56db] outline-none transition text-slate-800 font-medium">
+            </div>
+
+            <div>
+              <label for="student-surname" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Apellidos <span class="text-rose-500">*</span></label>
+              <input type="text" id="student-surname" placeholder="Ej. Morales Cano" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#1a56db] focus:border-[#1a56db] outline-none transition text-slate-800 font-medium">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="student-course" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Curso / Grupo <span class="text-rose-500">*</span></label>
+              <input type="text" id="student-course" placeholder="Ej. 1º ESO - Grupo B" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#1a56db] focus:border-[#1a56db] outline-none transition text-slate-800 font-medium">
+            </div>
+
+            <div>
+              <label for="student-school" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Centro Educativo <span class="text-rose-500">*</span></label>
+              <input type="text" id="student-school" placeholder="Ej. IES Cervantes" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#1a56db] focus:border-[#1a56db] outline-none transition text-slate-800 font-medium">
+            </div>
+          </div>
+
+          <div class="p-4 bg-blue-50/80 rounded-2xl border border-blue-200 text-xs text-blue-950 space-y-1.5">
+            <span class="font-bold flex items-center gap-1.5 text-[#1a56db] text-sm font-display">
+              <svg class="w-4 h-4 text-[#1a56db]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              Garantías del Cuestionario:
+            </span>
+            <ul class="list-disc list-inside space-y-1 text-slate-600 pl-1">
+              <li><strong>Aleatorización Fisher-Yates:</strong> En cada inicio o reintento, las 4 opciones de cada pregunta cambian de orden aleatoriamente.</li>
+              <li><strong>Gráficos SVG:</strong> Barras, sectores circulares y rectas numéricas interactivas.</li>
+              <li><strong>Informe PDF Descargable:</strong> Exportable mediante html2pdf y vista de impresión nativa.</li>
+            </ul>
+          </div>
+
+          <button type="submit" class="w-full py-4 bg-[#1a56db] hover:bg-[#0a2540] active:scale-[0.99] text-white font-display font-extrabold rounded-2xl shadow-lg shadow-blue-600/25 transition duration-200 flex items-center justify-center space-x-2 text-lg">
+            <span>Comenzar Cuestionario</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. PANTALLA PRINCIPAL DEL CUESTIONARIO     -->
+    <!-- ========================================== -->
+    <section id="screen-quiz" class="hidden fade-in space-y-6">
+      
+      <!-- Barra Superior Fija con Datos y Progreso -->
+      <div class="sticky top-2 z-30 bg-white/95 backdrop-blur-md shadow-md rounded-2xl p-4 border border-blue-100 transition-all">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+          
+          <div class="flex items-center space-x-2 text-slate-700 font-semibold text-xs sm:text-sm">
+            <span class="bg-blue-100 text-[#1a56db] px-3 py-1 rounded-full border border-blue-200 flex items-center gap-1.5 font-bold">
+              <svg class="w-4 h-4 text-[#1a56db]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+              <span id="quiz-header-student">Alumno</span>
+            </span>
+            <span class="text-slate-300">•</span>
+            <span id="quiz-header-course" class="text-slate-600">Curso</span>
+            <span class="text-slate-300 hidden md:inline">•</span>
+            <span id="quiz-header-school" class="text-slate-500 font-normal hidden md:inline">Centro</span>
+          </div>
+
+          <div class="flex items-center space-x-3 text-xs font-bold">
+            <div class="bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 flex items-center space-x-1.5">
+              <svg class="w-4 h-4 text-[#1a56db]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Tiempo: <span id="quiz-timer" class="font-mono text-[#1a56db] text-sm font-black">00:00</span></span>
+            </div>
+
+            <div class="bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-200 text-[#1a56db]">
+              <span id="quiz-progress-text">0/40 (0%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Progreso Visual -->
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
+          <div id="quiz-progress-bar" class="bg-gradient-to-r from-blue-500 to-[#1a56db] h-full w-0 transition-all duration-300 rounded-full"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <!-- Panel Izquierdo: Rejilla de Navegación 1 a 40 -->
+        <div class="lg:col-span-1 bg-white p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 h-fit">
+          <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 font-display">Navegador (1-40)</h3>
+            <span class="text-xs font-extrabold text-[#1a56db]" id="quiz-answered-count">0/40</span>
+          </div>
+
+          <div id="quiz-nav-grid" class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-5 gap-1.5">
+            <!-- Botones generados dinámicamente -->
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap gap-2 text-[10px] font-medium text-slate-500">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-[#1a56db]"></span> Respondida</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-slate-100 border border-slate-300"></span> Pendiente</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded ring-2 ring-[#1a56db] bg-white"></span> Actual</span>
+          </div>
+        </div>
+
+        <!-- Panel Derecho: Tarjeta de la Pregunta Activa -->
+        <div class="lg:col-span-3 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between min-h-[480px]">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+              <span id="question-category-badge" class="px-3 py-1 bg-blue-100 text-[#1a56db] rounded-full text-xs font-bold uppercase tracking-wide border border-blue-200 font-display">
+                Categoría
+              </span>
+              <span id="question-number-badge" class="text-xs font-bold text-slate-400">
+                Pregunta 1 de 40
+              </span>
+            </div>
+
+            <!-- Contenedor Ilustrativo SVG (para preguntas visuales) -->
+            <div id="question-svg-container" class="hidden my-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100 flex justify-center items-center overflow-x-auto">
+              <!-- SVG Renderizado Dinámicamente -->
+            </div>
+
+            <h2 id="question-text" class="text-lg md:text-xl font-bold text-slate-900 leading-snug mb-6">
+              Cargando enunciado...
+            </h2>
+
+            <!-- Opciones de Respuesta -->
+            <div id="options-container" class="space-y-3">
+              <!-- Opciones dinámicas -->
+            </div>
+          </div>
+
+          <!-- Botones de Navegación -->
+          <div class="pt-6 mt-8 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+            <button id="btn-prev" onclick="navigateQuestion(-1)" class="px-5 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-50 font-bold text-slate-700 text-sm transition disabled:opacity-40 disabled:cursor-not-allowed">
+              ← Anterior
+            </button>
+
+            <button id="btn-next" onclick="navigateQuestion(1)" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm transition">
+              Siguiente →
+            </button>
+
+            <button id="btn-finish" onclick="promptFinishQuiz()" class="px-6 py-2.5 rounded-xl bg-[#1a56db] hover:bg-[#0a2540] text-white font-display font-black text-sm shadow-md shadow-blue-600/20 transition">
+              Finalizar y Ver Resultados
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. PANTALLA DE RESULTADOS E INFORME PDF    -->
+    <!-- ========================================== -->
+    <section id="screen-results" class="hidden fade-in space-y-8">
+      
+      <!-- Barra Superior de Acciones Directas -->
+      <div class="no-print bg-white p-5 rounded-3xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-display font-black text-slate-900">Cuestionario Finalizado</h2>
+          <p class="text-xs text-slate-500">Revisa tu rendimiento, descarga el informe oficial en PDF o envíalo a Google Classroom.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button onclick="downloadPDFReport()" class="bg-[#1a56db] hover:bg-[#0a2540] text-white font-display font-extrabold px-5 py-3 rounded-2xl shadow-lg transition flex items-center space-x-2 text-sm">
+            <svg class="w-5 h-5 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span>Descargar PDF (html2pdf)</span>
+          </button>
+
+          <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-extrabold px-4 py-3 rounded-2xl shadow-lg transition flex items-center space-x-2 text-sm">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            <span>Imprimir / Guardar PDF (Nativo)</span>
+          </button>
+
+          <button onclick="openClassroomModal()" class="bg-amber-600 hover:bg-amber-700 text-white font-display font-extrabold px-4 py-3 rounded-2xl shadow-lg transition flex items-center space-x-2 text-sm">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            <span>Google Classroom</span>
+          </button>
+
+          <button onclick="restartQuiz()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-4 py-3 rounded-2xl transition flex items-center space-x-1.5 text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            <span>Nuevo Intento</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TARJETA DEL INFORME (DISEÑADA PARA PANTALLA E IMPRESIÓN PDF) -->
+      <div id="reporte-pdf-container" class="pdf-frame-blue p-6 md:p-10 shadow-sm space-y-8 pdf-card-shadow">
+        
+        <!-- Encabezado del Informe -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b-2 border-blue-200 pb-6 gap-4">
+          <div class="space-y-1">
+            <div class="inline-flex items-center space-x-2 text-xs font-black text-[#1a56db] uppercase tracking-widest bg-blue-100 px-3 py-1 rounded-md font-display">
+              <span>Informe Oficial de Evaluación</span>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-display font-black text-slate-900">FRACCIONES Y SUS OPERACIONES</h1>
+            <p class="text-xs text-slate-500 font-medium">Comprobante Digital de Calificación y Resolución Paso a Paso</p>
+          </div>
+
+          <!-- Sello Digital SVG de Validación -->
+          <div class="flex items-center space-x-3 bg-blue-50 p-3 rounded-2xl border border-blue-200">
+            <svg class="w-12 h-12 text-[#1a56db] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+            </svg>
+            <div class="text-[11px] text-slate-900 leading-tight">
+              <span class="font-bold block uppercase font-display text-[#1a56db]">Validación Matemática</span>
+              <span id="res-date">--/--/----</span><br>
+              <span id="res-time-elapsed">Tiempo: 00:00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ficha Alumno + Puntuación -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+          
+          <div class="md:col-span-2 bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+            <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider font-display">Identificación del Estudiante</h3>
+            <div class="grid grid-cols-2 gap-3 text-xs md:text-sm">
+              <div>
+                <span class="text-slate-400 block text-[11px]">Alumno/a:</span>
+                <span id="res-student-fullname" class="font-bold text-slate-800">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[11px]">Curso / Grupo:</span>
+                <span id="res-student-course" class="font-bold text-slate-800">--</span>
+              </div>
+              <div class="col-span-2">
+                <span class="text-slate-400 block text-[11px]">Centro Educativo:</span>
+                <span id="res-student-school" class="font-bold text-slate-800">--</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-br from-[#0a2540] via-[#1a56db] to-[#0a2540] text-white p-6 rounded-2xl text-center shadow-lg border border-blue-400">
+            <span class="text-xs font-bold uppercase tracking-widest text-cyan-200 font-display">Calificación Obtendida</span>
+            <div id="res-score-number" class="text-4xl md:text-5xl font-display font-black my-1">0 / 40</div>
+            <div id="res-score-percentage" class="text-sm font-semibold text-blue-100">0% de aciertos</div>
+            <div id="res-badge" class="mt-3 inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-white/20 text-white backdrop-blur font-display">
+              -
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Filtros de Revisión de Preguntas (Ocultos en Impresión PDF) -->
+        <div class="no-print pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <h3 class="font-display font-extrabold text-slate-800 text-base">Revisión Detallada de Ejercicios</h3>
+          <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-bold space-x-1">
+            <button onclick="filterReview('all')" id="filter-btn-all" class="px-3 py-1.5 rounded-lg bg-[#1a56db] text-white shadow-sm">Todas (40)</button>
+            <button onclick="filterReview('correct')" id="filter-btn-correct" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Correctas</button>
+            <button onclick="filterReview('incorrect')" id="filter-btn-incorrect" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Incorrectas / Blanco</button>
+          </div>
+        </div>
+
+        <!-- Lista Desglosada de Preguntas -->
+        <div id="review-list-container" class="space-y-4 pt-2">
+          <!-- Renderizado dinámico -->
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL DOM 1: PREGUNTAS PENDIENTES -->
+  <div id="modal-unanswered" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden fade-in no-print">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center space-x-3 text-amber-600">
+        <div class="p-3 bg-amber-100 rounded-2xl">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-display font-bold text-slate-900">Ejercicios sin Responder</h3>
+          <p class="text-xs text-slate-500">Revisión previa a la entrega</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-slate-700">
+        Aún tienes <strong id="modal-unanswered-count" class="text-amber-700 font-bold">X</strong> preguntas pendientes.
+      </p>
+
+      <div id="modal-unanswered-list" class="p-3 bg-slate-100 rounded-xl text-xs font-mono text-slate-700 max-h-24 overflow-y-auto">
+        <!-- Lista de números pendientes -->
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-2 pt-2">
+        <button onclick="closeUnansweredModal(); jumpToFirstUnanswered();" class="w-full bg-[#1a56db] hover:bg-[#0a2540] text-white font-bold py-2.5 px-4 rounded-xl text-xs transition">
+          Volver a Responder
+        </button>
+        <button onclick="closeUnansweredModal(); processQuizSubmit();" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2.5 px-4 rounded-xl text-xs transition">
+          Entregar De Todos Modos
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DOM 2: GOOGLE CLASSROOM -->
+  <div id="modal-classroom" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden fade-in no-print">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2 text-amber-600 font-bold">
+          <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          <h3 class="text-lg font-display font-black text-slate-900">Entrega en Google Classroom</h3>
+        </div>
+        <button onclick="closeClassroomModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-700 leading-relaxed">
+        <p class="font-semibold text-slate-800">Pasos para adjuntar la tarea a la clase:</p>
+        
+        <ol class="list-decimal list-inside space-y-2 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <li>Descarga tu informe PDF pulsando en <strong>"Descargar PDF"</strong> o <strong>"Imprimir / Guardar PDF"</strong>.</li>
+          <li>Copia el resumen de tu calificación mediante el botón de abajo.</li>
+          <li>Abre tu tarea correspondiente en <strong>Google Classroom</strong>.</li>
+          <li>Adjunta el archivo <strong>.PDF descargado</strong>.</li>
+          <li>Pega el texto copiado en <strong>"Comentario Privado"</strong> y pulsa en Entregar.</li>
+        </ol>
+
+        <div class="p-3 bg-blue-50/80 rounded-xl border border-blue-200 font-mono text-[11px] text-[#0a2540]" id="classroom-summary-preview">
+          <!-- Vista previa del resumen -->
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-2 pt-2">
+        <button onclick="copyClassroomSummary()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition flex items-center justify-center space-x-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+          <span id="copy-btn-text">Copiar Resumen</span>
+        </button>
+        <button onclick="closeClassroomModal()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2.5 px-4 rounded-xl text-xs transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="bg-[#0a2540] text-blue-200 py-6 border-t border-blue-900 text-center text-xs no-print mt-12">
+    <div class="max-w-7xl mx-auto px-4 space-y-1">
+      <p class="font-bold text-white font-display">Cuestionario Interactivo de Fracciones y Operaciones Combinadas</p>
+      <p class="text-blue-300">Recurso Educativo de Matemáticas • Compatible con Google Classroom y Descarga PDF</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT CON TODA LA LÓGICA Y BANCO DE 40 PREGUNTAS -->
+  <script>
+    /* ==========================================================================
+       1. GENERADOR FORMATO MATEMÁTICO HTML Y SVG REPRESENTATIVOS
+       ========================================================================== */
+    function makeFrac(num, den) {
+      return `<span class="frac"><span class="num">${num}</span><span class="den">${den}</span></span>`;
+    }
+
+    // SVGs para Preguntas 6 a 11
+    const SVG_Q6_BARRA = `
+      <svg class="w-full max-w-sm h-20" viewBox="0 0 320 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="300" height="40" rx="8" fill="#e0f0fe" stroke="#1a56db" stroke-width="3"/>
+        <rect x="10" y="10" width="37.5" height="40" fill="#1a56db"/>
+        <rect x="47.5" y="10" width="37.5" height="40" fill="#1a56db"/>
+        <rect x="85" y="10" width="37.5" height="40" fill="#1a56db"/>
+        <rect x="122.5" y="10" width="37.5" height="40" fill="#1a56db"/>
+        <rect x="160" y="10" width="37.5" height="40" fill="#1a56db"/>
+        <line x1="47.5" y1="10" x2="47.5" y2="50" stroke="#ffffff" stroke-width="2"/>
+        <line x1="85" y1="10" x2="85" y2="50" stroke="#ffffff" stroke-width="2"/>
+        <line x1="122.5" y1="10" x2="122.5" y2="50" stroke="#ffffff" stroke-width="2"/>
+        <line x1="160" y1="10" x2="160" y2="50" stroke="#ffffff" stroke-width="2"/>
+        <line x1="197.5" y1="10" x2="197.5" y2="50" stroke="#1a56db" stroke-width="2"/>
+        <line x1="235" y1="10" x2="235" y2="50" stroke="#1a56db" stroke-width="2"/>
+        <line x1="272.5" y1="10" x2="272.5" y2="50" stroke="#1a56db" stroke-width="2"/>
+      </svg>`;
+
+    const SVG_Q7_CIRCULO = `
+      <svg class="w-36 h-36" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="50" fill="#e0f0fe" stroke="#1a56db" stroke-width="3"/>
+        <path d="M 60 60 L 60 10 A 50 50 0 1 1 16.69 85 Z" fill="#1a56db"/>
+        <line x1="60" y1="60" x2="60" y2="10" stroke="#ffffff" stroke-width="2"/>
+        <line x1="60" y1="60" x2="103.3" y2="35" stroke="#ffffff" stroke-width="2"/>
+        <line x1="60" y1="60" x2="103.3" y2="85" stroke="#ffffff" stroke-width="2"/>
+        <line x1="60" y1="60" x2="60" y2="110" stroke="#ffffff" stroke-width="2"/>
+        <line x1="60" y1="60" x2="16.7" y2="85" stroke="#1a56db" stroke-width="2"/>
+        <line x1="60" y1="60" x2="16.7" y2="35" stroke="#1a56db" stroke-width="2"/>
+      </svg>`;
+
+    const SVG_Q8_RECTA = `
+      <svg class="w-full max-w-sm h-20" viewBox="0 0 320 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="30" x2="290" y2="30" stroke="#1a56db" stroke-width="3"/>
+        <line x1="30" y1="20" x2="30" y2="40" stroke="#1a56db" stroke-width="3"/>
+        <text x="30" y="55" font-size="12" font-weight="bold" fill="#0a2540" text-anchor="middle">0</text>
+        <line x1="95" y1="23" x2="95" y2="37" stroke="#1a56db" stroke-width="2"/>
+        <line x1="160" y1="23" x2="160" y2="37" stroke="#1a56db" stroke-width="2"/>
+        <line x1="225" y1="20" x2="225" y2="40" stroke="#1a56db" stroke-width="3"/>
+        <line x1="290" y1="20" x2="290" y2="40" stroke="#1a56db" stroke-width="3"/>
+        <text x="290" y="55" font-size="12" font-weight="bold" fill="#0a2540" text-anchor="middle">1</text>
+        <circle cx="225" cy="30" r="7" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+        <text x="225" y="15" font-size="13" font-weight="black" fill="#b91c1c" text-anchor="middle">P</text>
+      </svg>`;
+
+    const SVG_Q9_DOBLE_BARRA = `
+      <svg class="w-full max-w-sm h-24" viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="90" height="25" rx="4" fill="#1a56db" stroke="#0a2540" stroke-width="2"/>
+        <rect x="110" y="10" width="90" height="25" rx="4" fill="#1a56db" stroke="#0a2540" stroke-width="2"/>
+        <rect x="210" y="10" width="90" height="25" rx="4" fill="#e0f0fe" stroke="#0a2540" stroke-width="2"/>
+        <rect x="210" y="10" width="30" height="25" fill="#1a56db"/>
+        <line x1="240" y1="10" x2="240" y2="35" stroke="#0a2540" stroke-width="2"/>
+        <line x1="270" y1="10" x2="270" y2="35" stroke="#0a2540" stroke-width="2"/>
+        <text x="55" y="55" font-size="11" font-weight="bold" fill="#0a2540" text-anchor="middle">1 entero</text>
+        <text x="155" y="55" font-size="11" font-weight="bold" fill="#0a2540" text-anchor="middle">1 entero</text>
+        <text x="255" y="55" font-size="11" font-weight="bold" fill="#0a2540" text-anchor="middle">⅓ parte</text>
+      </svg>`;
+
+    const SVG_Q10_PENTA = `
+      <svg class="w-36 h-36" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="50" fill="#e0f0fe" stroke="#1a56db" stroke-width="3"/>
+        <path d="M 60 60 L 60 10 A 50 50 0 1 1 21.8 89.4 Z" fill="#2563eb"/>
+        <line x1="60" y1="60" x2="60" y2="10" stroke="#ffffff" stroke-width="2"/>
+        <line x1="60" y1="60" x2="107.5" y2="44.5" stroke="#ffffff" stroke-width="2"/>
+        <line x1="60" y1="60" x2="89.4" y2="100.5" stroke="#ffffff" stroke-width="2"/>
+        <line x1="60" y1="60" x2="30.6" y2="100.5" stroke="#1a56db" stroke-width="2"/>
+        <line x1="60" y1="60" x2="12.5" y2="44.5" stroke="#1a56db" stroke-width="2"/>
+      </svg>`;
+
+    const SVG_Q11_RECTA_MAYOR = `
+      <svg class="w-full max-w-sm h-20" viewBox="0 0 320 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="30" x2="300" y2="30" stroke="#1a56db" stroke-width="3"/>
+        <line x1="20" y1="18" x2="20" y2="42" stroke="#1a56db" stroke-width="3"/>
+        <text x="20" y="55" font-size="12" font-weight="bold" fill="#0a2540" text-anchor="middle">0</text>
+        <line x1="160" y1="18" x2="160" y2="42" stroke="#1a56db" stroke-width="3"/>
+        <text x="160" y="55" font-size="12" font-weight="bold" fill="#0a2540" text-anchor="middle">1</text>
+        <line x1="300" y1="18" x2="300" y2="42" stroke="#1a56db" stroke-width="3"/>
+        <text x="300" y="55" font-size="12" font-weight="bold" fill="#0a2540" text-anchor="middle">2</text>
+        <line x1="55" y1="24" x2="55" y2="36" stroke="#1a56db" stroke-width="1.5"/>
+        <line x1="90" y1="24" x2="90" y2="36" stroke="#1a56db" stroke-width="1.5"/>
+        <line x1="125" y1="24" x2="125" y2="36" stroke="#1a56db" stroke-width="1.5"/>
+        <line x1="195" y1="24" x2="195" y2="36" stroke="#1a56db" stroke-width="1.5"/>
+        <line x1="230" y1="24" x2="230" y2="36" stroke="#1a56db" stroke-width="1.5"/>
+        <line x1="265" y1="24" x2="265" y2="36" stroke="#1a56db" stroke-width="1.5"/>
+        <circle cx="195" cy="30" r="7" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+        <text x="195" y="15" font-size="13" font-weight="black" fill="#b91c1c" text-anchor="middle">K</text>
+      </svg>`;
+
+
+    /* ==========================================================================
+       2. BANCO DE DATOS DE 40 PREGUNTAS SOBRE FRACCIONES
+       ========================================================================== */
+    const PREGUNTAS_BASE = [
+      // CATEGORÍA 1: CONCEPTO DE FRACCIÓN (Q1 - Q5)
+      {
+        id: 1,
+        category: "Concepto de Fracción",
+        q: "¿Qué representa el denominador en una fracción?",
+        svg: null,
+        options: [
+          { text: "El número total de partes iguales en que se divide la unidad.", isCorrect: true },
+          { text: "El número de partes que se toman o consideran de la unidad.", isCorrect: false },
+          { text: "El resultado de multiplicar la fracción por un número entero.", isCorrect: false },
+          { text: "La diferencia entre la unidad y el numerador.", isCorrect: false }
+        ],
+        exp: "El denominador (situado debajo de la raya fraccionaria) indica el número total de partes iguales en que se divide la unidad o el todo."
+      },
+      {
+        id: 2,
+        category: "Concepto de Fracción",
+        q: `¿Cómo se clasifica la fracción ${makeFrac(7, 4)} y cuál es su expresión en número mixto?`,
+        svg: null,
+        options: [
+          { text: `Es una fracción impropia y equivale a 1 ${makeFrac(3, 4)}.`, isCorrect: true },
+          { text: `Es una fracción propia y equivale a 2 ${makeFrac(1, 4)}.`, isCorrect: false },
+          { text: `Es una fracción unidad y equivale a 1 ${makeFrac(1, 4)}.`, isCorrect: false },
+          { text: `Es una fracción decimal y equivale a 0,74.`, isCorrect: false }
+        ],
+        exp: `Una fracción es impropia cuando el numerador es mayor que el denominador. Dividiendo 7 entre 4 obtenemos cociente 1 y resto 3, luego equivale al número mixto 1 ${makeFrac(3, 4)}.`
+      },
+      {
+        id: 3,
+        category: "Concepto de Fracción",
+        q: `Calcula los ${makeFrac(3, 5)} de una cantidad total de 120 euros.`,
+        svg: null,
+        options: [
+          { text: "72 euros", isCorrect: true },
+          { text: "24 euros", isCorrect: false },
+          { text: "40 euros", isCorrect: false },
+          { text: "96 euros", isCorrect: false }
+        ],
+        exp: `Para calcular los ${makeFrac(3, 5)} de 120: se divide 120 entre el denominador 5 (120 ÷ 5 = 24) y se multiplica por el numerador 3 (24 × 3 = 72 euros).`
+      },
+      {
+        id: 4,
+        category: "Concepto de Fracción",
+        q: "¿Cuál de las siguientes afirmaciones describe mejor a una fracción unitaria?",
+        svg: null,
+        options: [
+          { text: "Es aquella cuyo numerador es exactamente igual a 1.", isCorrect: true },
+          { text: "Es aquella cuyo denominador es mayor que 10.", isCorrect: false },
+          { text: "Es aquella donde el numerador y denominador son iguales a cero.", isCorrect: false },
+          { text: "Es el resultado de restar dos fracciones iguales.", isCorrect: false }
+        ],
+        exp: `Una fracción unitaria representa una sola de las partes iguales en que se divide la unidad, por lo que su numerador es siempre 1 (ej. ${makeFrac(1, 2)}, ${makeFrac(1, 8)}).`
+      },
+      {
+        id: 5,
+        category: "Concepto de Fracción",
+        q: `Expresa el número mixto 3 ${makeFrac(2, 5)} en forma de una única fracción impropia.`,
+        svg: null,
+        options: [
+          { text: makeFrac(17, 5), isCorrect: true },
+          { text: makeFrac(11, 5), isCorrect: false },
+          { text: makeFrac(15, 2), isCorrect: false },
+          { text: makeFrac(6, 5), isCorrect: false }
+        ],
+        exp: `Para convertir el número mixto 3 ${makeFrac(2, 5)}: se multiplica la parte entera por el denominador y se suma el numerador: (3 × 5) + 2 = 17. Se conserva el denominador 5: ${makeFrac(17, 5)}.`
+      },
+
+      // CATEGORÍA 2: REPRESENTACIÓN GRÁFICA SVG (Q6 - Q11)
+      {
+        id: 6,
+        category: "Representación Gráfica",
+        q: "¿Qué fracción representa la parte coloreada de azul en la siguiente barra rectangular dividida?",
+        svg: SVG_Q6_BARRA,
+        options: [
+          { text: makeFrac(5, 8), isCorrect: true },
+          { text: makeFrac(3, 8), isCorrect: false },
+          { text: makeFrac(5, 3), isCorrect: false },
+          { text: makeFrac(4, 8), isCorrect: false }
+        ],
+        exp: `La barra está dividida en 8 partes exactamente iguales (denominador = 8) y 5 de ellas están coloreadas de azul (numerador = 5). Corresponde a ${makeFrac(5, 8)}.`
+      },
+      {
+        id: 7,
+        category: "Representación Gráfica",
+        q: "¿Cuál es la fracción irreducible que corresponde al sector circular azul coloreado en la figura?",
+        svg: SVG_Q7_CIRCULO,
+        options: [
+          { text: makeFrac(2, 3), isCorrect: true },
+          { text: makeFrac(4, 6), isCorrect: false },
+          { text: makeFrac(3, 4), isCorrect: false },
+          { text: makeFrac(1, 3), isCorrect: false }
+        ],
+        exp: `El círculo contiene 6 sectores de los cuales 4 están coloreados de azul (${makeFrac(4, 6)}). Simplificando dividiendo numerador y denominador entre 2 se obtiene la fracción irreducible ${makeFrac(2, 3)}.`
+      },
+      {
+        id: 8,
+        category: "Representación Gráfica",
+        q: "¿Qué fracción indica la posición del punto rojo 'P' representado en la recta numérica graduada entre 0 y 1?",
+        svg: SVG_Q8_RECTA,
+        options: [
+          { text: makeFrac(3, 4), isCorrect: true },
+          { text: makeFrac(1, 4), isCorrect: false },
+          { text: makeFrac(2, 3), isCorrect: false },
+          { text: makeFrac(4, 3), isCorrect: false }
+        ],
+        exp: `El segmento de 0 a 1 está dividido en 4 partes de igual tamaño (cuartos). El punto P se ubica en la tercera marca a la derecha del 0, luego representa ${makeFrac(3, 4)}.`
+      },
+      {
+        id: 9,
+        category: "Representación Gráfica",
+        q: "¿Qué fracción impropia queda representada por el total del gráfico con dos unidades completas y un tercio?",
+        svg: SVG_Q9_DOBLE_BARRA,
+        options: [
+          { text: makeFrac(7, 3), isCorrect: true },
+          { text: makeFrac(2, 3), isCorrect: false },
+          { text: makeFrac(5, 3), isCorrect: false },
+          { text: makeFrac(7, 9), isCorrect: false }
+        ],
+        exp: `Cada entero equivale a 3 tercios (${makeFrac(3, 3)}). Dos enteros completos suman 6 tercios (${makeFrac(6, 3)}), más 1 tercio de la última barra resulta en la fracción ${makeFrac(7, 3)}.`
+      },
+      {
+        id: 10,
+        category: "Representación Gráfica",
+        q: "¿Qué fracción del círculo se encuentra coloreada en el diagrama de sectores?",
+        svg: SVG_Q10_PENTA,
+        options: [
+          { text: makeFrac(3, 5), isCorrect: true },
+          { text: makeFrac(2, 5), isCorrect: false },
+          { text: makeFrac(3, 8), isCorrect: false },
+          { text: makeFrac(5, 3), isCorrect: false }
+        ],
+        exp: `El círculo está dividido en 5 sectores de 72° cada uno (denominador = 5), y 3 de ellos están pintados de azul (numerador = 3), lo que representa la fracción ${makeFrac(3, 5)}.`
+      },
+      {
+        id: 11,
+        category: "Representación Gráfica",
+        q: "En la recta numérica situada entre 0 y 2, ¿qué fracción impropia señala el punto rojo 'K'?",
+        svg: SVG_Q11_RECTA_MAYOR,
+        options: [
+          { text: makeFrac(5, 4), isCorrect: true },
+          { text: makeFrac(3, 4), isCorrect: false },
+          { text: makeFrac(6, 4), isCorrect: false },
+          { text: makeFrac(5, 2), isCorrect: false }
+        ],
+        exp: `Cada unidad entera está dividida en 4 partes (cuartos). Contando las marcas desde el 0 hacia la derecha: 1, 2, 3, 4 (en el número 1) y 5 cuartos en el punto K, lo que representa ${makeFrac(5, 4)}.`
+      },
+
+      // CATEGORÍA 3: FRACCIONES EQUIVALENTES Y SIMPLIFICACIÓN (Q12 - Q16)
+      {
+        id: 12,
+        category: "Fracciones Equivalentes",
+        q: `¿Cuál de las siguientes parejas de fracciones son equivalentes?`,
+        svg: null,
+        options: [
+          { text: `${makeFrac(3, 4)} y ${makeFrac(15, 20)}`, isCorrect: true },
+          { text: `${makeFrac(2, 3)} y ${makeFrac(6, 12)}`, isCorrect: false },
+          { text: `${makeFrac(4, 5)} y ${makeFrac(12, 20)}`, isCorrect: false },
+          { text: `${makeFrac(1, 2)} y ${makeFrac(3, 5)}`, isCorrect: false }
+        ],
+        exp: `Dos fracciones son equivalentes si sus productos cruzados son iguales. Para ${makeFrac(3, 4)} y ${makeFrac(15, 20)}: 3 × 20 = 60 y 4 × 15 = 60. Son equivalentes.`
+      },
+      {
+        id: 13,
+        category: "Fracciones Equivalentes",
+        q: `Simplifica la fracción ${makeFrac(36, 48)} hasta obtener su fracción irreducible.`,
+        svg: null,
+        options: [
+          { text: makeFrac(3, 4), isCorrect: true },
+          { text: makeFrac(6, 8), isCorrect: false },
+          { text: makeFrac(9, 12), isCorrect: false },
+          { text: makeFrac(2, 3), isCorrect: false }
+        ],
+        exp: `El Máximo Común Divisor (MCD) de 36 y 48 es 12. Dividiendo numerador y denominador entre 12: 36 ÷ 12 = 3 y 48 ÷ 12 = 4. La fracción irreducible es ${makeFrac(3, 4)}.`
+      },
+      {
+        id: 14,
+        category: "Fracciones Equivalentes",
+        q: `Si amplificamos la fracción ${makeFrac(2, 7)} multiplicando por el factor 6, ¿qué fracción equivalente se obtiene?`,
+        svg: null,
+        options: [
+          { text: makeFrac(12, 42), isCorrect: true },
+          { text: makeFrac(8, 13), isCorrect: false },
+          { text: makeFrac(12, 7), isCorrect: false },
+          { text: makeFrac(2, 42), isCorrect: false }
+        ],
+        exp: `Amplificar consiste en multiplicar tanto el numerador como el denominador por el mismo entero: (2 × 6) / (7 × 6) = ${makeFrac(12, 42)}.`
+      },
+      {
+        id: 15,
+        category: "Fracciones Equivalentes",
+        q: `Halla el valor desconocido 'x' para que las fracciones sean equivalentes: ${makeFrac('x', 12)} = ${makeFrac(5, 3)}`,
+        svg: null,
+        options: [
+          { text: "x = 20", isCorrect: true },
+          { text: "x = 15", isCorrect: false },
+          { text: "x = 25", isCorrect: false },
+          { text: "x = 10", isCorrect: false }
+        ],
+        exp: `Por la propiedad fundamental de productos cruzados: x × 3 = 12 × 5 ➔ 3x = 60 ➔ x = 60 ÷ 3 = 20.`
+      },
+      {
+        id: 16,
+        category: "Fracciones Equivalentes",
+        q: `¿Cuál de las siguientes fracciones es ya IRREDUCIBLE y no se puede simplificar más?`,
+        svg: null,
+        options: [
+          { text: makeFrac(11, 24), isCorrect: true },
+          { text: makeFrac(14, 21), isCorrect: false },
+          { text: makeFrac(15, 35), isCorrect: false },
+          { text: makeFrac(18, 27), isCorrect: false }
+        ],
+        exp: `Una fracción es irreducible cuando el numerador y denominador son primos entre sí (MCD = 1). 11 es número primo y no es divisor de 24. Las demás pueden simplificarse por 7, 5 y 9 respectivamente.`
+      },
+
+      // CATEGORÍA 4: SUMA Y RESTA DE FRACCIONES (Q17 - Q22)
+      {
+        id: 17,
+        category: "Suma y Resta",
+        q: `Resuelve la suma de fracciones con el mismo denominador: ${makeFrac(5, 12)} + ${makeFrac(1, 12)} + ${makeFrac(3, 12)} e indica su resultado simplificado.`,
+        svg: null,
+        options: [
+          { text: makeFrac(3, 4), isCorrect: true },
+          { text: makeFrac(9, 12), isCorrect: false },
+          { text: makeFrac(9, 36), isCorrect: false },
+          { text: makeFrac(1, 2), isCorrect: false }
+        ],
+        exp: `Al tener el mismo denominador, se suman los numeradores: (5 + 1 + 3) / 12 = ${makeFrac(9, 12)}. Simplificando dividiendo entre 3 numerador y denominador resulta ${makeFrac(3, 4)}.`
+      },
+      {
+        id: 18,
+        category: "Suma y Resta",
+        q: `Calcula la suma de distinto denominador: ${makeFrac(3, 4)} + ${makeFrac(2, 5)}`,
+        svg: null,
+        options: [
+          { text: makeFrac(23, 20), isCorrect: true },
+          { text: makeFrac(5, 9), isCorrect: false },
+          { text: makeFrac(12, 20), isCorrect: false },
+          { text: makeFrac(23, 9), isCorrect: false }
+        ],
+        exp: `El m.c.m.(4, 5) = 20. Convertimos a denominador común 20: (20÷4×3 = 15) y (20÷5×2 = 8). Sumando: 15/20 + 8/20 = ${makeFrac(23, 20)}.`
+      },
+      {
+        id: 19,
+        category: "Suma y Resta",
+        q: `Resuelve la resta con distinto denominador: ${makeFrac(7, 6)} - ${makeFrac(3, 8)}`,
+        svg: null,
+        options: [
+          { text: makeFrac(19, 24), isCorrect: true },
+          { text: makeFrac(4, 2), isCorrect: false },
+          { text: makeFrac(25, 24), isCorrect: false },
+          { text: makeFrac(11, 24), isCorrect: false }
+        ],
+        exp: `El m.c.m.(6, 8) = 24. Reduciendo a común denominador: 28/24 - 9/24 = ${makeFrac(19, 24)}.`
+      },
+      {
+        id: 20,
+        category: "Suma y Resta",
+        q: `Resta un entero y una fracción: 2 - ${makeFrac(5, 7)}`,
+        svg: null,
+        options: [
+          { text: makeFrac(9, 7), isCorrect: true },
+          { text: makeFrac(3, 7), isCorrect: false },
+          { text: makeFrac(10, 7), isCorrect: false },
+          { text: makeFrac(7, 5), isCorrect: false }
+        ],
+        exp: `Expresamos el entero 2 con denominador 7: 2 = ${makeFrac(14, 7)}. Restando: ${makeFrac(14, 7)} - ${makeFrac(5, 7)} = ${makeFrac(9, 7)}.`
+      },
+      {
+        id: 21,
+        category: "Suma y Resta",
+        q: `Resuelve la operación combinada de suma y resta: ${makeFrac(1, 2)} + ${makeFrac(2, 3)} - ${makeFrac(3, 4)}`,
+        svg: null,
+        options: [
+          { text: makeFrac(5, 12), isCorrect: true },
+          { text: "0", isCorrect: false },
+          { text: makeFrac(7, 12), isCorrect: false },
+          { text: makeFrac(1, 12), isCorrect: false }
+        ],
+        exp: `El m.c.m.(2, 3, 4) = 12. Convertimos las fracciones: 6/12 + 8/12 - 9/12 = (6 + 8 - 9) / 12 = ${makeFrac(5, 12)}.`
+      },
+      {
+        id: 22,
+        category: "Suma y Resta",
+        q: `Calcula la operación ${makeFrac(4, 9)} + ${makeFrac(5, 6)} e indica la fracción irreducible.`,
+        svg: null,
+        options: [
+          { text: makeFrac(23, 18), isCorrect: true },
+          { text: makeFrac(9, 15), isCorrect: false },
+          { text: makeFrac(46, 36), isCorrect: false },
+          { text: makeFrac(19, 18), isCorrect: false }
+        ],
+        exp: `El m.c.m.(9, 6) = 18. Transformando numeradores: (18÷9×4 = 8) y (18÷6×5 = 15). Sumando: 8/18 + 15/18 = ${makeFrac(23, 18)} (ya es irreducible).`
+      },
+
+      // CATEGORÍA 5: MULTIPLICACIÓN, DIVISIÓN Y POTENCIAS (Q23 - Q28)
+      {
+        id: 23,
+        category: "Multiplicación y Potencias",
+        q: `Multiplica las siguientes fracciones y simplifica: ${makeFrac(4, 9)} × ${makeFrac(3, 8)}`,
+        svg: null,
+        options: [
+          { text: makeFrac(1, 6), isCorrect: true },
+          { text: makeFrac(12, 72), isCorrect: false },
+          { text: makeFrac(7, 17), isCorrect: false },
+          { text: makeFrac(1, 4), isCorrect: false }
+        ],
+        exp: `Se multiplican numeradores entre sí y denominadores entre sí: (4 × 3) / (9 × 8) = ${makeFrac(12, 72)}. Dividiendo por 12 arriba y abajo queda ${makeFrac(1, 6)}.`
+      },
+      {
+        id: 24,
+        category: "Multiplicación y Potencias",
+        q: `Divide las dos fracciones: ${makeFrac(5, 6)} ÷ ${makeFrac(2, 3)}`,
+        svg: null,
+        options: [
+          { text: makeFrac(5, 4), isCorrect: true },
+          { text: makeFrac(10, 18), isCorrect: false },
+          { text: makeFrac(5, 9), isCorrect: false },
+          { text: makeFrac(4, 5), isCorrect: false }
+        ],
+        exp: `Para dividir se multiplica la primera fracción por la inversa de la segunda: ${makeFrac(5, 6)} × ${makeFrac(3, 2)} = ${makeFrac(15, 12)}. Simplificando entre 3 resulta ${makeFrac(5, 4)}.`
+      },
+      {
+        id: 25,
+        category: "Multiplicación y Potencias",
+        q: `Calcula la potencia de la fracción: (${makeFrac(2, 3)})³`,
+        svg: null,
+        options: [
+          { text: makeFrac(8, 27), isCorrect: true },
+          { text: makeFrac(6, 9), isCorrect: false },
+          { text: makeFrac(8, 9), isCorrect: false },
+          { text: makeFrac(2, 27), isCorrect: false }
+        ],
+        exp: `Se eleva tanto el numerador como el denominador al exponente 3: (2³)/(3³) = (2 × 2 × 2) / (3 × 3 × 3) = ${makeFrac(8, 27)}.`
+      },
+      {
+        id: 26,
+        category: "Multiplicación y Potencias",
+        q: `Aplica las propiedades de las potencias con exponente negativo: (${makeFrac(3, 5)})⁻²`,
+        svg: null,
+        options: [
+          { text: makeFrac(25, 9), isCorrect: true },
+          { text: `- ${makeFrac(9, 25)}`, isCorrect: false },
+          { text: makeFrac(9, 25), isCorrect: false },
+          { text: `- ${makeFrac(25, 9)}`, isCorrect: false }
+        ],
+        exp: `Un exponente negativo invierte la base fraccionaria: (${makeFrac(5, 3)})² = (5²)/(3²) = ${makeFrac(25, 9)}.`
+      },
+      {
+        id: 27,
+        category: "Multiplicación y Potencias",
+        q: `Multiplica un entero por una fracción y simplifica: 5 × ${makeFrac(3, 10)}`,
+        svg: null,
+        options: [
+          { text: makeFrac(3, 2), isCorrect: true },
+          { text: makeFrac(15, 50), isCorrect: false },
+          { text: makeFrac(15, 10), isCorrect: false },
+          { text: makeFrac(8, 10), isCorrect: false }
+        ],
+        exp: `Se multiplica el entero por el numerador: (5 × 3) / 10 = ${makeFrac(15, 10)}. Simplificando entre 5 numerador y denominador obtenemos ${makeFrac(3, 2)}.`
+      },
+      {
+        id: 28,
+        category: "Multiplicación y Potencias",
+        q: `Divide una fracción entre un número entero: ${makeFrac(7, 12)} ÷ 14`,
+        svg: null,
+        options: [
+          { text: makeFrac(1, 24), isCorrect: true },
+          { text: makeFrac(98, 12), isCorrect: false },
+          { text: makeFrac(7, 168), isCorrect: false },
+          { text: makeFrac(1, 12), isCorrect: false }
+        ],
+        exp: `Convertimos 14 a fracción ${makeFrac(14, 1)} y multiplicamos en cruz: ${makeFrac(7, '12 × 14')} = ${makeFrac(7, 168)}. Simplificando entre 7 arriba y abajo resulta ${makeFrac(1, 24)}.`
+      },
+
+      // CATEGORÍA 6: OPERACIONES COMBINADAS Y JERARQUÍA (Q29 - Q34)
+      {
+        id: 29,
+        category: "Operaciones Combinadas",
+        q: `Calcula la expresión respetando la jerarquía de operaciones: ${makeFrac(1, 2)} + ${makeFrac(1, 3)} × ${makeFrac(3, 4)}`,
+        svg: null,
+        options: [
+          { text: makeFrac(3, 4), isCorrect: true },
+          { text: makeFrac(5, 8), isCorrect: false },
+          { text: makeFrac(2, 3), isCorrect: false },
+          { text: makeFrac(5, 12), isCorrect: false }
+        ],
+        exp: `Primero se efectúa la multiplicación: ${makeFrac(1, 3)} × ${makeFrac(3, 4)} = ${makeFrac(3, 12)} = ${makeFrac(1, 4)}. Luego la suma: ${makeFrac(1, 2)} + ${makeFrac(1, 4)} = ${makeFrac(2, 4)} + ${makeFrac(1, 4)} = ${makeFrac(3, 4)}.`
+      },
+      {
+        id: 30,
+        category: "Operaciones Combinadas",
+        q: `Resuelve resolviendo primero los paréntesis: (${makeFrac(3, 4)} - ${makeFrac(1, 2)}) ÷ ${makeFrac(5, 8)}`,
+        svg: null,
+        options: [
+          { text: makeFrac(2, 5), isCorrect: true },
+          { text: makeFrac(5, 32), isCorrect: false },
+          { text: makeFrac(1, 4), isCorrect: false },
+          { text: makeFrac(4, 5), isCorrect: false }
+        ],
+        exp: `Paréntesis primero: ${makeFrac(3, 4)} - ${makeFrac(2, 4)} = ${makeFrac(1, 4)}. División después: ${makeFrac(1, 4)} ÷ ${makeFrac(5, 8)} = ${makeFrac(8, 20)}. Simplificando por 4 queda ${makeFrac(2, 5)}.`
+      },
+      {
+        id: 31,
+        category: "Operaciones Combinadas",
+        q: `Halla el resultado de la expresión con corchetes y paréntesis: [ ${makeFrac(2, 3)} + (${makeFrac(1, 2)} × ${makeFrac(4, 3)}) ] - ${makeFrac(1, 6)}`,
+        svg: null,
+        options: [
+          { text: makeFrac(7, 6), isCorrect: true },
+          { text: makeFrac(5, 6), isCorrect: false },
+          { text: makeFrac(4, 3), isCorrect: false },
+          { text: makeFrac(1, 12), isCorrect: false }
+        ],
+        exp: `1º Paréntesis interior: ${makeFrac(1, 2)} × ${makeFrac(4, 3)} = ${makeFrac(4, 6)} = ${makeFrac(2, 3)}. 2º Dentro del corchete: ${makeFrac(2, 3)} + ${makeFrac(2, 3)} = ${makeFrac(4, 3)}. 3º Resta final: ${makeFrac(4, 3)} - ${makeFrac(1, 6)} = ${makeFrac(8, 6)} - ${makeFrac(1, 6)} = ${makeFrac(7, 6)}.`
+      },
+      {
+        id: 32,
+        category: "Operaciones Combinadas",
+        q: `Calcula: ${makeFrac(5, 6)} - [ ${makeFrac(1, 2)} + (${makeFrac(2, 3)} - ${makeFrac(1, 2)}) ]`,
+        svg: null,
+        options: [
+          { text: makeFrac(1, 6), isCorrect: true },
+          { text: makeFrac(1, 3), isCorrect: false },
+          { text: makeFrac(1, 2), isCorrect: false },
+          { text: makeFrac(2, 3), isCorrect: false }
+        ],
+        exp: `1º Paréntesis interior: ${makeFrac(4, 6)} - ${makeFrac(3, 6)} = ${makeFrac(1, 6)}. 2º Dentro del corchete: ${makeFrac(3, 6)} + ${makeFrac(1, 6)} = ${makeFrac(4, 6)}. 3º Resta final: ${makeFrac(5, 6)} - ${makeFrac(4, 6)} = ${makeFrac(1, 6)}.`
+      },
+      {
+        id: 33,
+        category: "Operaciones Combinadas",
+        q: `Aplica la jerarquía completa: (${makeFrac(2, 5)} ÷ ${makeFrac(4, 15)}) × (${makeFrac(3, 2)} - ${makeFrac(1, 3)})`,
+        svg: null,
+        options: [
+          { text: makeFrac(7, 4), isCorrect: true },
+          { text: makeFrac(35, 18), isCorrect: false },
+          { text: makeFrac(7, 6), isCorrect: false },
+          { text: makeFrac(5, 4), isCorrect: false }
+        ],
+        exp: `1er paréntesis: ${makeFrac(2, 5)} × ${makeFrac(15, 4)} = ${makeFrac(30, 20)} = ${makeFrac(3, 2)}. 2º paréntesis: ${makeFrac(9, 6)} - ${makeFrac(2, 6)} = ${makeFrac(7, 6)}. Multiplicación: ${makeFrac(3, 2)} × ${makeFrac(7, 6)} = ${makeFrac(21, 12)} = ${makeFrac(7, 4)}.`
+      },
+      {
+        id: 34,
+        category: "Operaciones Combinadas",
+        q: `Calcula el valor final: [ 1 - (${makeFrac(1, 3)} + ${makeFrac(1, 4)}) ] × ${makeFrac(12, 5)}`,
+        svg: null,
+        options: [
+          { text: "1", isCorrect: true },
+          { text: makeFrac(5, 12), isCorrect: false },
+          { text: makeFrac(7, 12), isCorrect: false },
+          { text: "2", isCorrect: false }
+        ],
+        exp: `1º Paréntesis interior: ${makeFrac(4, 12)} + ${makeFrac(3, 12)} = ${makeFrac(7, 12)}. 2º Corchete: 1 - ${makeFrac(7, 12)} = ${makeFrac(5, 12)}. 3º Multiplicación final: ${makeFrac(5, 12)} × ${makeFrac(12, 5)} = ${makeFrac(60, 60)} = 1.`
+      },
+
+      // CATEGORÍA 7: PROBLEMAS DE APLICACIÓN REAL (Q35 - Q40)
+      {
+        id: 35,
+        category: "Problemas de Aplicación",
+        q: `María lleva 60 € para comprar en la librería. Si gasta los ${makeFrac(2, 5)} de su dinero en un libro de Matemáticas, ¿cuántos euros le quedan disponibles?`,
+        svg: null,
+        options: [
+          { text: "36 euros", isCorrect: true },
+          { text: "24 euros", isCorrect: false },
+          { text: "30 euros", isCorrect: false },
+          { text: "40 euros", isCorrect: false }
+        ],
+        exp: `Dinero gastado: (60 ÷ 5) × 2 = 24 €. Dinero disponible restante: 60 € - 24 € = 36 €.`
+      },
+      {
+        id: 36,
+        category: "Problemas de Aplicación",
+        q: `Una tarta se divide en 12 raciones iguales. Pedro se come ${makeFrac(1, 4)} de la tarta y Ana se come ${makeFrac(1, 3)}. ¿Qué fracción de la tarta queda disponible?`,
+        svg: null,
+        options: [
+          { text: makeFrac(5, 12), isCorrect: true },
+          { text: makeFrac(7, 12), isCorrect: false },
+          { text: makeFrac(1, 2), isCorrect: false },
+          { text: makeFrac(2, 7), isCorrect: false }
+        ],
+        exp: `Pedro comió ${makeFrac(3, 12)} y Ana comió ${makeFrac(4, 12)}. Entre los dos comieron 3/12 + 4/12 = ${makeFrac(7, 12)}. Queda libre la unidad completa menos lo consumido: 1 - ${makeFrac(7, 12)} = ${makeFrac(5, 12)}.`
+      },
+      {
+        id: 37,
+        category: "Problemas de Aplicación",
+        q: `Un ciclista recorre por la mañana los ${makeFrac(3, 8)} de una etapa y por la tarde los ${makeFrac(2, 5)}. ¿Qué fracción del total de la etapa le falta para llegar a la meta?`,
+        svg: null,
+        options: [
+          { text: makeFrac(9, 40), isCorrect: true },
+          { text: makeFrac(31, 40), isCorrect: false },
+          { text: makeFrac(5, 13), isCorrect: false },
+          { text: makeFrac(11, 40), isCorrect: false }
+        ],
+        exp: `Total recorrido: 3/8 + 2/5 = 15/40 + 16/40 = ${makeFrac(31, 40)}. Lo que resta para completar la etapa entera es 1 - ${makeFrac(31, 40)} = ${makeFrac(9, 40)}.`
+      },
+      {
+        id: 38,
+        category: "Problemas de Aplicación",
+        q: `Un agricultor destina ${makeFrac(1, 3)} de su terreno para sembrar trigo y los ${makeFrac(2, 5)} del resto para plantar maíz. ¿Qué fracción del terreno total queda sin cultivar?`,
+        svg: null,
+        options: [
+          { text: makeFrac(2, 5), isCorrect: true },
+          { text: makeFrac(4, 15), isCorrect: false },
+          { text: makeFrac(3, 5), isCorrect: false },
+          { text: makeFrac(1, 15), isCorrect: false }
+        ],
+        exp: `1º Tras sembrar trigo queda 1 - 1/3 = ${makeFrac(2, 3)}. 2º Maíz: ${makeFrac(2, 5)} de ${makeFrac(2, 3)} = ${makeFrac(4, 15)}. 3º Total cultivado: 1/3 + 4/15 = 5/15 + 4/15 = ${makeFrac(9, 15)} = ${makeFrac(3, 5)}. 4º Terreno libre sin cultivar: 1 - 3/5 = ${makeFrac(2, 5)}.`
+      },
+      {
+        id: 39,
+        category: "Problemas de Aplicación",
+        q: `En una clase de 30 estudiantes, los ${makeFrac(3, 5)} son alumnas. ¿Cuántos alumnos varones hay en la clase?`,
+        svg: null,
+        options: [
+          { text: "12 alumnos", isCorrect: true },
+          { text: "18 alumnos", isCorrect: false },
+          { text: "15 alumnos", isCorrect: false },
+          { text: "10 alumnos", isCorrect: false }
+        ],
+        exp: `Número de alumnas: (30 ÷ 5) × 3 = 18. Por tanto, el número de alumnos varones es 30 - 18 = 12 alumnos (que equivale a los ${makeFrac(2, 5)} del total).`
+      },
+      {
+        id: 40,
+        category: "Problemas de Aplicación",
+        q: `Un depósito de agua se encuentra lleno hasta los ${makeFrac(3, 4)} de su capacidad. Tras consumir 150 litros, el nivel baja hasta ${makeFrac(1, 4)}. ¿Cuál es la capacidad total en litros del depósito?`,
+        svg: null,
+        options: [
+          { text: "300 litros", isCorrect: true },
+          { text: "200 litros", isCorrect: false },
+          { text: "400 litros", isCorrect: false },
+          { text: "450 litros", isCorrect: false }
+        ],
+        exp: `La fracción consumida es ${makeFrac(3, 4)} - ${makeFrac(1, 4)} = ${makeFrac(2, 4)} = ${makeFrac(1, 2)} de la capacidad. Si la mitad (${makeFrac(1, 2)}) equivale a 150 litros, la capacidad total del depósito es 150 × 2 = 300 litros.`
+      }
+    ];
+
+    /* ==========================================================================
+       3. ESTADO GLOBAL DE LA APLICACIÓN
+       ========================================================================== */
+    let usuario = {
+      nombre: '',
+      apellidos: '',
+      curso: '',
+      escuela: ''
+    };
+
+    let preguntasActivas = []; // Almacena copia con OPCIONES BARAJADAS por Fisher-Yates
+    let respuestasUsuario = {}; // { questionId: selectedOptionObject }
+    let indicePreguntaActual = 0;
+    let timerInterval = null;
+    let segundosTranscurridos = 0;
+    let filtroRevision = 'all';
+
+    /* ==========================================================================
+       4. ALGORITMO FISHER-YATES REORDENACIÓN ALEATORIA
+       ========================================================================== */
+    function shuffleArray(array) {
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    /**
+     * Genera una copia profunda de las 40 preguntas y BARAJA TOTALMENTE
+     * las 4 opciones de CADA pregunta en cada inicio/reinicio.
+     */
+    function prepareQuestionsWithShuffledOptions() {
+      return PREGUNTAS_BASE.map(p => {
+        return {
+          id: p.id,
+          category: p.category,
+          q: p.q,
+          svg: p.svg,
+          exp: p.exp,
+          options: shuffleArray(p.options.map(opt => ({ ...opt })))
+        };
+      });
+    }
+
+    /* ==========================================================================
+       5. FLUJO Y LÓGICA INTERACTIVA
+       ========================================================================== */
+    function startQuiz() {
+      const name = document.getElementById('student-name').value.trim();
+      const surname = document.getElementById('student-surname').value.trim();
+      const course = document.getElementById('student-course').value.trim();
+      const school = document.getElementById('student-school').value.trim();
+      const errBox = document.getElementById('login-error-box');
+
+      if (!name || !surname || !course || !school) {
+        errBox.classList.remove('hidden');
+        return;
+      }
+      errBox.classList.add('hidden');
+
+      usuario = { nombre: name, apellidos: surname, curso: course, escuela: school };
+
+      // BARAJADO FISHER-YATES REAL DE OPCIONES
+      preguntasActivas = prepareQuestionsWithShuffledOptions();
+      respuestasUsuario = {};
+      indicePreguntaActual = 0;
+      segundosTranscurridos = 0;
+
+      // Actualizar Cabeceras
+      document.getElementById('quiz-header-student').innerText = `${usuario.nombre} ${usuario.apellidos}`;
+      document.getElementById('quiz-header-course').innerText = usuario.curso;
+      document.getElementById('quiz-header-school').innerText = usuario.escuela;
+
+      // Iniciar Cronómetro
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        segundosTranscurridos++;
+        const mins = String(Math.floor(segundosTranscurridos / 60)).padStart(2, '0');
+        const secs = String(segundosTranscurridos % 60).padStart(2, '0');
+        document.getElementById('quiz-timer').innerText = `${mins}:${secs}`;
+      }, 1000);
+
+      // Transición a la Pantalla de Cuestionario
+      document.getElementById('screen-login').classList.add('hidden');
+      document.getElementById('screen-quiz').classList.remove('hidden');
+
+      renderNavGrid();
+      loadQuestion(0);
+      updateProgressBar();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderNavGrid() {
+      const grid = document.getElementById('quiz-nav-grid');
+      grid.innerHTML = '';
+
+      preguntasActivas.forEach((p, idx) => {
+        const isAnswered = respuestasUsuario[p.id] !== undefined;
+        const isCurrent = idx === indicePreguntaActual;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => loadQuestion(idx);
+
+        let cls = "h-8 text-xs font-bold rounded-xl transition-all flex items-center justify-center border font-display ";
+        if (isCurrent) {
+          cls += "ring-2 ring-[#1a56db] bg-white text-slate-950 border-[#1a56db] font-black shadow-sm";
+        } else if (isAnswered) {
+          cls += "bg-[#1a56db] text-white border-blue-700 hover:bg-[#0a2540]";
+        } else {
+          cls += "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200";
+        }
+
+        btn.className = cls;
+        btn.innerText = idx + 1;
+        grid.appendChild(btn);
+      });
+
+      const answeredTotal = Object.keys(respuestasUsuario).length;
+      document.getElementById('quiz-answered-count').innerText = `${answeredTotal}/40`;
+    }
+
+    function loadQuestion(index) {
+      if (index < 0 || index >= preguntasActivas.length) return;
+      indicePreguntaActual = index;
+
+      const p = preguntasActivas[index];
+
+      document.getElementById('question-category-badge').innerText = p.category;
+      document.getElementById('question-number-badge').innerText = `Pregunta ${index + 1} de 40`;
+      document.getElementById('question-text').innerHTML = p.q;
+
+      // Renderizar SVG si la pregunta dispone de él
+      const svgContainer = document.getElementById('question-svg-container');
+      if (p.svg) {
+        svgContainer.innerHTML = p.svg;
+        svgContainer.classList.remove('hidden');
+      } else {
+        svgContainer.innerHTML = '';
+        svgContainer.classList.add('hidden');
+      }
+
+      // Renderizar Opciones (ya barajadas por Fisher-Yates)
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      const letters = ['A', 'B', 'C', 'D'];
+
+      p.options.forEach((opt, optIdx) => {
+        const isSelected = respuestasUsuario[p.id] === opt;
+
+        const label = document.createElement('label');
+        label.onclick = () => selectOption(p.id, opt);
+
+        let cls = "flex items-center p-4 rounded-2xl border-2 transition-all cursor-pointer group ";
+        if (isSelected) {
+          cls += "border-[#1a56db] bg-blue-50/90 shadow-sm font-bold text-slate-950";
+        } else {
+          cls += "border-slate-200 hover:border-blue-300 hover:bg-slate-50 text-slate-700";
+        }
+
+        label.className = cls;
+
+        label.innerHTML = `
+          <div class="flex items-center h-6 mr-3 shrink-0">
+            <span class="w-7 h-7 rounded-xl flex items-center justify-center font-display font-black text-xs ${isSelected ? 'bg-[#1a56db] text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-blue-100 group-hover:text-[#1a56db]'}">
+              ${letters[optIdx]}
+            </span>
+          </div>
+          <div class="text-sm md:text-base leading-snug flex-grow">
+            ${opt.text}
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ml-2 ${isSelected ? 'border-[#1a56db] bg-[#1a56db]' : 'border-slate-300'}">
+            ${isSelected ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+          </div>
+        `;
+
+        optionsContainer.appendChild(label);
+      });
+
+      document.getElementById('btn-prev').disabled = index === 0;
+      document.getElementById('btn-next').innerText = index === preguntasActivas.length - 1 ? "Revisar Lista →" : "Siguiente →";
+
+      renderNavGrid();
+    }
+
+    function selectOption(questionId, optionObj) {
+      respuestasUsuario[questionId] = optionObj;
+      loadQuestion(indicePreguntaActual);
+      updateProgressBar();
+    }
+
+    function navigateQuestion(delta) {
+      const target = indicePreguntaActual + delta;
+      if (target >= 0 && target < preguntasActivas.length) {
+        loadQuestion(target);
+      } else if (target >= preguntasActivas.length) {
+        promptFinishQuiz();
+      }
+    }
+
+    function updateProgressBar() {
+      const count = Object.keys(respuestasUsuario).length;
+      const pct = Math.round((count / preguntasActivas.length) * 100);
+
+      document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+      document.getElementById('quiz-progress-text').innerText = `${count}/40 (${pct}%)`;
+    }
+
+    /* ==========================================================================
+       6. MODAL DOM DE VALIDACIÓN DE PREGUNTAS PENDIENTES
+       ========================================================================== */
+    function promptFinishQuiz() {
+      const unanswered = [];
+      preguntasActivas.forEach((p, idx) => {
+        if (respuestasUsuario[p.id] === undefined) {
+          unanswered.push(idx + 1);
+        }
+      });
+
+      if (unanswered.length > 0) {
+        document.getElementById('modal-unanswered-count').innerText = unanswered.length;
+        document.getElementById('modal-unanswered-list').innerText = `Ejercicios pendientes: Nº ${unanswered.join(', ')}`;
+        document.getElementById('modal-unanswered').classList.remove('hidden');
+      } else {
+        processQuizSubmit();
+      }
+    }
+
+    function closeUnansweredModal() {
+      document.getElementById('modal-unanswered').classList.add('hidden');
+    }
+
+    function jumpToFirstUnanswered() {
+      const idx = preguntasActivas.findIndex(p => respuestasUsuario[p.id] === undefined);
+      if (idx !== -1) loadQuestion(idx);
+    }
+
+    /* ==========================================================================
+       7. EVALUACIÓN Y GENERACIÓN DEL INFORME CON PDF
+       ========================================================================== */
+    function processQuizSubmit() {
+      clearInterval(timerInterval);
+
+      let correctCount = 0;
+      preguntasActivas.forEach(p => {
+        const userOpt = respuestasUsuario[p.id];
+        if (userOpt && userOpt.isCorrect === true) {
+          correctCount++;
+        }
+      });
+
+      const total = preguntasActivas.length;
+      const pct = Math.round((correctCount / total) * 100);
+
+      // Formatear Tiempo
+      const mins = String(Math.floor(segundosTranscurridos / 60)).padStart(2, '0');
+      const secs = String(segundosTranscurridos % 60).padStart(2, '0');
+      const timeStr = `${mins}:${secs}`;
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+      // Rellenar Ficha del Informe
+      document.getElementById('res-student-fullname').innerText = `${usuario.nombre} ${usuario.apellidos}`;
+      document.getElementById('res-student-course').innerText = usuario.curso;
+      document.getElementById('res-student-school').innerText = usuario.escuela;
+      document.getElementById('res-date').innerText = dateStr;
+      document.getElementById('res-time-elapsed').innerText = `Tiempo: ${timeStr}`;
+
+      document.getElementById('res-score-number').innerText = `${correctCount} / ${total}`;
+      document.getElementById('res-score-percentage').innerText = `${pct}% de aciertos`;
+
+      // Insignia de Nivel
+      const badge = document.getElementById('res-badge');
+      if (pct >= 95) {
+        badge.innerText = "👑 Gran Maestro/a de las Fracciones";
+        badge.className = "mt-3 inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-amber-400 text-amber-950 shadow";
+      } else if (pct >= 85) {
+        badge.innerText = "🏆 Sobresaliente";
+        badge.className = "mt-3 inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-cyan-300 text-slate-950 shadow";
+      } else if (pct >= 70) {
+        badge.innerText = "🌟 Notable";
+        badge.className = "mt-3 inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-sky-300 text-slate-900 shadow";
+      } else if (pct >= 50) {
+        badge.innerText = "👍 Aprobado";
+        badge.className = "mt-3 inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-300 text-emerald-950 shadow";
+      } else {
+        badge.innerText = "📚 Repaso Requerido";
+        badge.className = "mt-3 inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-rose-300 text-rose-950 shadow";
+      }
+
+      // Preparar Resumen para Google Classroom
+      const classroomSummary = `[EVALUACIÓN DE FRACCIONES]\nAlumno/a: ${usuario.nombre} ${usuario.apellidos}\nCurso: ${usuario.curso} | Centro: ${usuario.escuela}\nPuntuación: ${correctCount}/${total} (${pct}%)\nTiempo: ${timeStr} | Fecha: ${dateStr}`;
+      document.getElementById('classroom-summary-preview').innerText = classroomSummary;
+
+      // Renderizar Revisión Completa
+      renderReviewList('all');
+
+      // Transición a la Pantalla de Resultados
+      document.getElementById('screen-quiz').classList.add('hidden');
+      document.getElementById('screen-results').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderReviewList(filter) {
+      filtroRevision = filter;
+      const container = document.getElementById('review-list-container');
+      container.innerHTML = '';
+
+      preguntasActivas.forEach((p, idx) => {
+        const userOpt = respuestasUsuario[p.id];
+        const isCorrect = userOpt && userOpt.isCorrect === true;
+        const isUnanswered = userOpt === undefined;
+
+        if (filter === 'correct' && !isCorrect) return;
+        if (filter === 'incorrect' && isCorrect) return;
+
+        const correctOptObj = p.options.find(o => o.isCorrect === true);
+
+        const card = document.createElement('div');
+        let cardBg = isCorrect ? "bg-blue-50/40 border-blue-200" : "bg-rose-50/30 border-rose-200";
+        if (isUnanswered) cardBg = "bg-amber-50/30 border-amber-200";
+
+        card.className = `p-5 rounded-2xl border-2 ${cardBg} space-y-3 pdf-page-break`;
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-400 font-display">Ejercicio ${idx + 1} de 40 • ${p.category}</span>
+            <span class="px-2.5 py-1 rounded-full text-xs font-black ${isCorrect ? 'bg-[#1a56db] text-white' : (isUnanswered ? 'bg-amber-500 text-white' : 'bg-rose-600 text-white')}">
+              ${isCorrect ? '✓ Correcta' : (isUnanswered ? '⚠ Sin responder' : '✗ Incorrecta')}
+            </span>
+          </div>
+
+          <h4 class="font-bold text-slate-900 text-base leading-snug">${p.q}</h4>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs md:text-sm pt-1">
+            <div class="p-3 rounded-xl border ${isCorrect ? 'bg-blue-100/70 border-blue-300 text-slate-950 font-semibold' : 'bg-rose-100/70 border-rose-300 text-rose-950 font-semibold'}">
+              <span class="block text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-0.5">Tu Respuesta:</span>
+              ${userOpt ? userOpt.text : '<em>No respondiste a esta pregunta.</em>'}
+            </div>
+
+            ${!isCorrect ? `
+              <div class="p-3 rounded-xl border bg-blue-100/70 border-blue-300 text-slate-950 font-semibold">
+                <span class="block text-[10px] uppercase tracking-wider text-[#1a56db] font-bold mb-0.5">Respuesta Correcta:</span>
+                ${correctOptObj ? correctOptObj.text : ''}
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="p-3 bg-white/80 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1">
+            <span class="font-bold text-[#1a56db] block flex items-center gap-1 font-display">
+              💡 Resolución Paso a Paso:
+            </span>
+            <p>${p.exp}</p>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function filterReview(type) {
+      const btnAll = document.getElementById('filter-btn-all');
+      const btnCorrect = document.getElementById('filter-btn-correct');
+      const btnIncorrect = document.getElementById('filter-btn-incorrect');
+
+      const activeCls = "bg-[#1a56db] text-white shadow-sm font-bold";
+      const inactiveCls = "text-slate-600 hover:text-slate-900";
+
+      btnAll.className = `px-3 py-1.5 rounded-lg text-xs ${type === 'all' ? activeCls : inactiveCls}`;
+      btnCorrect.className = `px-3 py-1.5 rounded-lg text-xs ${type === 'correct' ? activeCls : inactiveCls}`;
+      btnIncorrect.className = `px-3 py-1.5 rounded-lg text-xs ${type === 'incorrect' ? activeCls : inactiveCls}`;
+
+      renderReviewList(type);
+    }
+
+    /* ==========================================================================
+       8. EXPORTACIÓN A PDF E INTEGRACIÓN GOOGLE CLASSROOM
+       ========================================================================== */
+    function downloadPDFReport() {
+      const element = document.getElementById('reporte-pdf-container');
+      const opt = {
+        margin:       [0.3, 0.3, 0.3, 0.3],
+        filename:     `Informe_Fracciones_${usuario.nombre}_${usuario.apellidos}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(element).save();
+    }
+
+    function openClassroomModal() {
+      document.getElementById('modal-classroom').classList.remove('hidden');
+    }
+
+    function closeClassroomModal() {
+      document.getElementById('modal-classroom').classList.add('hidden');
+    }
+
+    function copyClassroomSummary() {
+      const summaryText = document.getElementById('classroom-summary-preview').innerText;
+      
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = summaryText;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextArea);
+
+      const btnText = document.getElementById('copy-btn-text');
+      btnText.innerText = "¡Copiado!";
+      setTimeout(() => {
+        btnText.innerText = "Copiar Resumen";
+      }, 2500);
+    }
+
+    function restartQuiz() {
+      document.getElementById('screen-results').classList.add('hidden');
+      document.getElementById('screen-login').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Exposición global explícita para compatibilidad de event handlers inline
+    window.startQuiz = startQuiz;
+    window.navigateQuestion = navigateQuestion;
+    window.selectOption = selectOption;
+    window.promptFinishQuiz = promptFinishQuiz;
+    window.closeUnansweredModal = closeUnansweredModal;
+    window.jumpToFirstUnanswered = jumpToFirstUnanswered;
+    window.processQuizSubmit = processQuizSubmit;
+    window.filterReview = filterReview;
+    window.downloadPDFReport = downloadPDFReport;
+    window.openClassroomModal = openClassroomModal;
+    window.closeClassroomModal = closeClassroomModal;
+    window.copyClassroomSummary = copyClassroomSummary;
+    window.restartQuiz = restartQuiz;
+    window.loadQuestion = loadQuestion;
+
+    // Listener DOMContentLoaded para captura segura de evento de formulario
+    document.addEventListener('DOMContentLoaded', () => {
+      const loginForm = document.getElementById('form-login');
+      if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          startQuiz();
+        });
+      }
+    });
+  </script>
+</body>
+</html>
